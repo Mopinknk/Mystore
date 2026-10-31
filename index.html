@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MOPINK | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Mali:wght@400;500;600;700&family=Noto+Sans+Thai+Looped:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#ff7eb3; --pink-d:#f9609d; --pink-l:#ffe3ef; --pink-xl:#fff4f9;
+  --blue:#8aa4ff; --blue-l:#e8edff;
+  --navy:#6b5560; --text:#3b4270; --muted:#7c82a8;
+  --card:#ffffff; --bg:#eef0ff;
+  --shadow:0 8px 24px rgba(120,100,180,.14);
+  --radius:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Prompt',system-ui,sans-serif;color:var(--text);
+  background:
+    radial-gradient(circle at 10% 0%,#ffe9f3 0,transparent 40%),
+    radial-gradient(circle at 100% 20%,#e3e9ff 0,transparent 45%),
+    linear-gradient(180deg,#fff7fb,#f1f2ff);
+  min-height:100vh;padding-bottom:110px;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea{font-family:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+
+/* floating decoration */
+.float-deco{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.float-deco span{position:absolute;opacity:.5;animation:floaty 7s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(8deg)}}
+main{position:relative;z-index:1}
+
+/* header */
+.page-head{display:flex;align-items:center;gap:12px;padding:26px 0 8px}
+.page-head h1{font-size:28px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
+.page-head h1 i{color:var(--pink);font-style:normal;font-size:20px}
+.page-head p{color:var(--muted);font-size:14px;margin-top:2px}
+.page-head .right{margin-left:auto}
+
+/* search */
+.tools{display:flex;gap:10px;margin:14px 0}
+.search{flex:1;display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #e6e3fb;border-radius:999px;padding:0 18px;height:50px;box-shadow:var(--shadow)}
+.search svg{width:20px;height:20px;stroke:var(--blue);fill:none;stroke-width:2.2}
+.search input{flex:1;border:none;outline:none;background:none;font-size:15px;color:var(--navy)}
+.sort-btn{width:56px;height:50px;border-radius:999px;background:#fff;border:2px solid #e6e3fb;display:grid;place-items:center;box-shadow:var(--shadow)}
+.sort-btn svg{width:22px;height:22px;stroke:var(--navy);fill:none;stroke-width:2}
+.sort-btn.on{background:var(--pink-l);border-color:var(--pink)}
+
+/* chips */
+.chips{display:flex;gap:10px;overflow-x:auto;padding:6px 2px 14px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:999px;background:#fff;border:2px solid #e8e6fa;font-size:14px;font-weight:500;color:var(--navy);transition:.2s}
+.chip:hover{transform:translateY(-2px)}
+.chip.active{background:linear-gradient(135deg,#ff8fbd,#ff5fa0);color:#fff;border-color:transparent;box-shadow:0 8px 18px rgba(255,95,160,.35)}
+
+/* grid / cards */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:720px){.grid{grid-template-columns:repeat(3,1fr);gap:20px}}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(4,1fr)}}
+.card{background:var(--card);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;position:relative;transition:.25s;border:1px solid #f1eefc;animation:pop .4s both}
+.card:hover{transform:translateY(-6px);box-shadow:0 16px 34px rgba(255,110,170,.22)}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.card .body{padding:10px 14px 14px}
+.tag{display:inline-block;padding:4px 14px;border-radius:999px;font-size:12px;font-weight:500;margin:-24px 0 8px;position:relative;background:var(--pink-l);color:var(--pink-d)}
+.tag.blue{background:var(--blue-l);color:#5b73d6}
+.tag.green{background:#dff6e8;color:#2f9a60}
+.card h3{font-size:15px;font-weight:600;color:var(--navy);line-height:1.35;min-height:40px}
+.date{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12.5px;margin-top:8px}
+.date svg,.meta svg{width:16px;height:16px;stroke:var(--blue);fill:none;stroke-width:2}
+.fav{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;z-index:2;box-shadow:0 4px 10px rgba(0,0,0,.08);transition:.2s}
+.fav svg{width:18px;height:18px;stroke:var(--pink);stroke-width:2.2;fill:none;transition:.2s}
+.fav.on svg{fill:var(--pink);}
+.fav:active{transform:scale(.85)}
+.empty{text-align:center;padding:50px 0;color:var(--muted);display:none}
+
+/* art thumbnails */
+.art{position:relative;aspect-ratio:16/11;overflow:hidden}
+.art svg.dev{width:100%;height:100%;display:block}
+.art .deco{position:absolute;font-size:16px;opacity:.9;animation:floaty 5s ease-in-out infinite}
+
+/* detail */
+.topbar{display:flex;align-items:center;gap:12px;padding:20px 0 12px}
+.back{width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center}
+.back svg{width:22px;height:22px;stroke:var(--navy);fill:none;stroke-width:2.4}
+.topbar h2{font-size:21px;font-weight:700;color:var(--navy)}
+.topbar h2 i{color:var(--pink);font-style:normal;font-size:16px}
+.detail{display:grid;gap:22px}
+@media(min-width:860px){.detail{grid-template-columns:1.1fr 1fr;align-items:start}}
+.hero{border-radius:26px;overflow:hidden;box-shadow:var(--shadow);position:relative;border:3px solid #fff}
+.hero .art{aspect-ratio:16/10}
+.d-info{background:rgba(255,255,255,.7);backdrop-filter:blur(6px);border-radius:26px;padding:20px;box-shadow:var(--shadow);border:1px solid #fff}
+.d-info .tag{margin:0 0 10px}
+.d-info h2.title{font-size:26px;color:var(--navy);display:flex;align-items:center;gap:8px;line-height:1.3}
+.d-info h2.title i{color:var(--pink);font-style:normal;font-size:20px}
+.d-info .desc{margin:8px 0 14px;color:var(--text);line-height:1.7;font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:16px 22px;align-items:center;font-size:14px;margin-bottom:18px}
+.meta div{display:flex;align-items:center;gap:8px}
+.meta .ok{color:#2f9a60;font-weight:500}
+.meta .ok b{width:30px;height:30px;border-radius:50%;background:#d9f5e5;display:grid;place-items:center;color:#2f9a60;font-size:16px}
+.sec-title{display:flex;align-items:center;justify-content:space-between;font-size:17px;font-weight:700;color:var(--navy);margin:20px 0 10px}
+.sec-title i{color:var(--pink);font-style:normal;font-size:13px;margin-left:6px}
+.counter{font-size:12px;font-weight:500;background:var(--pink-l);color:var(--pink-d);padding:3px 12px;border-radius:999px}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.shot{border-radius:14px;overflow:hidden;border:3px solid #fff;box-shadow:0 6px 16px rgba(160,120,200,.2);cursor:pointer;transition:.2s;opacity:.75}
+.shot.on{opacity:1;border-color:var(--pink);transform:translateY(-3px)}
+.shot .art{aspect-ratio:4/3}
+.checks{list-style:none;display:grid;gap:10px}
+.checks li{display:flex;gap:12px;align-items:flex-start;line-height:1.55;font-size:14.5px}
+.checks li::before{content:'✔';flex:none;color:var(--pink);font-weight:700;margin-top:1px}
+.techs{display:flex;flex-wrap:wrap;gap:10px}
+.tech{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:999px;background:var(--blue-l);color:var(--navy);font-size:14px;font-weight:500}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:24px;padding:16px;border-radius:999px;background:linear-gradient(135deg,#ff8fbd,#ff5fa0);color:#fff;font-size:18px;font-weight:600;box-shadow:0 12px 26px rgba(255,95,160,.4);transition:.2s}
+.cta:hover{transform:translateY(-3px)}
+.cta svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2}
+
+/* home / about / contact */
+.hero-home{display:grid;gap:20px;align-items:center;padding:34px 0 10px}
+@media(min-width:800px){.hero-home{grid-template-columns:1.2fr 1fr}}
+.hero-home h1{font-size:clamp(30px,6vw,46px);line-height:1.2;color:var(--navy)}
+.hero-home h1 .grad{background:linear-gradient(135deg,#ff7eb3,#8aa4ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-home p{margin:14px 0 22px;color:var(--text);line-height:1.8}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;text-align:center;padding:13px 26px;border-radius:999px;font-weight:600;font-size:15px;transition:.2s}
+.btn.p{background:linear-gradient(135deg,#ff8fbd,#ff5fa0);color:#fff;box-shadow:0 10px 22px rgba(255,95,160,.35)}
+.btn.s{background:#fff;color:var(--navy);border:2px solid #e6e3fb}
+.btn:hover{transform:translateY(-3px)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.stat{background:#fff;border-radius:20px;padding:16px 8px;text-align:center;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:26px;color:var(--pink-d)}
+.stat span{font-size:13px;color:var(--muted)}
+.panel{background:rgba(255,255,255,.8);border-radius:26px;padding:24px;box-shadow:var(--shadow);margin:16px 0;border:1px solid #fff}
+.panel h3{color:var(--navy);margin-bottom:10px;font-size:18px}
+.panel p{line-height:1.8}
+.skills{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.skills .sk{padding:8px 16px;border-radius:999px;background:var(--pink-l);color:var(--pink-d);font-size:14px;font-weight:500}
+.contact-list{display:grid;gap:12px;margin-top:6px}
+.contact-list a{display:flex;align-items:center;gap:14px;background:#fff;padding:14px 18px;border-radius:18px;text-decoration:none;color:var(--navy);box-shadow:var(--shadow);transition:.2s}
+.contact-list a:hover{transform:translateX(6px)}
+.contact-list .ic{width:42px;height:42px;border-radius:50%;background:var(--pink-l);display:grid;place-items:center;font-size:20px}
+.form{display:grid;gap:12px;margin-top:10px}
+.form input,.form textarea{width:100%;padding:14px 18px;border-radius:18px;border:2px solid #e6e3fb;background:#fff;font-size:15px;color:var(--navy);outline:none;transition:.2s}
+.form input:focus,.form textarea:focus{border-color:var(--pink)}
+.form textarea{min-height:120px;resize:vertical}
+
+/* bottom nav */
+.nav{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);width:min(520px,calc(100% - 24px));background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-radius:28px;box-shadow:0 10px 36px rgba(120,100,180,.28);display:flex;justify-content:space-around;padding:8px 6px;z-index:50;border:1px solid #fff}
+.nav .nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;font-size:12.5px;color:var(--muted);font-weight:500;transition:.2s}
+.nav svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.9}
+.nav .nb.on{color:var(--pink-d)}
+.nav .nb.on svg{fill:var(--pink);stroke:var(--pink-d);transform:scale(1.12)}
+.toast{position:fixed;left:50%;top:20px;transform:translate(-50%,-90px);background:var(--navy);color:#fff;padding:12px 22px;border-radius:999px;z-index:99;transition:.4s;font-size:14px}
+.toast.show{transform:translate(-50%,0)}
+/* หลังบ้าน */
+.adm{max-width:860px;margin:0 auto}
+.adm-bar{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.btn.sm{padding:9px 16px;font-size:13px}
+.btn.d{background:#fff0f0;color:#e0526b;border:2px solid #ffd3da}
+.adm-row{display:flex;gap:12px;align-items:center;background:#fff;border-radius:18px;padding:10px;box-shadow:var(--shadow);margin-bottom:10px}
+.adm-row .th{width:96px;flex:none;border-radius:12px;overflow:hidden}
+.adm-row .th .art{aspect-ratio:4/3}
+.adm-row .info{flex:1;min-width:0}
+.adm-row h4{color:var(--navy);font-size:15px;line-height:1.35}
+.adm-row small{color:var(--muted)}
+.adm-row .acts{display:flex;gap:6px;flex-direction:column}
+.modal{position:fixed;inset:0;background:rgba(39,48,92,.45);z-index:100;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:20px 12px}
+.modal.show{display:flex}
+.modal .box{background:#fff;border-radius:26px;padding:22px;width:min(640px,100%);box-shadow:var(--shadow)}
+.modal h3{color:var(--navy);margin-bottom:14px}
+.fld{display:grid;gap:6px;margin-bottom:12px}
+.fld label{font-size:13px;font-weight:500;color:var(--navy)}
+.fld input,.fld textarea,.fld select{padding:11px 14px;border-radius:14px;border:2px solid #e6e3fb;font-size:14px;outline:none;color:var(--navy);background:#fff;width:100%}
+.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:var(--pink)}
+.fld input[type=color]{padding:2px;height:44px}
+.fld textarea{min-height:90px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.slot{background:var(--pink-xl);border-radius:14px;padding:8px;text-align:center;font-size:12px}
+.slot .pv{aspect-ratio:4/3;border-radius:10px;background:#fff;border:2px dashed #ffc2db;display:grid;place-items:center;overflow:hidden;margin-bottom:6px;color:var(--muted)}
+.slot .pv img{width:100%;height:100%;object-fit:cover}
+.slot input{display:none}
+.slot .pick{display:block;padding:6px;border-radius:999px;background:#fff;border:1px solid #ffc2db;cursor:pointer;color:var(--pink-d);margin-bottom:4px}
+.slot .rm{color:#e0526b;cursor:pointer;background:none;border:none;font-size:12px}
+.foot-link{background:none;color:var(--muted);font-size:12px;margin-top:6px;text-decoration:underline}
+.note{background:#fff8e6;border:1px solid #ffe3a3;color:#8a6a1c;border-radius:16px;padding:12px 16px;font-size:13px;line-height:1.7;margin:10px 0}
+/* โหมดแก้ไขในหน้าเว็บ */
+.btn,.nb{cursor:pointer}
+.nb{-webkit-user-select:none;user-select:none}
+#editbar{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:60;display:none;gap:6px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-radius:999px;padding:6px;box-shadow:0 8px 24px rgba(120,100,180,.3);border:2px solid var(--pink)}
+#editbar button{padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:600;background:var(--pink-l);color:var(--pink-d);white-space:nowrap}
+#editbar button.on{background:linear-gradient(135deg,#ff8fbd,#ff5fa0);color:#fff}
+body.admin{padding-top:64px}
+body.admin .toast{top:74px;transform:translate(-50%,-170px)}
+body.admin .toast.show{transform:translate(-50%,0)}
+.editing [contenteditable=true]{outline:2px dashed #ff9cc6;outline-offset:3px;border-radius:6px;min-width:24px;-webkit-user-select:text;user-select:text;cursor:text}
+.editing [contenteditable=true]:focus{outline:2px solid var(--pink);background:rgba(255,244,249,.9)}
+.editing .grad{caret-color:var(--pink)}
+#about-text,#intro,.d-info .desc{white-space:pre-line}
+.checks li span{flex:1}
+.checks li.addli::before{content:none}
+.ed-card{position:absolute;left:10px;top:10px;display:none;gap:6px;z-index:3}
+.editing .ed-card{display:flex}
+.ed-card button{width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.14);font-size:15px}
+.add-card{display:grid;place-items:center;text-align:center;min-height:200px;border:3px dashed #ffb3d1;background:var(--pink-xl);color:var(--pink-d);font-weight:600}
+.x{display:none;flex:none;width:24px;height:24px;border-radius:50%;background:#ffe3e8;color:#e0526b;font-size:15px;line-height:1;place-items:center}
+.editing .x{display:inline-grid}
+.addbtn,.editonly{display:none}
+.editing .addbtn,.editing .editonly{display:inline-block}
+.editing .adm-bar.editonly{display:flex}
+.skills .sk{display:inline-flex;align-items:center;gap:8px}
+.crow-edit{display:grid;grid-template-columns:44px 1fr 1fr 28px;gap:6px;margin-bottom:8px;align-items:center}
+.crow-edit input{padding:9px 10px;border-radius:12px;border:2px solid #e6e3fb;font-size:13px;min-width:0;width:100%;outline:none;color:var(--navy)}
+.view{display:none}.view.show{display:block;animation:pop .35s both}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0 10px}
+
+/* ===================== ปรับโทนให้ละมุน / ดูเป็นงานทำมือ ===================== */
+:root{
+  --pink:#e8a0b0; --pink-d:#c27487; --pink-l:#fbe6ea; --pink-xl:#fff7f5;
+  --blue:#a9b8d6; --blue-l:#eaeff8;
+  --navy:#5a4651; --text:#7a6670; --muted:#a8969f;
+  --line:#f0e1de; --rose:#f7cfd6; --rose-line:#efb7c2;
+  --shadow:0 4px 18px rgba(176,128,128,.13);
+}
+body{
+  font-family:'Noto Sans Thai Looped','Prompt',system-ui,sans-serif;
+  background:
+    radial-gradient(ellipse at 0% 0%,#ffeee9 0,transparent 55%),
+    radial-gradient(ellipse at 100% 12%,#f3eefb 0,transparent 50%),
+    #fffaf6;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .6 0 0 0 0 .45 0 0 0 0 .45 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.float-deco .blob{position:absolute;border-radius:50%;filter:blur(55px);opacity:.6;animation:drift 22s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(26px,-30px)}}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{animation:pop .5s ease both}
+h1,h2,h3,.sec-title,.stat b,.card h3{font-family:'Mali','Noto Sans Thai Looped',sans-serif}
+
+/* หัวข้อ: แทนหัวใจทุกที่ด้วยไฮไลต์ปากกาเน้นข้อความ */
+.page-head h1 i,.topbar h2 i,.sec-title i,.d-info h2.title i{display:none}
+.page-head h1{font-size:25px}
+.page-head h1>span,.topbar h2>span,.sec-title>span>span{background:linear-gradient(transparent 62%,#f9d9df 62%);padding:0 4px;margin:0 -4px}
+.hero-home h1{font-size:clamp(28px,6vw,42px);font-weight:700}
+.hero-home h1 .grad{background:linear-gradient(transparent 62%,#f9d3db 62%);-webkit-background-clip:border-box;background-clip:border-box;color:var(--navy);padding:0 6px;margin:0 -2px}
+.sec-title{font-size:16px}
+
+/* ปุ่ม / ชิป */
+.btn{font-weight:500}
+.btn.p{background:var(--rose);color:#6b3f4b;box-shadow:none;border:1.5px solid var(--rose-line)}
+.btn.s{background:#fff;border:1.5px solid var(--line);color:var(--text)}
+.btn:hover{transform:translateY(-2px)}
+.cta{background:var(--rose);color:#6b3f4b;border:1.5px solid var(--rose-line);box-shadow:0 6px 16px rgba(220,150,165,.22);font-weight:500;font-size:16px}
+.cta svg{stroke:#6b3f4b}
+.chip{border:1.5px solid var(--line);font-weight:400;color:var(--text);padding:9px 18px}
+.chip.active{background:#f9dde2;color:var(--navy);border-color:var(--rose-line);box-shadow:none}
+.search,.sort-btn{border:1.5px solid var(--line);box-shadow:none}
+.search svg{stroke:var(--pink-d)}
+.sort-btn svg{stroke:var(--text)}
+.sort-btn.on{background:var(--pink-l);border-color:var(--rose-line)}
+
+/* การ์ดผลงาน: เหมือนโพลารอยด์ติดเทปวาชิ */
+.card{border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow);padding:8px 8px 0;overflow:visible}
+.card .art{border-radius:12px}
+.card .body{padding:10px 8px 14px}
+.card h3{font-size:14.5px;font-weight:600;min-height:38px}
+.grid .card:nth-child(odd){rotate:-.7deg}
+.grid .card:nth-child(even){rotate:.6deg}
+.card:hover{rotate:0deg;transform:translateY(-3px);box-shadow:0 10px 24px rgba(176,128,128,.2)}
+.card::before{content:"";position:absolute;top:-7px;left:50%;width:56px;height:17px;margin-left:-28px;background:rgba(246,200,208,.8);transform:rotate(-3deg);z-index:2;border-radius:2px;
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.35) 0 2px,transparent 2px 6px)}
+.card:nth-child(3n)::before{background-color:rgba(196,214,200,.85);transform:rotate(2.5deg)}
+.card:nth-child(3n+1)::before{background-color:rgba(207,213,236,.85);transform:rotate(-1.5deg)}
+.add-card::before{display:none}
+.fav{top:14px;right:14px;box-shadow:0 2px 6px rgba(150,110,110,.18)}
+.ed-card{left:14px;top:14px}
+.art .deco{display:none}
+.tag{background:#fbe6ea;color:#b8697d;font-weight:400;border:2px solid #fff}
+.tag.blue{background:#e6ecf7;color:#6b80a8}
+.tag.green{background:#e3f0e4;color:#6a9a70}
+.date svg,.meta svg{stroke:var(--blue)}
+
+/* หน้ารายละเอียด */
+.hero{border:6px solid #fff;border-radius:20px;box-shadow:var(--shadow)}
+.d-info,.panel{background:#fff;backdrop-filter:none;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:22px}
+.shot{border:3px solid #fff;box-shadow:0 3px 10px rgba(176,128,128,.15)}
+.shot.on{border-color:var(--rose-line)}
+.counter{background:#fbe6ea;color:#b8697d;font-weight:400}
+.meta .ok{color:#6a9a70;font-weight:400}
+.meta .ok b{background:#e3f0e4;color:#6a9a70}
+.checks li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--rose-line);margin-top:.62em}
+.tech{background:#f0f3fa;color:var(--text);font-weight:400}
+.skills .sk{background:#fbe6ea;color:#b06a7c;font-weight:400}
+
+/* หน้าหลัก / ติดต่อ */
+.stat{border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px}
+.stat b{color:var(--pink-d);font-weight:600}
+.contact-list a{box-shadow:none;border:1px solid var(--line)}
+.contact-list .ic{background:#fbe6ea}
+.form input,.form textarea{border:1.5px solid var(--line)}
+.form input:focus,.form textarea:focus{border-color:var(--rose-line)}
+
+/* เมนูล่าง */
+.nav{background:rgba(255,251,248,.97);backdrop-filter:none;border:1.5px solid var(--line);box-shadow:0 6px 20px rgba(176,128,128,.2);border-radius:26px}
+.nav .nb{margin:0 3px;padding:7px 0;border-radius:18px;font-weight:400}
+.nav .nb.on{background:#fbe6ea;color:var(--pink-d)}
+.nav .nb.on svg{fill:var(--rose);stroke:var(--pink-d);transform:none}
+.toast{background:#6b5560}
+#editbar{border:1.5px solid var(--rose-line)}
+#editbar button.on{background:var(--rose);color:#6b3f4b}
+
+/* ===================== หน้าหลักแบบใหม่ ===================== */
+.hero-home{display:block;padding:30px 0 6px;max-width:680px}
+.hero-home .tag{margin:0 0 14px}
+.hero-home h1{font-size:clamp(32px,9vw,50px);line-height:1.25;letter-spacing:-.01em}
+.hero-home p{margin:14px 0 22px;font-size:15.5px;line-height:1.85;max-width:34em}
+.hero-home .btn-row{flex-wrap:nowrap}
+.hero-home .btn{flex:1 1 0;padding:14px 10px;white-space:nowrap}
+@media(min-width:600px){.hero-home .btn{flex:0 0 auto;padding:14px 28px}}
+
+/* สถิติ: การ์ดใบเดียว แบ่ง 3 ช่อง */
+.stats{gap:0;margin:26px 0 8px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:14px 0;max-width:680px}
+.stat{background:none;border:none;box-shadow:none;border-radius:0;padding:4px 6px}
+.stat+.stat{border-left:1px dashed var(--rose-line)}
+.stat b{font-size:28px;line-height:1.2}
+
+/* ผลงานล่าสุด: เลื่อนซ้าย-ขวาบนมือถือ / เรียงตารางบนจอใหญ่ */
+.home-sec{font-size:20px;margin:26px 0 4px}
+.see-all{font-size:13.5px;font-weight:500;color:var(--pink-d);padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:#fff}
+.rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:14px 18px 20px;margin:0 -18px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rail::-webkit-scrollbar{display:none}
+.rail .card{flex:0 0 min(72%,280px);scroll-snap-align:start;scroll-margin-left:18px}
+.rail .card:nth-child(odd){rotate:-.7deg}
+.rail .card:nth-child(even){rotate:.6deg}
+.rail .card:hover{rotate:0deg}
+@media(min-width:720px){
+  .rail{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;overflow:visible;margin:0;padding:14px 0 10px}
+  .rail .card{flex:none}
+}
+@media(min-width:1000px){.rail{grid-template-columns:repeat(4,1fr)}}
+.hero-home{padding-top:34px}
+.shop-name{background:linear-gradient(transparent 62%,#f9d3db 62%);padding:0 6px;margin:0 -6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.contact-list .ic svg{width:21px;height:21px;fill:none;stroke:var(--pink-d);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.contact-list .ic{background:#fbe6ea}
+#owner{-webkit-user-select:none;user-select:none;touch-action:manipulation;-webkit-touch-callout:none}
+.editing #owner{-webkit-user-select:text;user-select:text}
+a.cta{text-decoration:none}
+.cta.off{opacity:.6;border-style:dashed;font-size:14px}
+.brand{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.brand-mark{width:96px;height:96px;border-radius:30px;background:#fff;border:1.5px solid var(--rose-line);box-shadow:var(--shadow);display:grid;place-items:center;overflow:hidden;rotate:-3deg;flex:none}
+.brand-mark img{width:100%;height:100%;object-fit:contain;padding:8px;display:block}
+.brand-mark.mono{background:var(--rose);color:#b8697d;font-size:46px;font-weight:700;line-height:1}
+.brand-edit{gap:8px;flex-wrap:wrap}
+.editing .brand-edit{display:flex}
+.brand-edit .btn{flex:none}
+.brand{flex-wrap:nowrap;gap:16px;margin-bottom:14px}
+.brand h1{margin:0;min-width:0;font-size:clamp(30px,9.5vw,46px);line-height:1.2;overflow-wrap:anywhere}
+.brand-edit{margin:-4px 0 14px}
+.hero-home{padding-top:26px}
+.cat-pick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.cat-pick .chip{padding:7px 14px;font-size:13.5px}
+</style>
+</head>
+<body>
+
+<div class="float-deco" id="deco"></div>
+<div class="toast" id="toast"></div>
+
+<main class="wrap">
+
+  <!-- หน้าหลัก -->
+  <section class="view" id="v-home">
+    <div class="hero-home">
+      <div class="brand"><div class="brand-mark" id="brand-mark"></div>
+      <h1><span id="home-owner" class="shop-name" data-s="owner"></span></h1></div>
+      <div class="brand-edit editonly"><button class="btn s sm" data-logo-pick>📷 ใส่โลโก้ / รูปร้าน</button><button class="btn d sm" data-logo-rm id="logo-rm">ลบรูป</button>
+        <input type="file" id="logoPick" accept="image/*" hidden></div>
+      <p id="intro" data-s="intro" data-multi>รวบรวมผลงานเว็บไซต์ แอปพลิเคชัน และร้านค้าออนไลน์ที่เคยทำมา ออกแบบให้น่ารัก ใช้งานง่าย และรองรับทุกอุปกรณ์</p>
+      <div class="btn-row">
+        <div class="btn p" role="button" tabindex="0" data-go="works"><span data-t="home.btn1">ดูผลงานทั้งหมด</span></div>
+        <div class="btn s" role="button" tabindex="0" data-go="contact"><span data-t="home.btn2">ติดต่อสอบถามงาน</span></div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="st-total">0</b><span data-t="stat.total">ผลงานทั้งหมด</span></div>
+      <div class="stat"><b id="st-done">0</b><span data-t="stat.done">เสร็จสมบูรณ์</span></div>
+      <div class="stat"><b id="st-fav">0</b><span data-t="stat.fav">ที่ชอบ ♥</span></div>
+    </div>
+    <div class="sec-title home-sec"><span><span data-t="home.latest">ผลงานล่าสุด</span></span><button class="see-all" data-go="works">ดูทั้งหมด</button></div>
+    <div class="rail" id="latest"></div>
+  </section>
+
+  <!-- ผลงานทั้งหมด -->
+  <section class="view" id="v-works">
+    <div class="page-head">
+      <div>
+        <h1><span data-t="works.title">ผลงานทั้งหมด</span> <i>♥</i></h1>
+        <p data-t="works.sub">เลือกดูผลงานของเราได้ตามหมวดหมู่</p>
+      </div>
+    </div>
+    <div class="tools">
+      <label class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>
+        <input id="q" type="search" placeholder="ค้นหาผลงาน..." autocomplete="off">
+      </label>
+      <button class="sort-btn" id="favOnly" title="แสดงเฉพาะที่ชอบ">
+        <svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8z" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="editonly" style="margin:-6px 0 12px"><button class="btn s sm" data-catmgr>✏️ จัดการหมวดหมู่</button></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty">ไม่พบผลงานที่ค้นหา ลองคำอื่นดูนะ</div>
+  </section>
+
+  <!-- รายละเอียด -->
+  <section class="view" id="v-detail"></section>
+
+  <!-- เกี่ยวกับ -->
+  <section class="view" id="v-about">
+    <div class="page-head">
+      <div><h1><span data-t="about.title">เกี่ยวกับฉัน</span> <i>♥</i></h1><p data-t="about.sub">รู้จักกันให้มากขึ้นอีกนิด</p></div>
+    </div>
+    <div class="panel">
+      <h3 data-t="about.h3a">แนะนำตัว</h3>
+      <p id="about-text" data-s="about" data-multi></p>
+      <div class="skills" id="skills"></div>
+    </div>
+    <div class="panel">
+      <h3 data-t="about.h3b">สไตล์การทำงาน</h3>
+      <ul class="checks" id="styles"></ul>
+    </div>
+  </section>
+
+  <!-- ติดต่อ -->
+  <section class="view" id="v-contact">
+    <div class="page-head">
+      <div><h1><span data-t="contact.title">ติดต่อสอบถามงาน</span> <i>♥</i></h1><p data-t="contact.sub">ทักมาคุยกันได้เลย ยินดีให้คำปรึกษาฟรี</p></div>
+    </div>
+    <div class="panel">
+      <div class="contact-list" id="contacts"></div>
+    </div>
+    <div class="panel">
+      <h3 data-t="contact.h3">ส่งข้อความถึงเรา</h3>
+      <form class="form" id="form">
+        <input name="name" placeholder="ชื่อของคุณ" required>
+        <input name="email" type="email" placeholder="อีเมลสำหรับติดต่อกลับ" required>
+        <textarea name="msg" placeholder="รายละเอียดงานที่ต้องการ..." required></textarea>
+        <button class="cta" style="margin-top:4px" type="submit">ส่งข้อความ ✈</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- หลังบ้าน -->
+  <section class="view" id="v-admin"></section>
+
+  <footer>© <span id="year"></span> <span id="owner" data-s="owner"></span> · made with ♥</footer>
+</main>
+
+<div id="editbar"><button id="eb-toggle"></button><button data-go="admin">⚙️ จัดการ</button><button id="eb-out">ออก</button></div>
+
+<nav class="nav" id="nav">
+  <div class="nb" role="button" tabindex="0" data-go="home"><svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" stroke-linejoin="round"/></svg><span data-t="nav.home">หน้าหลัก</span></div>
+  <div class="nb" role="button" tabindex="0" data-go="works"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg><span data-t="nav.works">ผลงาน</span></div>
+  <div class="nb" role="button" tabindex="0" data-go="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke-linecap="round"/></svg><span data-t="nav.about">เกี่ยวกับ</span></div>
+  <div class="nb" role="button" tabindex="0" data-go="contact"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6" stroke-linejoin="round"/></svg><span data-t="nav.contact">ติดต่อ</span></div>
+</nav>
+
+<script>
+/* =====================================================
+   ✏️  แก้ข้อมูลของคุณตรงนี้ได้เลย
+   ===================================================== */
+const CONFIG = {
+  owner: "MOPINK",
+  about: "สวัสดีค่ะ เราชอบทำเว็บและแอปที่ดูอบอุ่น ใช้งานง่าย เริ่มจากการฟังก่อนว่าคนที่จ้างอยากได้อะไร แล้วค่อยๆ ปั้นให้ออกมาเป็นรูปเป็นร่าง ทั้งเว็บบริษัท ร้านค้าออนไลน์ และแอปมือถือ",
+  skills: ["UI/UX Design","Next.js","React","Tailwind CSS","Supabase","Responsive Web","Figma"],
+  contacts: [
+    {icon:"mail", label:"your@email.com",     href:"mailto:your@email.com"},
+    {icon:"line", label:"LINE: @yourline",    href:"https://line.me/ti/p/~yourline"},
+    {icon:"facebook", label:"Facebook: yourname", href:"https://facebook.com/yourname"},
+    {icon:"phone", label:"08x-xxx-xxxx",       href:"tel:0800000000"}
+  ],
+  contactEmail: "your@email.com",
+  intro: "รวมงานเว็บไซต์ แอป และร้านค้าออนไลน์ที่เคยได้ทำ ค่อยๆ เลื่อนดูเล่นๆ ได้เลยนะ ถ้าถูกใจชิ้นไหนก็ทักมาคุยกันได้",
+  styles: ["ออกแบบให้น่ารัก สะอาดตา ตรงกับคอนเซ็ปต์ของลูกค้า","รองรับ Responsive ทั้งคอมพิวเตอร์ แท็บเล็ต และมือถือ","ส่งงานตรงเวลา พร้อมดูแลหลังส่งมอบ"],
+  adminPassword: "1234"   // รหัสเข้าหลังบ้าน (เปลี่ยนด้วยนะ) เข้าที่ท้ายเว็บ "🔒 หลังบ้าน" หรือ #/admin
+};
+
+/* ผลงาน — ถ้ามีรูปจริง ใส่ลิงก์ในช่อง img / shots ได้เลย (ไม่ใส่ = ใช้ภาพวาดน่ารักอัตโนมัติ) */
+const DEFAULT_WORKS = [
+  {id:1, cat:"เว็บไซต์", title:"เว็บไซต์ร้านขนมหวาน", date:"2025-06-12", status:"เสร็จสมบูรณ์",
+   desc:"เว็บไซต์สำหรับร้านขนมหวาน สไตล์น่ารัก อบอุ่น ใช้งานง่าย รองรับทุกอุปกรณ์",
+   theme:{a:"#ff7eb3",b:"#ffd6e7",c:"#fff0f6"}, emoji:"🧁", kind:"laptop",
+   details:["ออกแบบเว็บไซต์ตามคอนเซ็ปต์ของร้าน “ความหวานละมุน น่ารัก อบอุ่น”","รองรับการแสดงผลแบบ Responsive ทั้งคอมพิวเตอร์ แท็บเล็ต และมือถือ","ใช้งานง่าย มีระบบสั่งซื้อสินค้า และจัดการออเดอร์"],
+   tech:["Next.js","Tailwind CSS","Supabase"], img:"", shots:[]},
+  {id:2, cat:"แอปพลิเคชัน", title:"แอปจองที่พักและตั๋วเครื่องบิน", date:"2025-06-05", status:"เสร็จสมบูรณ์",
+   desc:"แอปจองที่พักและตั๋วเครื่องบินในที่เดียว ค้นหาง่าย เปรียบเทียบราคาได้ทันที",
+   theme:{a:"#5b7bff",b:"#b9c8ff",c:"#e8edff"}, emoji:"✈️", kind:"phone",
+   details:["ค้นหาและเปรียบเทียบราคาที่พัก/ตั๋วเครื่องบินแบบเรียลไทม์","ระบบชำระเงินปลอดภัย รองรับหลายช่องทาง","แจ้งเตือนสถานะการจองผ่านแอป"],
+   tech:["React Native","Firebase","Stripe"], img:"", shots:[]},
+  {id:3, cat:"ร้านค้าออนไลน์", title:"ร้านค้าเครื่องสำอางแบรนด์ดัง", date:"2025-05-28", status:"เสร็จสมบูรณ์",
+   desc:"ร้านค้าออนไลน์เครื่องสำอาง ดีไซน์สดใส มีระบบสมาชิกและโปรโมชั่น",
+   theme:{a:"#4cc790",b:"#c6f0dc",c:"#eefaf4"}, emoji:"💄", kind:"laptop",
+   details:["ระบบตะกร้าสินค้า คูปองส่วนลด และสะสมแต้ม","หน้าสินค้าโหลดไว รองรับ SEO","แดชบอร์ดหลังบ้านจัดการสต็อกและออเดอร์"],
+   tech:["Next.js","Stripe","PostgreSQL"], img:"", shots:[]},
+  {id:4, cat:"เว็บไซต์", title:"เว็บไซต์บริษัทอสังหาริมทรัพย์", date:"2025-05-20", status:"เสร็จสมบูรณ์",
+   desc:"เว็บไซต์บริษัทอสังหาริมทรัพย์ ดูโครงการ แผนที่ และลงทะเบียนสนใจได้ในหน้าเดียว",
+   theme:{a:"#2a3f8f",b:"#7f95e0",c:"#dfe6ff"}, emoji:"🏙️", kind:"laptop",
+   details:["แสดงโครงการพร้อมแกลเลอรีและแผนที่","ฟอร์มลงทะเบียนสนใจส่งตรงถึงทีมขาย","ดีไซน์ทันสมัย น่าเชื่อถือ"],
+   tech:["Next.js","Tailwind CSS","Google Maps"], img:"", shots:[]},
+  {id:5, cat:"เว็บไซต์", title:"เว็บไซต์พอร์ตโฟลิโอส่วนตัว", date:"2025-05-15", status:"เสร็จสมบูรณ์",
+   desc:"พอร์ตโฟลิโอส่วนตัวสำหรับนักออกแบบ แสดงผลงานสวยงาม โหลดไว",
+   theme:{a:"#8aa4ff",b:"#d4ddff",c:"#f1f4ff"}, emoji:"🌷", kind:"laptop",
+   details:["หน้าแสดงผลงานแบบแกลเลอรี","แอนิเมชันนุ่มนวล","ปรับแต่งเนื้อหาง่าย"],
+   tech:["HTML","CSS","JavaScript"], img:"", shots:[]},
+  {id:6, cat:"แอปพลิเคชัน", title:"แอปจัดการคอร์สเรียนออนไลน์", date:"2025-05-08", status:"เสร็จสมบูรณ์",
+   desc:"แอปสำหรับผู้เรียนและผู้สอน จัดการคอร์ส ติดตามความคืบหน้า และทำแบบทดสอบ",
+   theme:{a:"#ff9ec4",b:"#ffd9e8",c:"#fff2f8"}, emoji:"📚", kind:"phone",
+   details:["ระบบวิดีโอบทเรียนและแบบทดสอบ","ติดตามความคืบหน้าการเรียน","ออกใบประกาศนียบัตรอัตโนมัติ"],
+   tech:["Flutter","Supabase","Node.js"], img:"", shots:[]},
+  {id:7, cat:"ร้านค้าออนไลน์", title:"ร้านขายต้นไม้และของแต่งบ้าน", date:"2025-04-25", status:"เสร็จสมบูรณ์",
+   desc:"ร้านออนไลน์ต้นไม้และของแต่งบ้าน โทนธรรมชาติ สดชื่น",
+   theme:{a:"#7ccf8a",b:"#d3f3d8",c:"#f1fbf3"}, emoji:"🪴", kind:"laptop",
+   details:["แสดงคำแนะนำการดูแลต้นไม้ในหน้าสินค้า","ระบบแจ้งเตือนสินค้าเข้าใหม่","จัดส่งและติดตามพัสดุ"],
+   tech:["Next.js","Tailwind CSS","Supabase"], img:"", shots:[]},
+  {id:8, cat:"แอปพลิเคชัน", title:"แอปติดตามสุขภาพและการออกกำลังกาย", date:"2025-04-10", status:"เสร็จสมบูรณ์",
+   desc:"แอปบันทึกการออกกำลังกาย อาหาร และเป้าหมายสุขภาพรายวัน",
+   theme:{a:"#ffa36b",b:"#ffdcc4",c:"#fff4ec"}, emoji:"🏃", kind:"phone",
+   details:["กราฟสรุปผลรายวัน/รายสัปดาห์","ตั้งเป้าหมายและรับการแจ้งเตือน","ซิงก์ข้อมูลกับอุปกรณ์สวมใส่"],
+   tech:["React Native","Firebase"], img:"", shots:[]}
+];
+
+/* =====================================================
+   โค้ดส่วนระบบ (ไม่จำเป็นต้องแก้)
+   ===================================================== */
+const ADMIN_KEY = "works_v1";
+const SITE_KEY = "site_v1";
+try { const s = JSON.parse(localStorage.getItem(SITE_KEY)||"null"); if(s) Object.assign(CONFIG, s); } catch(e){}
+const clone = o => JSON.parse(JSON.stringify(o));
+const TEXTS_KEY = "texts_v1";
+let TEXTS = {}; try { TEXTS = JSON.parse(localStorage.getItem(TEXTS_KEY)||"{}") || {}; } catch(e){}
+let editMode = true, curVar = 0;
+let WORKS = clone(DEFAULT_WORKS);
+try { const s = localStorage.getItem(ADMIN_KEY); if(s){ const p = JSON.parse(s); if(Array.isArray(p)) WORKS = p; } } catch(e){}
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const MONTHS = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+const thDate = d => { const t=new Date(d); return `${t.getDate()} ${MONTHS[t.getMonth()]} ${t.getFullYear()+543}`; };
+const tagClass = c => c==="แอปพลิเคชัน" ? "blue" : (c==="ร้านค้าออนไลน์" ? "green" : "");
+
+let favs = [];
+try { favs = JSON.parse(localStorage.getItem("favs")||"[]"); } catch(e){}
+const saveFavs = () => { try{ localStorage.setItem("favs", JSON.stringify(favs)); }catch(e){} };
+
+const state = {cat:"ทั้งหมด", q:"", favOnly:false};
+
+/* ภาพวาดอุปกรณ์จำลอง (laptop / phone) — ใช้เมื่อไม่มีรูปจริง */
+function deviceSVG(w, variant=0){
+  const {b,c} = w.theme, a = mix(w.theme.a,.2), id = "g"+w.id+"_"+variant;
+  const blocks = (x,y,wd,n,gap=3)=>{
+    let s=""; const bw=(wd-gap*(n-1))/n;
+    for(let i=0;i<n;i++) s+=`<rect x="${x+i*(bw+gap)}" y="${y}" width="${bw}" height="16" rx="3" fill="${b}"/><circle cx="${x+i*(bw+gap)+bw/2}" cy="${y+8}" r="4" fill="${a}" opacity=".85"/>`;
+    return s;
+  };
+  const laptop = `
+    <rect x="52" y="26" width="176" height="112" rx="9" fill="#8a7885"/>
+    <rect x="57" y="31" width="166" height="102" rx="5" fill="#fff"/>
+    <rect x="57" y="31" width="166" height="12" rx="5" fill="${c}"/>
+    <circle cx="65" cy="37" r="2" fill="${a}"/><circle cx="72" cy="37" r="2" fill="${b}"/>
+    <rect x="62" y="48" width="${variant==1?150:76}" height="${variant==1?30:46}" rx="5" fill="${b}" opacity=".6"/>
+    ${variant==1?"":`<text x="150" y="82" font-size="34" text-anchor="middle">${w.emoji}</text>`}
+    <rect x="${variant==1?62:62}" y="${variant==1?82:98}" width="62" height="5" rx="2.5" fill="${a}"/>
+    ${blocks(62, variant==1?96:108, 150, 4)}
+    <path d="M38 138h204l-10 10a6 6 0 0 1-4 2H52a6 6 0 0 1-4-2z" fill="#e2d6d9"/>
+    <rect x="118" y="138" width="44" height="4" rx="2" fill="#cdbfc4"/>`;
+  const phone = (x,y,s=1)=>`
+    <g transform="translate(${x} ${y}) scale(${s})">
+      <rect width="62" height="124" rx="12" fill="#8a7885"/>
+      <rect x="4" y="5" width="54" height="114" rx="9" fill="#fff"/>
+      <rect x="22" y="8" width="18" height="4" rx="2" fill="#8a7885"/>
+      <rect x="4" y="16" width="54" height="30" fill="${b}" opacity=".7"/>
+      <text x="31" y="38" font-size="22" text-anchor="middle">${w.emoji}</text>
+      <rect x="9" y="52" width="30" height="5" rx="2.5" fill="${a}"/>
+      <rect x="9" y="62" width="44" height="14" rx="4" fill="${c}"/><rect x="9" y="80" width="44" height="14" rx="4" fill="${c}"/>
+      <rect x="9" y="98" width="44" height="14" rx="7" fill="${a}"/>
+    </g>`;
+  const body = w.kind==="phone"
+    ? (variant===2 ? phone(110,20,1.05) : phone(70,22,1.0)+phone(150,38,0.92))
+    : (variant===2 ? phone(108,18,1.05) : laptop + (variant===0 ? phone(214,64,.58) : ""));
+  return `<svg class="dev" viewBox="0 0 280 170" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>
+    <rect width="280" height="170" fill="url(#${id})"/>
+    <circle cx="30" cy="30" r="22" fill="#fff" opacity=".35"/><circle cx="256" cy="140" r="30" fill="#fff" opacity=".35"/>
+    ${body}
+  </svg>`;
+}
+function art(w, variant=0){
+  const img = variant===0 ? w.img : (w.shots && w.shots[variant]) || "";
+  const inner = img ? `<img src="${img}" alt="${w.title}" style="width:100%;height:100%;object-fit:cover;display:block">` : deviceSVG(w, variant);
+  return `<div class="art">${inner}<span class="deco" style="left:8%;top:10%">♡</span><span class="deco" style="right:9%;top:16%;animation-delay:1s">✦</span></div>`;
+}
+
+/* การ์ดผลงาน */
+function card(w, i=0){
+  const on = favs.includes(w.id);
+  return `<article class="card" data-id="${w.id}" style="animation-delay:${i*45}ms">
+    <div class="ed-card"><button data-wedit="${w.id}" aria-label="แก้ไข">✏️</button><button data-wdel="${w.id}" aria-label="ลบ">🗑</button></div>
+    <button class="fav ${on?'on':''}" data-fav="${w.id}" aria-label="ถูกใจ"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 5.8-8 11-8 11z" stroke-linejoin="round"/></svg></button>
+    ${art(w)}
+    <div class="body">
+      <span class="tag ${tagClass(w.cat)}">${w.cat}</span>
+      <h3>${esc(w.title)}</h3>
+      <div class="date"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18" stroke-linecap="round"/></svg>${thDate(w.date)}</div>
+    </div>
+  </article>`;
+}
+
+/* หน้ารายการ */
+function renderChips(){
+  const cats = ["ทั้งหมด", ...new Set(WORKS.map(w=>w.cat))];
+    $("#chips").innerHTML = cats.map(c=>`<button class="chip ${state.cat===c?'active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
+}
+function renderGrid(){
+  const q = state.q.trim().toLowerCase();
+  const list = WORKS.filter(w =>
+    (state.cat==="ทั้งหมด" || w.cat===state.cat) &&
+    (!state.favOnly || favs.includes(w.id)) &&
+    (!q || (w.title+w.desc+w.cat+w.tech.join(" ")).toLowerCase().includes(q))
+  );
+  const addCard = isEditing() ? `<div class="card add-card" data-wadd><div><div style="font-size:34px">＋</div>เพิ่มผลงานใหม่</div></div>` : "";
+  $("#grid").innerHTML = addCard + list.map(card).join("");
+  $("#empty").style.display = (list.length || isEditing()) ? "none":"block";
+}
+function renderHome(){
+  $("#latest").innerHTML = [...WORKS].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4).map(card).join("");
+  $("#st-total").textContent = WORKS.length;
+  $("#st-done").textContent = WORKS.filter(w=>w.status==="เสร็จสมบูรณ์").length;
+  $("#st-fav").textContent = favs.length;
+}
+
+/* ลิงก์ตัวอย่างงาน: รับเฉพาะ http/https */
+function safeUrl(u){
+  u = (u||"").trim(); if(!u) return "";
+  if(!/^[a-z][a-z0-9+.-]*:/i.test(u)) u = "https://" + u;
+  try{ const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : ""; }catch(e){ return ""; }
+}
+
+/* หน้ารายละเอียด */
+function renderDetail(id, variant=0){
+  const w = WORKS.find(x=>x.id==id);
+  if(!w){ go("works"); return; }
+  curVar = variant;
+  const on = favs.includes(w.id), E = isEditing(), ce = E ? 'contenteditable="true"' : '', wid = `data-wid="${w.id}"`;
+  const details = w.details||[], tech = w.tech||[];
+  $("#v-detail").innerHTML = `
+    <div class="topbar">
+      <button class="back" id="back" aria-label="กลับ"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-7-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <h2><span data-t="detail.head">รายละเอียดผลงาน</span> <i>♥</i></h2>
+      <button class="fav ${on?'on':''}" data-fav="${w.id}" style="position:static;margin-left:auto"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 5.8-8 11-8 11z" stroke-linejoin="round"/></svg></button>
+    </div>
+    <div class="detail">
+      <div>
+        <div class="hero">${art(w, variant)}<button class="btn s sm editonly" style="position:absolute;right:10px;top:10px;z-index:3" data-wedit="${w.id}">🖼 เปลี่ยนรูป</button></div>
+        <div class="sec-title"><span><span data-t="detail.shots">ภาพตัวอย่างผลงาน</span> <i>♥</i></span><span class="counter">${variant+1}/3</span></div>
+        <div class="shots">
+          ${[0,1,2].map(i=>`<div class="shot ${i===variant?'on':''}" data-shot="${i}">${art(w,i)}</div>`).join("")}
+        </div>
+      </div>
+      <div class="d-info">
+        <div class="adm-bar editonly" style="margin-top:0"><button class="btn s sm" data-wedit="${w.id}">✏️ แก้หมวดหมู่/วันที่/สี/รูป/ลิงก์</button><button class="btn d sm" data-wdel="${w.id}">🗑 ลบผลงานนี้</button></div>
+        <span class="tag ${tagClass(w.cat)}">${esc(w.cat)}</span>
+        <h2 class="title"><span data-wf="title" ${wid} ${ce}>${esc(w.title)}</span> <i>♥</i></h2>
+        <p class="desc" data-wf="desc" ${wid} data-multi ${ce}>${esc(w.desc)}</p>
+        <div class="meta">
+          <div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18" stroke-linecap="round"/></svg>${thDate(w.date)}</div>
+          <div><svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z" stroke-linejoin="round"/></svg>${esc(w.cat)}</div>
+          <div class="ok"><b>✓</b>${esc(w.status)}</div>
+        </div>
+        <div class="sec-title" style="margin-top:6px"><span><span data-t="detail.details">รายละเอียดงาน</span> <i>♥</i></span></div>
+        <ul class="checks">${details.map((d,i)=>`<li><span data-wl="details" data-i="${i}" ${wid} ${ce}>${esc(d)}</span><button class="x" data-wlrm="details" data-i="${i}" ${wid}>×</button></li>`).join("")}</ul>
+        <button class="btn s sm addbtn" data-wladd="details" ${wid}>＋ เพิ่มข้อ</button>
+        <div class="sec-title"><span><span data-t="detail.tech">เทคโนโลยีที่ใช้</span> <i>♥</i></span></div>
+        <div class="techs">${tech.map((t,i)=>`<span class="tech"><span data-wl="tech" data-i="${i}" ${wid} ${ce}>${esc(t)}</span><button class="x" data-wlrm="tech" data-i="${i}" ${wid}>×</button></span>`).join("")}
+          <button class="btn s sm addbtn" data-wladd="tech" ${wid}>＋ เพิ่ม</button></div>
+        ${(()=>{ const u = safeUrl(w.link);
+          const ico = `<svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+          if(u) return `<a class="cta" data-ext href="${esc(u)}" target="_blank" rel="noopener noreferrer">${ico}<span data-t="detail.cta3">View Demo</span></a>`;
+          return E ? `<div class="cta off" role="button" tabindex="0" data-wedit="${w.id}">${ico}<span>ยังไม่มีลิงก์ — กดเพื่อวางลิงก์ตัวอย่างงาน</span></div>` : `<div class="cta soon" role="button" tabindex="0" data-soon>${ico}<span data-t="detail.cta3">View Demo</span></div>`; })()}
+      </div>
+    </div>`;
+  decorate($("#v-detail"));
+}
+
+/* ระบบเปลี่ยนหน้า (hash routing) */
+function show(name){
+  $$(".view").forEach(v=>v.classList.remove("show"));
+  $("#v-"+name).classList.add("show");
+  const navKey = name==="detail" ? "works" : name;
+  $$(".nav .nb").forEach(b=>b.classList.toggle("on", b.dataset.go===navKey));
+  window.scrollTo({top:0});
+}
+function go(page){ location.hash = "#/"+page; }
+function route(){
+  const parts = location.hash.replace(/^#\/?/,"").split("/");
+  const page = parts[0] || "home";
+  if(page==="work"){ renderDetail(parts[1]); show("detail"); return; }
+  if(page==="works"){ renderChips(); renderGrid(); }
+  if(page==="home"){ renderHome(); }
+  if(page==="admin"){ renderAdmin(); }
+  show(["home","works","about","contact","admin"].includes(page)?page:"home");
+  decorate();
+}
+window.addEventListener("hashchange", route);
+
+/* เหตุการณ์ต่างๆ */
+function openExt(u){
+  let w = null;
+  try{ w = window.open(u, "_blank"); }catch(e){}
+  if(w){ try{ w.opener = null; }catch(e){} return; }
+  /* เปิดไม่ได้ (หน้าตัวอย่างในแอปบล็อกลิงก์ออกนอก) → แสดงลิงก์ให้คัดลอกไปเปิดเอง */
+  modal.innerHTML = `<div class="box" style="max-width:420px;text-align:center">
+    <h3>เปิดลิงก์ตัวอย่างงาน</h3>
+    <p style="margin:6px 0 12px;font-size:14px;color:var(--muted,#8a7380)">หน้านี้เปิดลิงก์ออกไปข้างนอกโดยตรงไม่ได้ คัดลอกลิงก์ไปเปิดในเบราว์เซอร์ได้เลยนะ</p>
+    <input id="extUrl" readonly value="${esc(u)}" style="width:100%;text-align:center" onfocus="this.select()">
+    <div class="adm-bar" style="justify-content:center;margin:14px 0 0">
+      <button type="button" class="btn s sm" data-close>ปิด</button>
+      <button type="button" class="btn p sm" id="extCopy">คัดลอกลิงก์</button>
+    </div></div>`;
+  modal.classList.add("show");
+  $("#extCopy").onclick = async ()=>{
+    const inp = $("#extUrl");
+    try{ await navigator.clipboard.writeText(u); }
+    catch(e){ inp.focus(); inp.select(); try{ document.execCommand("copy"); }catch(_){} }
+    toast("คัดลอกลิงก์แล้ว ♥");
+  };
+}
+document.addEventListener("click", e=>{
+  if(e.target.closest && e.target.closest("[data-catmgr]")){ openCatMgr(); return; }
+  if(e.target.closest && e.target.closest("[data-soon]")){ toast("Demo coming soon ♥"); return; }
+  const ext = e.target.closest && e.target.closest("a[data-ext]");
+  if(ext){ e.preventDefault(); openExt(ext.href); return; }
+  if(isEditing() && e.target.closest("[contenteditable=true]")) return;   // กำลังพิมพ์แก้ข้อความ ไม่ต้องเปลี่ยนหน้า
+  const fav = e.target.closest("[data-fav]");
+  if(fav){
+    e.stopPropagation();
+    const id = +fav.dataset.fav;
+    const i = favs.indexOf(id);
+    if(i>-1){ favs.splice(i,1); toast("เอาออกจากรายการที่ชอบแล้ว"); } else { favs.push(id); toast("เพิ่มในรายการที่ชอบแล้ว ♥"); }
+    saveFavs();
+    $$(`[data-fav="${id}"]`).forEach(b=>b.classList.toggle("on", favs.includes(id)));
+    $("#st-fav").textContent = favs.length;
+    if($("#v-works").classList.contains("show") && state.favOnly) renderGrid();
+    return;
+  }
+  if(adminOK){
+    let b;
+    if((b=e.target.closest("[data-wedit]"))){ openForm(b.dataset.wedit); return; }
+    if((b=e.target.closest("[data-wdel]"))){ deleteWork(b.dataset.wdel); return; }
+    if(e.target.closest("[data-wadd]")){ openForm(); return; }
+    if((b=e.target.closest("[data-wlrm]"))){ const f=b.dataset.wlrm; updWork(b.dataset.wid,w=>w[f].splice(+b.dataset.i,1)); renderDetail(b.dataset.wid,curVar); return; }
+    if((b=e.target.closest("[data-wladd]"))){ const f=b.dataset.wladd; updWork(b.dataset.wid,w=>{ (w[f]=w[f]||[]).push("ข้อความใหม่"); }); renderDetail(b.dataset.wid,curVar); focusLast(`#v-detail [data-wl="${f}"]`); return; }
+    if((b=e.target.closest("[data-slrm]"))){ const k=b.dataset.slrm; CONFIG[k].splice(+b.dataset.i,1); saveSiteCfg(); applySite(); return; }
+    if((b=e.target.closest("[data-sladd]"))){ const k=b.dataset.sladd; CONFIG[k].push("ข้อความใหม่"); saveSiteCfg(); applySite(); focusLast(`[data-sl="${k}"]`); return; }
+    if((b=e.target.closest("[data-crm]"))){ CONFIG.contacts.splice(+b.dataset.crm,1); saveSiteCfg(); applySite(); return; }
+    if(e.target.closest("[data-cadd]")){ CONFIG.contacts.push({icon:"✨",label:"ช่องทางใหม่",href:"#"}); saveSiteCfg(); applySite(); return; }
+  }
+  const goBtn = e.target.closest("[data-go]");
+  if(goBtn){
+    if(goBtn.dataset.about){ window.__ask = goBtn.dataset.about; }
+    go(goBtn.dataset.go);
+    if(goBtn.dataset.about){ setTimeout(()=>{ const t=document.querySelector("#form textarea"); if(t && !t.value) t.value = `สนใจจ้างงานลักษณะเดียวกับ “${goBtn.dataset.about}” ค่ะ/ครับ\n`; },60); }
+    return;
+  }
+  const chip = e.target.closest("[data-cat]");
+  if(chip){ state.cat = chip.dataset.cat; renderChips(); renderGrid(); return; }
+  const shot = e.target.closest("[data-shot]");
+  if(shot){ const id = location.hash.split("/")[2]; renderDetail(id, +shot.dataset.shot); return; }
+  if(e.target.closest("#back")){ history.length>1 ? history.back() : go("works"); return; }
+  const c = e.target.closest(".card");
+  if(c){ location.hash = "#/work/"+c.dataset.id; }
+});
+$("#q").addEventListener("input", e=>{ state.q = e.target.value; renderGrid(); });
+$("#favOnly").addEventListener("click", e=>{
+  state.favOnly = !state.favOnly;
+  e.currentTarget.classList.toggle("on", state.favOnly);
+  toast(state.favOnly ? "แสดงเฉพาะที่ชอบ ♥" : "แสดงผลงานทั้งหมด");
+  renderGrid();
+});
+$("#form").addEventListener("submit", e=>{
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const body = `ชื่อ: ${f.get("name")}\nอีเมล: ${f.get("email")}\n\n${f.get("msg")}`;
+  location.href = `mailto:${CONFIG.contactEmail}?subject=${encodeURIComponent("สอบถามงานจากเว็บไซต์ผลงาน")}&body=${encodeURIComponent(body)}`;
+  toast("กำลังเปิดแอปอีเมลของคุณ ✈");
+});
+
+let tT;
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(tT); tT=setTimeout(()=>t.classList.remove("show"),1800); }
+
+/* =====================  หลังบ้าน (Admin)  ===================== */
+let adminOK = false; try { adminOK = sessionStorage.getItem("adm")==="1"; } catch(e){}
+let draft = {imgs:["","",""]};
+const modal = document.createElement("div");
+modal.className = "modal"; document.body.appendChild(modal);
+
+function saveWorks(){
+  try { localStorage.setItem(ADMIN_KEY, JSON.stringify(WORKS)); return true; }
+  catch(e){ toast("พื้นที่เก็บข้อมูลเต็ม ลองลดจำนวนหรือขนาดรูป"); return false; }
+}
+const esc = s => String(s??"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function mix(hex,t){
+  const n = parseInt(hex.slice(1),16), r=n>>16, g=(n>>8)&255, b=n&255;
+  const m = v => Math.round(v+(255-v)*t).toString(16).padStart(2,"0");
+  return "#"+m(r)+m(g)+m(b);
+}
+function readImg(file){
+  return new Promise((res,rej)=>{
+    const fr = new FileReader();
+    fr.onload = ()=>{ const im = new Image();
+      im.onload = ()=>{ const s = Math.min(1, 900/Math.max(im.width,im.height));
+        const c = document.createElement("canvas"); c.width = im.width*s; c.height = im.height*s;
+        c.getContext("2d").drawImage(im,0,0,c.width,c.height); res(c.toDataURL("image/jpeg",.78)); };
+      im.onerror = rej; im.src = fr.result; };
+    fr.onerror = rej; fr.readAsDataURL(file);
+  });
+}
+
+function renderAdmin(){
+  const box = $("#v-admin");
+  if(!adminOK){
+    box.innerHTML = `<div class="adm"><div class="page-head"><div><h1>หลังบ้าน <i>🔒</i></h1><p>กรอกรหัสผ่านเพื่อจัดการผลงาน</p></div></div>
+      <form class="panel form" id="login"><input type="password" id="pw" placeholder="รหัสผ่าน" autocomplete="current-password" required><button class="cta" style="margin:0" type="submit">เข้าสู่ระบบ</button></form></div>`;
+    return;
+  }
+  const rows = [...WORKS].sort((a,b)=>b.date.localeCompare(a.date)).map(w=>`
+    <div class="adm-row">
+      <div class="th">${art(w)}</div>
+      <div class="info"><h4>${esc(w.title)}</h4><small>${esc(w.cat)} · ${thDate(w.date)}</small></div>
+      <div class="acts"><button class="btn s sm" data-edit="${w.id}">✏️ แก้ไข</button><button class="btn d sm" data-del="${w.id}">🗑 ลบ</button></div>
+    </div>`).join("");
+  box.innerHTML = `<div class="adm">
+    <div class="page-head"><div><h1>จัดการผลงาน <i>♥</i></h1><p>ทั้งหมด ${WORKS.length} ผลงาน</p></div></div>
+    <div class="adm-bar">
+      <button class="btn p sm" data-go="home">✏️ ไปแก้ไขหน้าเว็บ</button>
+      <button class="btn p sm" data-add>＋ เพิ่มผลงานใหม่</button>
+      <button class="btn s sm" data-site>⚙️ ตั้งค่าเว็บไซต์</button>
+      <button class="btn s sm" data-export>⬇ ส่งออกไฟล์สำรอง</button>
+      <label class="btn s sm" style="cursor:pointer">⬆ นำเข้าไฟล์<input type="file" accept=".json" id="imp" style="display:none"></label>
+      <button class="btn d sm" data-reset>↺ คืนค่าเริ่มต้น</button>
+      <button class="btn d sm" data-resettexts>↺ คืนข้อความหน้าเว็บ</button>
+      <button class="btn s sm" data-logout>ออกจากระบบ</button>
+    </div>
+    <div class="note">💡 ข้อมูลที่แก้ไขจะถูกเก็บไว้ใน <b>เบราว์เซอร์เครื่องนี้</b> เท่านั้น ผู้เข้าชมคนอื่นจะยังไม่เห็น หากต้องการให้เห็นทุกคน ให้กด “ส่งออกไฟล์สำรอง” แล้วนำข้อมูลไปแทนที่ใน <code>DEFAULT_WORKS</code> ของไฟล์ HTML หรือเชื่อมฐานข้อมูลจริง (เช่น Supabase) และรหัสผ่านนี้ป้องกันได้แค่ระดับเบื้องต้น</div>
+    ${rows || '<div class="empty" style="display:block">ยังไม่มีผลงาน กด “เพิ่มผลงานใหม่” ได้เลย</div>'}
+  </div>`;
+}
+
+function slotHTML(i){
+  const names = ["ภาพปก","ภาพตัวอย่าง 2","ภาพตัวอย่าง 3"];
+  const src = draft.imgs[i];
+  return `<div class="slot"><div class="pv" id="pv${i}">${src?`<img src="${src}">`:"＋"}</div>
+    <label class="pick">${names[i]}<input type="file" accept="image/*" data-slot="${i}"></label>
+    <button type="button" class="rm" data-rmslot="${i}">ลบรูป</button></div>`;
+}
+function openForm(id){
+  const w = id ? WORKS.find(x=>x.id==id) : null;
+  draft = {imgs:["","",""]};
+  if(w){ draft.imgs = [w.img||"", (w.shots||[])[1]||"", (w.shots||[])[2]||""]; }
+  const cats = [...new Set([...WORKS.map(x=>x.cat),"เว็บไซต์","แอปพลิเคชัน","ร้านค้าออนไลน์"])];
+  modal.innerHTML = `<div class="box"><h3>${w?"แก้ไขผลงาน":"เพิ่มผลงานใหม่"}</h3>
+  <form id="wform" data-id="${w?w.id:""}">
+    <div class="fld"><label>ชื่อผลงาน *</label><input name="title" required value="${esc(w?.title)}"></div>
+    <div class="fld"><label>หมวดหมู่ * (พิมพ์เองได้เลย หรือแตะเลือกจากที่มีอยู่)</label>
+      <input name="cat" required autocomplete="off" value="${esc(w?.cat||"เว็บไซต์")}">
+      <div class="cat-pick">${cats.map(c=>`<button type="button" class="chip" data-pickcat="${esc(c)}">${esc(c)}</button>`).join("")}</div></div>
+    <div class="fld"><label>วันที่ส่งงาน *</label><input type="date" name="date" required value="${w?.date||new Date().toISOString().slice(0,10)}"></div>
+    <div class="fld"><label>คำอธิบายสั้นๆ</label><textarea name="desc">${esc(w?.desc)}</textarea></div>
+    <div class="fld"><label>ลิงก์ตัวอย่างงาน (กดปุ่ม "ดูตัวอย่างงาน" แล้วจะเด้งไปที่ลิงก์นี้)</label><input type="url" name="link" inputmode="url" autocapitalize="off" placeholder="https://ตัวอย่างงานของคุณ.com" value="${esc(w?.link)}"></div>
+    <div class="fld"><label>รายละเอียดงาน (1 บรรทัด = 1 ข้อ)</label><textarea name="details">${esc((w?.details||[]).join("\n"))}</textarea></div>
+    <div class="fld"><label>เทคโนโลยีที่ใช้ (คั่นด้วยจุลภาค ,)</label><input name="tech" placeholder="Next.js, Tailwind CSS" value="${esc((w?.tech||[]).join(", "))}"></div>
+    <div class="row2">
+      <div class="fld"><label>สถานะ</label><select name="status"><option>เสร็จสมบูรณ์</option><option ${w?.status==="กำลังดำเนินการ"?"selected":""}>กำลังดำเนินการ</option></select></div>
+      <div class="fld"><label>รูปแบบภาพจำลอง (กรณีไม่มีรูป)</label><select name="kind"><option value="laptop">คอมพิวเตอร์</option><option value="phone" ${w?.kind==="phone"?"selected":""}>มือถือ</option></select></div>
+    </div>
+    <div class="row2">
+      <div class="fld"><label>สีหลัก</label><input type="color" name="color" value="${w?.theme?.a||"#ff7eb3"}"></div>
+      <div class="fld"><label>อีโมจิประจำงาน</label><input name="emoji" maxlength="4" value="${esc(w?.emoji||"✨")}"></div>
+    </div>
+    <div class="fld"><label>รูปภาพผลงาน (ปรับขนาดอัตโนมัติ)</label><div class="slots">${[0,1,2].map(slotHTML).join("")}</div></div>
+    <div class="adm-bar" style="justify-content:flex-end;margin-bottom:0">
+      <button type="button" class="btn s sm" data-close>ยกเลิก</button>
+      <button type="submit" class="btn p sm">💾 บันทึก</button>
+    </div></form></div>`;
+  modal.classList.add("show");
+}
+const closeForm = ()=>modal.classList.remove("show");
+
+/* จัดการหมวดหมู่: เปลี่ยนชื่อหมวดทีเดียวทุกผลงาน */
+function openCatMgr(){
+  const cats = [...new Set(WORKS.map(w=>w.cat))];
+  modal.innerHTML = `<div class="box"><h3>จัดการหมวดหมู่</h3>
+    <p style="font-size:13.5px;margin:4px 0 12px;opacity:.75">แก้ชื่อหมวดได้เลย ผลงานในหมวดนั้นจะเปลี่ยนตามทั้งหมด ถ้าตั้งชื่อซ้ำกับหมวดอื่นจะรวมเป็นหมวดเดียวกัน</p>
+    <form id="cform">${cats.map((c,i)=>`<div class="fld"><label>${esc(c)} · ${WORKS.filter(w=>w.cat===c).length} ชิ้น</label><input name="c${i}" data-old="${esc(c)}" required value="${esc(c)}" autocomplete="off"></div>`).join("")}
+    <div class="adm-bar" style="justify-content:flex-end;margin-bottom:0">
+      <button type="button" class="btn s sm" data-close>ยกเลิก</button>
+      <button type="submit" class="btn p sm">💾 บันทึก</button>
+    </div></form></div>`;
+  modal.classList.add("show");
+}
+
+modal.addEventListener("click", async e=>{
+  if(e.target===modal || e.target.closest("[data-close]")){ closeForm(); return; }
+  const pk = e.target.closest("[data-pickcat]");
+  if(pk){ const inp = modal.querySelector('input[name="cat"]'); if(inp){ inp.value = pk.dataset.pickcat; } return; }
+  const rm = e.target.closest("[data-rmslot]");
+  if(rm){ const i=+rm.dataset.rmslot; draft.imgs[i]=""; $("#pv"+i).innerHTML="＋"; }
+});
+modal.addEventListener("change", async e=>{
+  const inp = e.target.closest("[data-slot]"); if(!inp || !inp.files[0]) return;
+  try { const url = await readImg(inp.files[0]); const i=+inp.dataset.slot;
+    draft.imgs[i]=url; $("#pv"+i).innerHTML=`<img src="${url}">`; } catch(err){ toast("อ่านรูปไม่สำเร็จ"); }
+});
+modal.addEventListener("submit", e=>{
+  e.preventDefault();
+  if(e.target.id==="sform"){ saveSite(new FormData(e.target)); return; }
+  if(e.target.id==="cform"){
+    const map = {}; e.target.querySelectorAll("input[data-old]").forEach(i=>{ const n = i.value.trim(); if(n) map[i.dataset.old] = n; });
+    const prev = WORKS.slice();
+    WORKS = WORKS.map(w=> map[w.cat] ? {...w, cat: map[w.cat]} : w);
+    if(map[state.cat]) state.cat = map[state.cat];
+    if(saveWorks()){ closeForm(); renderChips(); refreshViews(); renderAdmin(); toast("แก้หมวดหมู่แล้ว ♥"); }
+    else WORKS = prev;
+    return;
+  }
+  const f = new FormData(e.target), idAttr = e.target.dataset.id;
+  const color = f.get("color");
+  const w = {
+    id: idAttr ? +idAttr : (WORKS.reduce((m,x)=>Math.max(m,x.id),0)+1),
+    cat: f.get("cat").trim(), title: f.get("title").trim(), date: f.get("date"),
+    status: f.get("status"), desc: f.get("desc").trim(),
+    theme: {a:color, b:mix(color,.6), c:mix(color,.88)},
+    emoji: f.get("emoji")||"✨", kind: f.get("kind"),
+    details: f.get("details").split("\n").map(s=>s.trim()).filter(Boolean),
+    link: safeUrl(f.get("link")),
+    tech: f.get("tech").split(",").map(s=>s.trim()).filter(Boolean),
+    img: draft.imgs[0], shots: ["", draft.imgs[1], draft.imgs[2]]
+  };
+  const prev = WORKS.slice();
+  const i = WORKS.findIndex(x=>x.id===w.id);
+  WORKS = WORKS.slice(); if(i>-1) WORKS[i]=w; else WORKS.push(w);
+  if(saveWorks()){ closeForm(); renderAdmin(); refreshViews(); toast("บันทึกเรียบร้อย ♥"); }
+  else WORKS = prev;
+});
+
+$("#v-admin").addEventListener("submit", e=>{
+  if(e.target.id==="login"){
+    e.preventDefault();
+    if($("#pw").value===CONFIG.adminPassword){ adminOK = true; editMode = true; try{sessionStorage.setItem("adm","1");}catch(e){} refreshEdit(); renderAdmin(); toast("เข้าสู่ระบบแล้ว ไปหน้าอื่นเพื่อแก้ไขได้เลย ♥"); }
+    else toast("รหัสผ่านไม่ถูกต้อง");
+  }
+});
+$("#v-admin").addEventListener("click", e=>{
+  const t = e.target;
+  if(t.closest("[data-add]")) return openForm();
+  const ed = t.closest("[data-edit]"); if(ed) return openForm(ed.dataset.edit);
+  const del = t.closest("[data-del]");
+  if(del){
+    const w = WORKS.find(x=>x.id==del.dataset.del);
+    askConfirm(`ลบ “${w.title}” ใช่ไหม? การลบนี้ย้อนกลับไม่ได้`).then(ok=>{
+      if(!ok) return;
+      WORKS = WORKS.filter(x=>x.id!==w.id); favs = favs.filter(x=>x!==w.id); saveFavs(); saveWorks(); renderAdmin(); toast("ลบแล้ว");
+    }); return;
+  }
+  if(t.closest("[data-export]")){
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([JSON.stringify({works:WORKS,texts:TEXTS,site:siteObj(false)},null,2)],{type:"application/json"}));
+    a.download = "works-backup.json"; a.click(); return;
+  }
+  if(t.closest("[data-reset]")){
+    askConfirm("คืนค่าเป็นผลงานตัวอย่างเริ่มต้น? ผลงานที่เพิ่ม/แก้ไขไว้จะหายทั้งหมด").then(ok=>{
+      if(!ok) return;
+      WORKS = clone(DEFAULT_WORKS); try{localStorage.removeItem(ADMIN_KEY);}catch(e){} renderAdmin(); toast("คืนค่าแล้ว");
+    }); return;
+  }
+  if(t.closest("[data-site]")) return openSite();
+  if(t.closest("[data-resettexts]")){
+    askConfirm("คืนข้อความหัวข้อ/ปุ่มทั้งหมดในหน้าเว็บเป็นค่าเริ่มต้น?").then(ok=>{ if(!ok) return; TEXTS={}; saveTexts(); refreshViews(); toast("คืนข้อความแล้ว"); }); return;
+  }
+  if(t.closest("[data-logout]")){ doLogout(); }
+});
+$("#v-admin").addEventListener("change", e=>{
+  if(e.target.id!=="imp" || !e.target.files[0]) return;
+  const fr = new FileReader();
+  fr.onload = ()=>{ try{ const p = JSON.parse(fr.result);
+      const arr = Array.isArray(p) ? p : p.works; if(!Array.isArray(arr)) throw 0;
+      WORKS = arr; saveWorks();
+      if(p.texts && typeof p.texts==="object"){ TEXTS = p.texts; saveTexts(); }
+      if(p.site && typeof p.site==="object"){ Object.assign(CONFIG, p.site); saveSiteCfg(); }
+      refreshEdit(); renderAdmin(); toast("นำเข้าข้อมูลแล้ว ♥"); }
+    catch(err){ toast("ไฟล์ไม่ถูกต้อง"); } };
+  fr.readAsText(e.target.files[0]);
+});
+
+/* =====================  โหมดแก้ไขในหน้าเว็บ  ===================== */
+const isEditing = () => adminOK && editMode;
+const saveTexts = () => { try{ localStorage.setItem(TEXTS_KEY, JSON.stringify(TEXTS)); }catch(e){ toast("บันทึกไม่สำเร็จ"); } };
+function siteObj(withPw=true){
+  const o = {owner:CONFIG.owner, about:CONFIG.about, intro:CONFIG.intro, skills:CONFIG.skills, styles:CONFIG.styles, contacts:CONFIG.contacts, contactEmail:CONFIG.contactEmail, logo:CONFIG.logo||""};
+  if(withPw) o.adminPassword = CONFIG.adminPassword; return o;
+}
+function saveSiteCfg(){ try{ localStorage.setItem(SITE_KEY, JSON.stringify(siteObj())); }catch(e){ toast("บันทึกไม่สำเร็จ"); } }
+function updWork(id, fn){ const w = WORKS.find(x=>x.id==id); if(w){ fn(w); saveWorks(); } }
+function focusLast(sel){
+  setTimeout(()=>{ const els = document.querySelectorAll(sel), el = els[els.length-1]; if(!el) return;
+    el.focus(); try{ const r=document.createRange(); r.selectNodeContents(el); const g=getSelection(); g.removeAllRanges(); g.addRange(r); }catch(e){} },40);
+}
+function decorate(root=document){
+  const E = isEditing();
+  root.querySelectorAll("[data-t]").forEach(el=>{
+    if(el.dataset.def===undefined) el.dataset.def = el.textContent;
+    const k = el.dataset.t;
+    el.textContent = TEXTS[k]!==undefined ? TEXTS[k] : el.dataset.def;
+    if(E) el.setAttribute("contenteditable","true"); else el.removeAttribute("contenteditable");
+  });
+  root.querySelectorAll("[data-s]").forEach(el=>{
+    if(E) el.setAttribute("contenteditable","true"); else el.removeAttribute("contenteditable");
+  });
+}
+function refreshViews(){
+  const parts = location.hash.replace(/^#\/?/,"").split("/"), p = parts[0]||"home";
+  if(p==="work") renderDetail(parts[1], curVar);
+  else if(p==="works"){ renderChips(); renderGrid(); }
+  else if(p==="home") renderHome();
+  else if(p==="admin") renderAdmin();
+  decorate();
+}
+function refreshEdit(){
+  const E = isEditing();
+  document.body.classList.toggle("admin", adminOK);
+  document.body.classList.toggle("editing", E);
+  $("#editbar").style.display = adminOK ? "flex" : "none";
+  const tg = $("#eb-toggle"); tg.textContent = editMode ? "✏️ กำลังแก้ไข" : "👁 ดูตัวอย่าง"; tg.classList.toggle("on", editMode);
+  applySite(); refreshViews();
+}
+function doLogout(){
+  adminOK = false; try{ sessionStorage.removeItem("adm"); }catch(e){}
+  refreshEdit(); renderAdmin();
+}
+function deleteWork(id){
+  const w = WORKS.find(x=>x.id==id); if(!w) return;
+  askConfirm(`ลบ “${w.title}” ใช่ไหม? การลบนี้ย้อนกลับไม่ได้`).then(ok=>{
+    if(!ok) return;
+    WORKS = WORKS.filter(x=>x.id!==w.id); favs = favs.filter(x=>x!==w.id); saveFavs(); saveWorks();
+    toast("ลบแล้ว");
+    if(location.hash.startsWith("#/work/")) go("works"); else { renderAdmin(); refreshViews(); }
+  });
+}
+$("#eb-toggle").addEventListener("click", ()=>{ editMode = !editMode; refreshEdit(); toast(editMode ? "เปิดโหมดแก้ไข ✏️" : "ปิดโหมดแก้ไข (ดูตัวอย่าง)"); });
+$("#eb-out").addEventListener("click", ()=>{ doLogout(); go("home"); toast("ออกจากระบบแล้ว"); });
+
+/* พิมพ์แก้ข้อความ: Enter = เสร็จ, วางเป็นข้อความธรรมดา, ออกจากช่อง = บันทึก */
+document.addEventListener("keydown", e=>{
+  const el = e.target;
+  if(el.matches && el.matches("[role=button]:not([contenteditable])") && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); el.click(); return; }
+  if(!isEditing() || !el.matches || !el.matches("[contenteditable=true]")) return;
+  if(e.key==="Enter" && el.dataset.multi===undefined){ e.preventDefault(); el.blur(); }
+});
+document.addEventListener("paste", e=>{
+  const el = e.target.closest && e.target.closest("[contenteditable=true]"); if(!el) return;
+  e.preventDefault();
+  const t = (e.clipboardData||window.clipboardData).getData("text/plain");
+  document.execCommand("insertText", false, el.dataset.multi!==undefined ? t : t.replace(/\s*\n\s*/g," "));
+});
+document.addEventListener("focusout", e=>{
+  const el = e.target; if(!isEditing() || !el.matches || !el.matches("[contenteditable=true]")) return;
+  const val = (el.dataset.multi!==undefined ? el.innerText : el.textContent).trim();
+  if(el.matches("[data-t]")){ TEXTS[el.dataset.t] = val; saveTexts(); }
+  else if(el.matches("[data-s]")){ CONFIG[el.dataset.s] = val; saveSiteCfg(); }
+  else if(el.matches("[data-sl]")){ CONFIG[el.dataset.sl][+el.dataset.i] = val; saveSiteCfg(); }
+  else if(el.matches("[data-wf]")){
+    if(el.dataset.wf==="title" && !val){ const w=WORKS.find(x=>x.id==el.dataset.wid); if(w) el.textContent = w.title; return; }
+    updWork(el.dataset.wid, w=>{ w[el.dataset.wf] = val; });
+  }
+  else if(el.matches("[data-wl]")){ updWork(el.dataset.wid, w=>{ w[el.dataset.wl][+el.dataset.i] = val; }); }
+});
+document.addEventListener("change", e=>{
+  const t = e.target; if(!adminOK || !t.matches) return;
+  if(t.matches("[data-ci]")){ CONFIG.contacts[+t.dataset.i][t.dataset.ci] = t.value.trim(); saveSiteCfg(); }
+  else if(t.matches("[data-cemail]")){ CONFIG.contactEmail = t.value.trim(); saveSiteCfg(); }
+});
+
+/* กล่องยืนยัน (ใช้แทน confirm() ที่บางหน้าต่างพรีวิวบล็อกไว้) */
+const dlg = document.createElement("div");
+dlg.className = "modal"; dlg.style.zIndex = 120; document.body.appendChild(dlg);
+function askConfirm(msg){
+  return new Promise(res=>{
+    dlg.innerHTML = `<div class="box" style="margin-top:20vh;width:min(380px,100%);text-align:center"><p style="margin-bottom:16px;line-height:1.6;color:var(--navy)">${esc(msg)}</p><div class="adm-bar" style="justify-content:center;margin:0"><button class="btn s sm" data-no>ยกเลิก</button><button class="btn d sm" data-yes>ยืนยัน</button></div></div>`;
+    dlg.classList.add("show");
+    dlg.onclick = e=>{
+      if(e.target.closest("[data-yes]")){ dlg.classList.remove("show"); res(true); }
+      else if(e.target===dlg || e.target.closest("[data-no]")){ dlg.classList.remove("show"); res(false); }
+    };
+  });
+}
+
+/* ตั้งค่าเว็บไซต์ (ชื่อ แนะนำตัว ทักษะ ช่องทางติดต่อ ฯลฯ) */
+const ICONS = {
+  mail:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>',
+  line:'<path d="M21 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.6A8 8 0 1 1 21 11.5z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/>',
+  facebook:'<path d="M14 21v-8h3l.5-3.5H14V7.5A1.5 1.5 0 0 1 15.5 6h2V3h-3A4 4 0 0 0 10.5 7v2.5H8V13h2.5v8z"/>',
+  phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
+  link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'
+};
+const ICON_ALIAS = {"💌":"mail","✉️":"mail","📧":"mail","💬":"line","📘":"facebook","📞":"phone","☎️":"phone","📱":"phone","🔗":"link"};
+function iconHTML(k){
+  const key = ICONS[k] ? k : ICON_ALIAS[k];
+  return key ? `<span class="ic"><svg viewBox="0 0 24 24">${ICONS[key]}</svg></span>` : `<span class="ic">${esc(k)}</span>`;
+}
+function applySite(){
+  const E = isEditing(), ce = E ? ' contenteditable="true"' : '';
+  $("#intro").textContent = CONFIG.intro;
+  $("#about-text").textContent = CONFIG.about;
+  $("#owner").textContent = CONFIG.owner;
+  $("#home-owner").textContent = CONFIG.owner;
+  const bm = $("#brand-mark");
+  if(CONFIG.logo){ bm.className = "brand-mark"; bm.innerHTML = `<img alt="${esc(CONFIG.owner)}" src="${esc(CONFIG.logo)}">`; }
+  else { bm.className = "brand-mark mono"; bm.textContent = (Array.from(CONFIG.owner||"M")[0]||"M").toUpperCase(); }
+  $("#logo-rm").style.display = CONFIG.logo ? "" : "none";
+  $("#year").textContent = new Date().getFullYear();
+  $("#styles").innerHTML = CONFIG.styles.map((x,i)=>`<li><span data-sl="styles" data-i="${i}"${ce}>${esc(x)}</span><button class="x" data-slrm="styles" data-i="${i}">×</button></li>`).join("")
+    + `<li class="addli"><button class="btn s sm addbtn" data-sladd="styles">＋ เพิ่มข้อ</button></li>`;
+  $("#skills").innerHTML = CONFIG.skills.map((x,i)=>`<span class="sk"><span data-sl="skills" data-i="${i}"${ce}>${esc(x)}</span><button class="x" data-slrm="skills" data-i="${i}">×</button></span>`).join("")
+    + `<button class="btn s sm addbtn" data-sladd="skills">＋ เพิ่ม</button>`;
+  $("#contacts").innerHTML = E
+    ? CONFIG.contacts.map((c,i)=>`<div class="crow-edit"><input data-ci="icon" data-i="${i}" value="${esc(c.icon)}" aria-label="ไอคอน"><input data-ci="label" data-i="${i}" value="${esc(c.label)}" placeholder="ข้อความที่แสดง"><input data-ci="href" data-i="${i}" value="${esc(c.href)}" placeholder="ลิงก์ เช่น mailto:..."><button class="x" data-crm="${i}">×</button></div>`).join("")
+      + `<button class="btn s sm addbtn" data-cadd>＋ เพิ่มช่องทางติดต่อ</button>`
+      + `<div class="fld" style="margin-top:10px"><label>อีเมลที่รับข้อความจากฟอร์ม</label><input data-cemail type="email" value="${esc(CONFIG.contactEmail)}" style="padding:11px 14px;border-radius:14px;border:2px solid #e6e3fb;outline:none"></div>`
+    : CONFIG.contacts.map(c=>`<a href="${esc(c.href)}" target="_blank" rel="noopener">${iconHTML(c.icon)}${esc(c.label)}</a>`).join("");
+}
+function openSite(){
+  const lines = CONFIG.contacts.map(c=>`${c.icon} | ${c.label} | ${c.href}`).join("\n");
+  modal.innerHTML = `<div class="box"><h3>⚙️ ตั้งค่าเว็บไซต์</h3>
+  <form id="sform">
+    <div class="fld"><label>ชื่อของคุณ / ชื่อแบรนด์ (ท้ายเว็บ)</label><input name="owner" value="${esc(CONFIG.owner)}"></div>
+    <div class="fld"><label>ข้อความแนะนำ (หน้าหลัก)</label><textarea name="intro">${esc(CONFIG.intro)}</textarea></div>
+    <div class="fld"><label>แนะนำตัว (หน้าเกี่ยวกับ)</label><textarea name="about">${esc(CONFIG.about)}</textarea></div>
+    <div class="fld"><label>ทักษะ (คั่นด้วยจุลภาค ,)</label><input name="skills" value="${esc(CONFIG.skills.join(", "))}"></div>
+    <div class="fld"><label>สไตล์การทำงาน (1 บรรทัด = 1 ข้อ)</label><textarea name="styles">${esc(CONFIG.styles.join("\n"))}</textarea></div>
+    <div class="fld"><label>ช่องทางติดต่อ (1 บรรทัด = 1 ช่องทาง รูปแบบ: ไอคอน | ข้อความ | ลิงก์)</label><textarea name="contacts" style="min-height:120px">${esc(lines)}</textarea></div>
+    <div class="fld"><label>อีเมลที่รับข้อความจากฟอร์ม</label><input type="email" name="contactEmail" value="${esc(CONFIG.contactEmail)}"></div>
+    <div class="fld"><label>เปลี่ยนรหัสผ่านหลังบ้าน (เว้นว่างถ้าไม่เปลี่ยน)</label><input type="password" name="pw" autocomplete="new-password"></div>
+    <div class="adm-bar" style="justify-content:flex-end;margin-bottom:0">
+      <button type="button" class="btn s sm" data-close>ยกเลิก</button>
+      <button type="submit" class="btn p sm">💾 บันทึก</button>
+    </div></form></div>`;
+  modal.classList.add("show");
+}
+function saveSite(f){
+  const split = (s,sep)=>s.split(sep).map(x=>x.trim()).filter(Boolean);
+  const contacts = split(f.get("contacts"),"\n").map(l=>{ const p=l.split("|").map(x=>x.trim()); return {icon:p[0]||"✨", label:p[1]||p[2]||"", href:p[2]||"#"}; }).filter(c=>c.label);
+  const pw = (f.get("pw")||"").trim();
+  const next = {
+    owner: f.get("owner").trim(), intro: f.get("intro").trim(), about: f.get("about").trim(),
+    skills: split(f.get("skills"),","), styles: split(f.get("styles"),"\n"),
+    contacts, contactEmail: f.get("contactEmail").trim(),
+    logo: CONFIG.logo||"",
+    adminPassword: pw || CONFIG.adminPassword
+  };
+  Object.assign(CONFIG, next);
+  try { localStorage.setItem(SITE_KEY, JSON.stringify(next)); } catch(e){ toast("บันทึกลงเบราว์เซอร์ไม่ได้"); return; }
+  applySite(); closeForm(); toast(pw ? "บันทึกแล้ว และเปลี่ยนรหัสผ่านแล้ว ♥" : "บันทึกการตั้งค่าแล้ว ♥");
+}
+
+/* โลโก้ / รูปร้าน (คงพื้นหลังโปร่งใสของ PNG ไว้) */
+function readLogo(file){
+  return new Promise((res,rej)=>{
+    const fr = new FileReader();
+    fr.onload = ()=>{ const im = new Image();
+      im.onload = ()=>{ const k = Math.min(1, 480/Math.max(im.width,im.height));
+        const c = document.createElement("canvas"); c.width = Math.max(1,Math.round(im.width*k)); c.height = Math.max(1,Math.round(im.height*k));
+        c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+        const keepAlpha = /png|webp|gif|svg/i.test(file.type);
+        res(keepAlpha ? c.toDataURL("image/png") : c.toDataURL("image/jpeg",.85)); };
+      im.onerror = rej; im.src = fr.result; };
+    fr.onerror = rej; fr.readAsDataURL(file);
+  });
+}
+$("#v-home").addEventListener("click", e=>{
+  if(e.target.closest("[data-logo-pick]")){ $("#logoPick").click(); return; }
+  if(e.target.closest("[data-logo-rm]")){ CONFIG.logo = ""; saveSiteCfg(); applySite(); toast("ลบรูปแล้ว"); }
+});
+$("#logoPick").addEventListener("change", async e=>{
+  const f = e.target.files[0]; if(!f) return;
+  try{ CONFIG.logo = await readLogo(f); saveSiteCfg(); applySite(); toast("ใส่โลโก้แล้ว ♥"); }
+  catch(err){ toast("อ่านรูปไม่สำเร็จ"); }
+  e.target.value = "";
+});
+
+/* ทางเข้าหลังบ้านแบบซ่อน: แตะชื่อร้านที่ท้ายเว็บ 5 ครั้งติดกัน */
+(function(){
+  let n = 0, t;
+  $("#owner").addEventListener("click", ()=>{
+    if(adminOK || isEditing()) return;
+    n++; clearTimeout(t); t = setTimeout(()=>{ n = 0; }, 2500);
+    if(n >= 5){ n = 0; go("admin"); }
+  });
+})();
+
+/* เริ่มต้น */
+(function init(){
+  refreshEdit();
+  const d = $("#deco");
+  ["top:-90px;left:-100px;background:#fadadf;width:320px;height:320px","top:38%;right:-170px;background:#e3e8f6;width:360px;height:360px;animation-delay:-6s","bottom:-120px;left:12%;background:#ffe9d2;width:300px;height:300px;animation-delay:-11s"].forEach(st=>{
+    const b = document.createElement("span"); b.className = "blob"; b.style.cssText = st; d.appendChild(b);
+  });
+  route();
+})();
+</script>
+<!-- =====================================================================
+  วางทั้งไฟล์นี้ใน portfolio-1.html ตรงก่อนบรรทัด </body>  (ต่อท้าย <script> เดิม)
+  ไม่ต้องแก้โค้ดเดิมเลย — สคริปต์นี้จะ
+   • โหลดผลงาน / ตั้งค่าเว็บ / ข้อความ จาก Supabase
+   • เซฟทุกอย่างที่แก้ในโหมดแก้ไขขึ้น Supabase อัตโนมัติ (รูปอัปโหลดเข้า Storage)
+   • เปลี่ยนล็อกอินหลังบ้านเป็น อีเมล + รหัสผ่าน (Supabase Auth)
+   • ฟอร์มติดต่อบันทึกลงตาราง contact_messages
+   ก่อนใช้: รัน SQL นี้ใน SQL Editor 1 ครั้ง เพื่อตั้งตัวเองเป็นแอดมิน
+     insert into public.admins (user_id)
+     values ('35e77a6c-87df-45d9-8b02-28e3c12007a2') on conflict do nothing;
+   ===================================================================== -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+const SB_URL = "https://ldzjzomkhemvvxyxovbs.supabase.co";
+const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxkemp6b21raGVtdnZ4eXhvdmJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0MDcwNTUsImV4cCI6MjEwODk4MzA1NX0.ImEgpSaC3X6Ker7rcvID_dTiRuWk9QAElbi4CIN6hsM"; // anon key (สาธารณะได้ ความปลอดภัยอยู่ที่ RLS)
+const BUCKET = "portfolio-media";
+if(!window.supabase){ toast("โหลด Supabase ไม่สำเร็จ"); return; }
+const sb = supabase.createClient(SB_URL, SB_KEY);
+const chk = r => { if(r.error) throw r.error; return r; };
+const isData = s => typeof s === "string" && s.startsWith("data:");
+
+/* ---------- โหลดข้อมูล ---------- */
+async function isAdm(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if(!session) return false;
+  const r = await sb.rpc("is_admin");
+  return r.data === true;
+}
+async function load(){
+  const [w, im, s, t] = await Promise.all([
+    sb.from("works_full").select("*").order("date",{ascending:false}),
+    sb.from("work_images").select("work_id,position,url"),
+    sb.from("site_settings").select("*").maybeSingle(),
+    sb.from("page_texts").select("key,value")
+  ]);
+  if(w.error){ toast("อ่านข้อมูลจาก Supabase ไม่ได้: " + w.error.message); return false; }
+  WORKS = w.data.map(r => {
+    const imgs = []; (im.data||[]).filter(i=>i.work_id===r.id).forEach(i=>{ imgs[i.position] = i.url; });
+    return { id:r.id, cat:r.cat, title:r.title, date:r.date, status:r.status, desc:r.desc,
+      theme:{ a:r.color, b:mix(r.color,.6), c:mix(r.color,.88) }, emoji:r.emoji, kind:r.kind,
+      details:r.details||[], tech:r.tech||[], link:r.link||"",
+      img:imgs[0]||"", shots:["", imgs[1]||"", imgs[2]||""], pub:r.is_published };
+  });
+  if(s.data){
+    const d = s.data;
+    Object.assign(CONFIG, { owner:d.owner_name, intro:d.intro, about:d.about, skills:d.skills||[],
+      styles:d.work_styles||[], contacts:d.contacts||[], contactEmail:d.contact_email||"", logo:d.logo_url||"" });
+  }
+  if(t.data){ TEXTS = Object.fromEntries(t.data.map(x=>[x.key, x.value])); }
+  return true;
+}
+
+/* ---------- เซฟขึ้น Supabase ---------- */
+async function up(dataUrl, path){
+  const b = await (await fetch(dataUrl)).blob();
+  chk(await sb.storage.from(BUCKET).upload(path, b, { contentType:b.type, upsert:true }));
+  return sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+}
+async function syncWorks(){
+  const names = [...new Set(WORKS.map(w=>w.cat))];
+  let c = chk(await sb.from("categories").select("id,name"));
+  const have = new Set(c.data.map(x=>x.name));
+  const add = names.filter(n=>!have.has(n)).map((name,i)=>({ name,
+    tag_style: name==="แอปพลิเคชัน" ? "blue" : name==="ร้านค้าออนไลน์" ? "green" : "pink", sort_order: c.data.length+i+1 }));
+  if(add.length) chk(await sb.from("categories").insert(add));
+  c = chk(await sb.from("categories").select("id,name"));
+  const cid = Object.fromEntries(c.data.map(x=>[x.name, x.id]));
+
+  for(const w of WORKS){
+    w.shots = w.shots || ["","",""];
+    if(isData(w.img)) w.img = await up(w.img, `works/${w.id}/0-${Date.now()}.jpg`);
+    for(const p of [1,2]) if(isData(w.shots[p])) w.shots[p] = await up(w.shots[p], `works/${w.id}/${p}-${Date.now()}.jpg`);
+  }
+  const rows = WORKS.map(w => ({ id:w.id, category_id:cid[w.cat], title:w.title, completed_on:w.date, status:w.status,
+    description:w.desc||"", color:w.theme.a, emoji:w.emoji||"✨", mockup_kind:w.kind||"laptop",
+    details:w.details||[], tech:w.tech||[], demo_url:w.link||null, is_published:w.pub!==false }));
+  if(rows.length) chk(await sb.from("works").upsert(rows));
+
+  const ex = chk(await sb.from("works").select("id"));
+  const keep = new Set(WORKS.map(w=>w.id));
+  const gone = ex.data.map(x=>x.id).filter(i=>!keep.has(i));
+  if(gone.length) chk(await sb.from("works").delete().in("id", gone));
+
+  const want = [];
+  WORKS.forEach(w => [w.img, w.shots[1], w.shots[2]].forEach((u,p)=>{ if(u && /^https?:/i.test(u)) want.push({ work_id:w.id, position:p, url:u }); }));
+  if(want.length) chk(await sb.from("work_images").upsert(want, { onConflict:"work_id,position" }));
+  const ei = chk(await sb.from("work_images").select("id,work_id,position"));
+  const wk = new Set(want.map(x=>x.work_id+":"+x.position));
+  const rm = ei.data.filter(x=>!wk.has(x.work_id+":"+x.position)).map(x=>x.id);
+  if(rm.length) chk(await sb.from("work_images").delete().in("id", rm));
+
+  const old = c.data.filter(x=>!names.includes(x.name)).map(x=>x.id);   // หมวดที่ถูกเปลี่ยนชื่อ/ไม่มีงานแล้ว
+  if(old.length) await sb.from("categories").delete().in("id", old);
+}
+async function syncSite(){
+  if(isData(CONFIG.logo)) CONFIG.logo = await up(CONFIG.logo, `site/logo-${Date.now()}.png`);
+  chk(await sb.from("site_settings").upsert({ id:true, owner_name:CONFIG.owner, intro:CONFIG.intro, about:CONFIG.about,
+    skills:CONFIG.skills, work_styles:CONFIG.styles, contacts:CONFIG.contacts,
+    contact_email:CONFIG.contactEmail||null, logo_url:CONFIG.logo||null }));
+}
+async function syncTexts(){
+  const rows = Object.entries(TEXTS).map(([key,value])=>({ key, value:String(value).slice(0,500) }));
+  if(rows.length) chk(await sb.from("page_texts").upsert(rows));
+  const ex = chk(await sb.from("page_texts").select("key"));
+  const gone = ex.data.map(x=>x.key).filter(k=>!(k in TEXTS));
+  if(gone.length) chk(await sb.from("page_texts").delete().in("key", gone));
+}
+
+/* ---------- ดักการเซฟเดิม (localStorage) แล้วส่งต่อขึ้น Supabase ---------- */
+const dirty = new Set(); let timer = null, busy = false;
+async function flush(){
+  if(busy){ timer = setTimeout(flush, 600); return; }
+  if(!adminOK){ dirty.clear(); return; }
+  busy = true; const jobs = [...dirty]; dirty.clear();
+  try{
+    if(jobs.includes("works")) await syncWorks();
+    if(jobs.includes("site"))  await syncSite();
+    if(jobs.includes("texts")) await syncTexts();
+  }catch(e){ console.error(e); toast("บันทึกขึ้น Supabase ไม่สำเร็จ: " + (e.message||e)); }
+  busy = false;
+}
+const MAP = { works_v1:"works", site_v1:"site", texts_v1:"texts" };
+function mark(k){ if(!MAP[k]) return false; dirty.add(MAP[k]); clearTimeout(timer); timer = setTimeout(flush, 800); return true; }
+const _set = Storage.prototype.setItem, _rm = Storage.prototype.removeItem;
+Storage.prototype.setItem = function(k, v){
+  try{ _set.call(this, k, v); }
+  catch(e){ if(this===localStorage && MAP[k]){ mark(k); return; } throw e; }   // เต็มก็ไม่เป็นไร Supabase คือที่เก็บจริง
+  if(this===localStorage) mark(k);
+};
+Storage.prototype.removeItem = function(k){ _rm.call(this, k); if(this===localStorage) mark(k); };
+
+/* ---------- ล็อกอินแอดมิน + ฟอร์มติดต่อ ---------- */
+document.addEventListener("submit", async e => {
+  const id = e.target.id;
+  if(id === "login"){
+    e.preventDefault(); e.stopImmediatePropagation();
+    const r = await sb.auth.signInWithPassword({ email:$("#em").value.trim(), password:$("#pw").value });
+    if(r.error){ toast("อีเมลหรือรหัสผ่านไม่ถูกต้อง"); return; }
+    if(!(await isAdm())){ await sb.auth.signOut(); toast("บัญชีนี้ยังไม่ได้เป็นแอดมิน (ดูขั้นตอนใน SQL)"); return; }
+    adminOK = true; editMode = true; await load(); refreshEdit(); renderAdmin();
+    toast("เข้าสู่ระบบแล้ว ไปหน้าอื่นเพื่อแก้ไขได้เลย ♥");
+  } else if(id === "form"){
+    e.preventDefault(); e.stopImmediatePropagation();
+    const f = new FormData(e.target);
+    const r = await sb.from("contact_messages").insert({ name:f.get("name").trim(), email:f.get("email").trim(), message:f.get("msg").trim() });
+    if(r.error){ toast("ส่งไม่สำเร็จ ลองใหม่อีกครั้งนะ"); return; }
+    e.target.reset(); toast("ส่งข้อความเรียบร้อยแล้ว ขอบคุณนะคะ ♥");
+  }
+}, true);
+
+const _ra = renderAdmin;
+window.renderAdmin = function(){
+  _ra();
+  const f = document.querySelector("#login");
+  if(f && !f.querySelector("#em")){
+    const i = document.createElement("input");
+    i.type = "email"; i.id = "em"; i.placeholder = "อีเมลแอดมิน"; i.required = true; i.autocomplete = "username";
+    f.prepend(i);
+  }
+  const n = document.querySelector("#v-admin .note");
+  if(n) n.innerHTML = "☁️ ข้อมูลที่แก้ไขจะบันทึกขึ้น <b>Supabase</b> อัตโนมัติ ผู้เข้าชมทุกคนเห็นตรงกัน (รายการ “ถูกใจ” ยังเก็บในเครื่องผู้เข้าชมแต่ละคน)";
+};
+const _lo = doLogout;
+window.doLogout = function(){ sb.auth.signOut(); _lo(); };
+
+/* ---------- เริ่มทำงาน ---------- */
+(async () => {
+  adminOK = await isAdm();
+  await load();
+  refreshEdit();
+})();
+})();
+</script>
+
+</body>
+</html>
