@@ -799,7 +799,10 @@ function openBriefModal(w) {
 }
 
 document.addEventListener("click", e=>{
-  if(e.target.closest && e.target.closest("[data-catmgr]")){ openCatMgr(); return; }
+  if(e.target.closest && e.target.closest("[data-catmgr]")){ 
+    if(adminOK) openCatMgr(); 
+    return; 
+  }
   if(e.target.closest && e.target.closest("[data-soon]")){ toast("Demo coming soon ♥"); return; }
   
   const brief = e.target.closest("[data-brief]");
@@ -1001,6 +1004,7 @@ modal.addEventListener("click", e=>{
   if(rm){ const i=+rm.dataset.rmslot; draft.imgs[i]=""; draft.files[i]=null; $("#pv"+i).innerHTML="＋"; }
 });
 modal.addEventListener("change", async e=>{
+  if(!adminOK) return;
   const inp = e.target.closest("[data-slot]"); if(!inp || !inp.files[0]) return;
   const file = inp.files[0];
   const i = +inp.dataset.slot;
@@ -1014,6 +1018,7 @@ modal.addEventListener("change", async e=>{
 
 modal.addEventListener("submit", async e=>{
   e.preventDefault();
+  if(!adminOK) return;
   const btn = e.target.querySelector('button[type="submit"]');
   const ogText = btn.textContent;
   btn.disabled = true; btn.textContent = "กำลังบันทึก...";
@@ -1169,10 +1174,11 @@ async function saveWorkDB(f){
 }
 
 $("#v-home").addEventListener("click", e=>{
-  if(e.target.closest("[data-logo-pick]")){ $("#logoPick").click(); return; }
-  if(e.target.closest("[data-logo-rm]")){ CONFIG.logo = ""; syncSiteSettings(); applySite(); toast("ลบรูปแล้ว"); }
+  if(e.target.closest("[data-logo-pick]")){ if(adminOK) $("#logoPick").click(); return; }
+  if(e.target.closest("[data-logo-rm]")){ if(adminOK) { CONFIG.logo = ""; syncSiteSettings(); applySite(); toast("ลบรูปแล้ว"); } }
 });
 $("#logoPick").addEventListener("change", async e=>{
+  if(!adminOK) return;
   const f = e.target.files[0]; if(!f) return;
   try{ 
     CONFIG.logo = await readLogo(f); 
@@ -1441,6 +1447,7 @@ async function fetchAllData() {
       adminOK = !!isAdmin;
       editMode = adminOK;
   }
+  refreshEdit();
   
   const d = $("#deco");
   ["top:-90px;left:-100px;background:#fce6ec;width:320px;height:320px","top:38%;right:-170px;background:#edf3f7;width:360px;height:360px;animation-delay:-6s","bottom:-120px;left:12%;background:#fff2eb;width:300px;height:300px;animation-delay:-11s"].forEach(st=>{
