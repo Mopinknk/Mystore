@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Mali:wght@400;500;600;700&family=Noto+Sans+Thai+Looped:wght@300;400;500;600&display=swap" rel="stylesheet">
-<!-- Supabase SDK -->
+<!-- โหลด Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -29,7 +29,7 @@ body{
   min-height:100vh;padding-bottom:110px;
 }
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-button:disabled{opacity:0.6;cursor:not-allowed;}
+button:disabled { opacity: 0.6; cursor: not-allowed; }
 input,textarea{font-family:inherit}
 .wrap{max-width:1080px;margin:0 auto;padding:0 18px}
 
@@ -367,24 +367,29 @@ a.cta{text-decoration:none}
 .cat-pick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .cat-pick .chip{padding:7px 14px;font-size:13.5px}
 
-/* Global Loader */
+/* หน้าต่างโหลด / Loading */
 #global-loader {
-  position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;font-size:18px;color:var(--navy);font-weight:600;
-  transition: opacity 0.4s ease;
+  position: fixed; inset: 0; background: var(--bg); z-index: 9999;
+  display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px;
+  transition: opacity 0.4s;
 }
-#global-loader .spinner {
-  width:40px;height:40px;border:4px solid var(--pink-l);border-top-color:var(--pink);
-  border-radius:50%;animation:spin 1s linear infinite;margin-bottom:16px;
+.spinner {
+  width: 44px; height: 44px; border: 4px solid var(--pink-l); border-top-color: var(--pink); 
+  border-radius: 50%; animation: spin 1s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
+<!-- หน้าต่าง Loading แบบบังทั้งจอจนกว่าข้อมูลจะโหลดเสร็จ -->
+<div id="global-loader">
+  <div class="spinner"></div>
+  <div style="color:var(--navy);font-weight:500;">กำลังโหลดข้อมูล...</div>
+</div>
+
 <div class="float-deco" id="deco"></div>
 <div class="toast" id="toast"></div>
-<div id="global-loader"><div class="spinner"></div><span>กำลังโหลดข้อมูล...</span></div>
 
 <main class="wrap">
 
@@ -395,7 +400,7 @@ a.cta{text-decoration:none}
       <h1><span id="home-owner" class="shop-name" data-s="owner"></span></h1></div>
       <div class="brand-edit editonly"><button class="btn s sm" data-logo-pick>📷 ใส่โลโก้ / รูปร้าน</button><button class="btn d sm" data-logo-rm id="logo-rm">ลบรูป</button>
         <input type="file" id="logoPick" accept="image/*" hidden></div>
-      <p id="intro" data-s="intro" data-multi></p>
+      <p id="intro" data-s="intro" data-multi>กำลังโหลดข้อมูลคำแนะนำตัว...</p>
       <div class="btn-row">
         <div class="btn p" role="button" tabindex="0" data-go="works"><span data-t="home.btn1">ดูผลงานทั้งหมด</span></div>
         <div class="btn s" role="button" tabindex="0" data-go="contact"><span data-t="home.btn2">ติดต่อสอบถามงาน</span></div>
@@ -430,7 +435,7 @@ a.cta{text-decoration:none}
     <div class="chips" id="chips"></div>
     <div class="editonly" style="margin:-6px 0 12px"><button class="btn s sm" data-catmgr>✏️ จัดการหมวดหมู่</button></div>
     <div class="grid" id="grid"></div>
-    <div class="empty" id="empty">ไม่มีข้อมูลผลงาน ลองแวะมาดูใหม่นะ ♥</div>
+    <div class="empty" id="empty">ไม่พบผลงานที่ค้นหา ลองคำอื่นดูนะ</div>
   </section>
 
   <!-- รายละเอียด -->
@@ -488,33 +493,58 @@ a.cta{text-decoration:none}
 
 <script>
 /* =====================================================
-   เชื่อมต่อ Supabase
+   เชื่อมต่อ Supabase Database แบบปลอดภัย
    ===================================================== */
 const SUPABASE_URL = "https://ldzjzomkhemvvxyxovbs.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxkemp6b21raGVtdnZ4eXhvdmJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0MDcwNTUsImV4cCI6MjEwODk4MzA1NX0.ImEgpSaC3X6Ker7rcvID_dTiRuWk9QAElbi4CIN6hsM";
 const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* =====================================================
-   ตัวแปรระบบ
+   ตัวแปรระบบและข้อมูลตัวอย่าง (Fallback ข้อมูลจำลอง)
    ===================================================== */
-let CONFIG = {
-  owner: "", about: "", intro: "",
-  skills: [], contacts: [], contactEmail: "", styles: [], logo: ""
+const DEFAULT_CONFIG = {
+  owner: "MOPINK",
+  about: "สวัสดีค่ะ เราชอบทำเว็บและแอปที่ดูอบอุ่น ใช้งานง่าย เริ่มจากการฟังก่อนว่าคนที่จ้างอยากได้อะไร แล้วค่อยๆ ปั้นให้ออกมาเป็นรูปเป็นร่าง ทั้งเว็บบริษัท ร้านค้าออนไลน์ และแอปมือถือ",
+  skills: ["UI/UX Design","Next.js","React","Tailwind CSS","Supabase","Responsive Web","Figma"],
+  contacts: [
+    {icon:"mail", label:"your@email.com",      href:"mailto:your@email.com", url:"mailto:your@email.com"},
+    {icon:"line", label:"LINE: @yourline",     href:"https://line.me/ti/p/~yourline", url:"https://line.me/ti/p/~yourline"},
+    {icon:"facebook", label:"Facebook: yourname", href:"https://facebook.com/yourname", url:"https://facebook.com/yourname"},
+    {icon:"phone", label:"08x-xxx-xxxx",       href:"tel:0800000000", url:"tel:0800000000"}
+  ],
+  contactEmail: "your@email.com",
+  intro: "รวมงานเว็บไซต์ แอป และร้านค้าออนไลน์ที่เคยได้ทำ ค่อยๆ เลื่อนดูเล่นๆ ได้เลยนะ ถ้าถูกใจชิ้นไหนก็ทักมาคุยกันได้",
+  styles: ["ออกแบบให้น่ารัก สะอาดตา ตรงกับคอนเซ็ปต์ของลูกค้า","รองรับ Responsive ทั้งคอมพิวเตอร์ แท็บเล็ต และมือถือ","ส่งงานตรงเวลา พร้อมดูแลหลังส่งมอบ"],
+  logo: ""
 };
+
+const DEFAULT_WORKS = [
+  {id:1, cat:"เว็บไซต์", title:"เว็บไซต์ร้านขนมหวาน (ข้อมูลตัวอย่าง)", date:"2025-06-12", status:"เสร็จสมบูรณ์",
+   desc:"เว็บไซต์สำหรับร้านขนมหวาน สไตล์น่ารัก อบอุ่น ใช้งานง่าย รองรับทุกอุปกรณ์ (กดบันทึกในหลังบ้านเพื่อสร้างงานจริง)",
+   theme:{a:"#ff7eb3",b:"#ffd6e7",c:"#fff0f6"}, emoji:"🧁", kind:"laptop",
+   details:["ออกแบบเว็บไซต์ตามคอนเซ็ปต์ของร้าน “ความหวานละมุน น่ารัก อบอุ่น”","รองรับการแสดงผลแบบ Responsive ทั้งคอมพิวเตอร์ แท็บเล็ต และมือถือ","ใช้งานง่าย มีระบบสั่งซื้อสินค้า และจัดการออเดอร์"],
+   tech:["Next.js","Tailwind CSS","Supabase"], img:"", shots:[]},
+  {id:2, cat:"แอปพลิเคชัน", title:"แอปจองที่พักและตั๋วเครื่องบิน (ข้อมูลตัวอย่าง)", date:"2025-06-05", status:"เสร็จสมบูรณ์",
+   desc:"แอปจองที่พักและตั๋วเครื่องบินในที่เดียว ค้นหาง่าย เปรียบเทียบราคาได้ทันที",
+   theme:{a:"#5b7bff",b:"#b9c8ff",c:"#e8edff"}, emoji:"✈️", kind:"phone",
+   details:["ค้นหาและเปรียบเทียบราคาที่พัก/ตั๋วเครื่องบินแบบเรียลไทม์","ระบบชำระเงินปลอดภัย รองรับหลายช่องทาง","แจ้งเตือนสถานะการจองผ่านแอป"],
+   tech:["React Native","Firebase","Stripe"], img:"", shots:[]}
+];
+
+let CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
 let WORKS = [];
 const TEXTS_KEY = "texts_v1";
 let TEXTS = {}; 
 try { TEXTS = JSON.parse(localStorage.getItem(TEXTS_KEY)||"{}") || {}; } catch(e){}
 
-let editMode = false, curVar = 0;
-let adminOK = false;
-let session = null;
-let isFetching = true;
+let editMode = false, curVar = 0, adminOK = false;
+let isFetching = true; // ล็อกสถานะไว้ระหว่างโหลด
+let draft = {imgs:["","",""], files:[null,null,null]}; // เก็บรูปเพื่อรออัปโหลด
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const MONTHS = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
-const thDate = d => { if(!d) return ""; const t=new Date(d); return `${t.getDate()} ${MONTHS[t.getMonth()]} ${t.getFullYear()+543}`; };
+const thDate = d => { const t=new Date(d); return `${t.getDate()} ${MONTHS[t.getMonth()]} ${t.getFullYear()+543}`; };
 const tagClass = c => c==="แอปพลิเคชัน" ? "blue" : (c==="ร้านค้าออนไลน์" ? "green" : "");
 
 let favs = [];
@@ -525,7 +555,7 @@ const state = {cat:"ทั้งหมด", q:"", favOnly:false};
 
 /* ภาพวาดอุปกรณ์จำลอง (laptop / phone) — ใช้เมื่อไม่มีรูปจริง */
 function deviceSVG(w, variant=0){
-  const b = w.theme.b, c = w.theme.c, a = mix(w.theme.a,.2), id = "g"+w.id+"_"+variant;
+  const {b,c} = w.theme, a = mix(w.theme.a,.2), id = "g"+w.id+"_"+variant;
   const blocks = (x,y,wd,n,gap=3)=>{
     let s=""; const bw=(wd-gap*(n-1))/n;
     for(let i=0;i<n;i++) s+=`<rect x="${x+i*(bw+gap)}" y="${y}" width="${bw}" height="16" rx="3" fill="${b}"/><circle cx="${x+i*(bw+gap)+bw/2}" cy="${y+8}" r="4" fill="${a}" opacity=".85"/>`;
@@ -565,7 +595,7 @@ function deviceSVG(w, variant=0){
 }
 function art(w, variant=0){
   const img = variant===0 ? w.img : (w.shots && w.shots[variant]) || "";
-  const inner = img ? `<img src="${img}" alt="${esc(w.title)}" style="width:100%;height:100%;object-fit:cover;display:block">` : deviceSVG(w, variant);
+  const inner = img ? `<img src="${img}" alt="${w.title}" style="width:100%;height:100%;object-fit:cover;display:block">` : deviceSVG(w, variant);
   return `<div class="art">${inner}<span class="deco" style="left:8%;top:10%">♡</span><span class="deco" style="right:9%;top:16%;animation-delay:1s">✦</span></div>`;
 }
 
@@ -577,7 +607,7 @@ function card(w, i=0){
     <button class="fav ${on?'on':''}" data-fav="${w.id}" aria-label="ถูกใจ"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 5.8-8 11-8 11z" stroke-linejoin="round"/></svg></button>
     ${art(w)}
     <div class="body">
-      <span class="tag ${tagClass(w.cat)}">${esc(w.cat)}</span>
+      <span class="tag ${tagClass(w.cat)}">${w.cat}</span>
       <h3>${esc(w.title)}</h3>
       <div class="date"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18" stroke-linecap="round"/></svg>${thDate(w.date)}</div>
     </div>
@@ -587,21 +617,21 @@ function card(w, i=0){
 /* หน้ารายการ */
 function renderChips(){
   const cats = ["ทั้งหมด", ...new Set(WORKS.map(w=>w.cat))];
-  $("#chips").innerHTML = cats.map(c=>`<button class="chip ${state.cat===c?'active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
+    $("#chips").innerHTML = cats.map(c=>`<button class="chip ${state.cat===c?'active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
 }
 function renderGrid(){
   const q = state.q.trim().toLowerCase();
   const list = WORKS.filter(w =>
     (state.cat==="ทั้งหมด" || w.cat===state.cat) &&
     (!state.favOnly || favs.includes(w.id)) &&
-    (!q || (w.title+w.desc+w.cat+(w.tech||[]).join(" ")).toLowerCase().includes(q))
+    (!q || (w.title+w.desc+w.cat+w.tech.join(" ")).toLowerCase().includes(q))
   );
   const addCard = isEditing() ? `<div class="card add-card" data-wadd><div><div style="font-size:34px">＋</div>เพิ่มผลงานใหม่</div></div>` : "";
   $("#grid").innerHTML = addCard + list.map(card).join("");
-  $("#empty").style.display = (list.length===0 && !isEditing()) ? "block":"none";
+  $("#empty").style.display = (list.length || isEditing()) ? "none":"block";
 }
 function renderHome(){
-  $("#latest").innerHTML = [...WORKS].slice(0,4).map(card).join("");
+  $("#latest").innerHTML = [...WORKS].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4).map(card).join("");
   $("#st-total").textContent = WORKS.length;
   $("#st-done").textContent = WORKS.filter(w=>w.status==="เสร็จสมบูรณ์").length;
   $("#st-fav").textContent = favs.length;
@@ -616,7 +646,7 @@ function safeUrl(u){
 
 /* หน้ารายละเอียด */
 function renderDetail(id, variant=0){
-  const w = WORKS.find(x=>x.id===id);
+  const w = WORKS.find(x=>String(x.id) === String(id));
   if(!w){ go("works"); return; }
   curVar = variant;
   const on = favs.includes(w.id), E = isEditing(), ce = E ? 'contenteditable="true"' : '', wid = `data-wid="${w.id}"`;
@@ -668,19 +698,26 @@ function show(name){
   $$(".nav .nb").forEach(b=>b.classList.toggle("on", b.dataset.go===navKey));
   window.scrollTo({top:0});
 }
-function go(page){ location.hash = "#/"+page; }
-async function route(){
+async function go(page){ 
+  // หากจะเข้าหน้า admin ต้องตรวจสอบเซสชั่นจริงอีกครั้ง
+  if (page === "admin") {
+      const { data: { session } } = await sbClient.auth.getSession();
+      if(session) {
+          const { data: isAdmin } = await sbClient.rpc('is_admin');
+          adminOK = !!isAdmin;
+      }
+      if(!adminOK) editMode = false;
+  }
+  location.hash = "#/"+page; 
+}
+
+function route(){
   const parts = location.hash.replace(/^#\/?/,"").split("/");
   const page = parts[0] || "home";
-  
-  if(page==="admin"){
-    if (!adminOK && session) await checkAuth();
-    renderAdmin(); 
-  }
-  else if(page==="work"){ renderDetail(parts[1]); show("detail"); return; }
-  else if(page==="works"){ renderChips(); renderGrid(); }
-  else if(page==="home"){ renderHome(); }
-  
+  if(page==="work"){ renderDetail(parts[1]); show("detail"); return; }
+  if(page==="works"){ renderChips(); renderGrid(); }
+  if(page==="home"){ renderHome(); }
+  if(page==="admin"){ renderAdmin(); }
   show(["home","works","about","contact","admin"].includes(page)?page:"home");
   decorate();
 }
@@ -712,7 +749,7 @@ document.addEventListener("click", e=>{
   if(e.target.closest && e.target.closest("[data-soon]")){ toast("Demo coming soon ♥"); return; }
   const ext = e.target.closest && e.target.closest("a[data-ext]");
   if(ext){ e.preventDefault(); openExt(ext.href); return; }
-  if(isEditing() && e.target.closest("[contenteditable=true]")) return; 
+  if(isEditing() && e.target.closest("[contenteditable=true]")) return;
   const fav = e.target.closest("[data-fav]");
   if(fav){
     e.stopPropagation();
@@ -732,10 +769,10 @@ document.addEventListener("click", e=>{
     if(e.target.closest("[data-wadd]")){ openForm(); return; }
     if((b=e.target.closest("[data-wlrm]"))){ const f=b.dataset.wlrm; updWork(b.dataset.wid,w=>w[f].splice(+b.dataset.i,1)); renderDetail(b.dataset.wid,curVar); return; }
     if((b=e.target.closest("[data-wladd]"))){ const f=b.dataset.wladd; updWork(b.dataset.wid,w=>{ (w[f]=w[f]||[]).push("ข้อความใหม่"); }); renderDetail(b.dataset.wid,curVar); focusLast(`#v-detail [data-wl="${f}"]`); return; }
-    if((b=e.target.closest("[data-slrm]"))){ const k=b.dataset.slrm; CONFIG[k].splice(+b.dataset.i,1); saveSiteField(k, CONFIG[k]); applySite(); return; }
-    if((b=e.target.closest("[data-sladd]"))){ const k=b.dataset.sladd; CONFIG[k].push("ข้อความใหม่"); saveSiteField(k, CONFIG[k]); applySite(); focusLast(`[data-sl="${k}"]`); return; }
+    if((b=e.target.closest("[data-slrm]"))){ const k=b.dataset.slrm; CONFIG[k].splice(+b.dataset.i,1); syncSiteSettings(); applySite(); return; }
+    if((b=e.target.closest("[data-sladd]"))){ const k=b.dataset.sladd; CONFIG[k].push("ข้อความใหม่"); syncSiteSettings(); applySite(); focusLast(`[data-sl="${k}"]`); return; }
     if((b=e.target.closest("[data-crm]"))){ CONFIG.contacts.splice(+b.dataset.crm,1); syncContacts(); applySite(); return; }
-    if(e.target.closest("[data-cadd]")){ CONFIG.contacts.push({icon:"✨",label:"ช่องทางใหม่",url:"#"}); syncContacts(); applySite(); return; }
+    if(e.target.closest("[data-cadd]")){ CONFIG.contacts.push({icon:"✨",label:"ช่องทางใหม่",href:"#",url:"#"}); syncContacts(); applySite(); return; }
   }
   const goBtn = e.target.closest("[data-go]");
   if(goBtn){
@@ -768,10 +805,9 @@ $("#form").addEventListener("submit", e=>{
 });
 
 let tT;
-function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(tT); tT=setTimeout(()=>t.classList.remove("show"),1800); }
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(tT); tT=setTimeout(()=>t.classList.remove("show"),2500); }
 
-/* =====================  หลังบ้าน & Supabase  ===================== */
-let draft = {files:[null,null,null], imgs:["","",""]};
+/* ===================== หลังบ้าน และ Supabase ===================== */
 const modal = document.createElement("div");
 modal.className = "modal"; document.body.appendChild(modal);
 
@@ -782,36 +818,31 @@ function mix(hex,t){
   return "#"+m(r)+m(g)+m(b);
 }
 
-// อัปโหลดรูปไปที่ Supabase Storage (สมมติว่าใช้ชื่อ bucket 'portfolio')
-// หากเกิดข้อผิดพลาดจะ fallback ไปใช้ Base64
-async function uploadImage(file){
-  if(!file) return '';
-  const ext = file.name.split('.').pop();
-  const fileName = `img_${Date.now()}_${Math.random().toString(36).substr(2,6)}.${ext}`;
-  const { data, error } = await sbClient.storage.from('portfolio').upload(fileName, file);
-  if(error) {
-     toast("ไม่สามารถอัปโหลดเข้าระบบ Storage ได้ จะใช้การอ่านไฟล์แบบข้อความแทน");
-     return new Promise((res,rej)=>{
-        const fr = new FileReader();
-        fr.onload = ()=> res(fr.result);
-        fr.onerror = rej; fr.readAsDataURL(file);
-     });
-  }
-  return sbClient.storage.from('portfolio').getPublicUrl(fileName).data.publicUrl;
+// โหลดรูปเป็น Base64 (ใช้ชั่วคราวขณะพรีวิว หรือถ้าเซิร์ฟเวอร์อัปโหลดไม่ได้)
+function readImgBase64(file){
+  return new Promise((res,rej)=>{
+    const fr = new FileReader();
+    fr.onload = ()=>{ const im = new Image();
+      im.onload = ()=>{ const s = Math.min(1, 900/Math.max(im.width,im.height));
+        const c = document.createElement("canvas"); c.width = im.width*s; c.height = im.height*s;
+        c.getContext("2d").drawImage(im,0,0,c.width,c.height); res(c.toDataURL("image/jpeg",.78)); };
+      im.onerror = rej; im.src = fr.result; };
+    fr.onerror = rej; fr.readAsDataURL(file);
+  });
 }
 
 function renderAdmin(){
   const box = $("#v-admin");
   if(!adminOK){
-    box.innerHTML = `<div class="adm"><div class="page-head"><div><h1>หลังบ้าน <i>🔒</i></h1><p>เข้าสู่ระบบเพื่อจัดการผลงาน</p></div></div>
+    box.innerHTML = `<div class="adm"><div class="page-head"><div><h1>หลังบ้าน <i>🔒</i></h1><p>เข้าสู่ระบบเพื่อแก้ไขเนื้อหาเว็บไซต์</p></div></div>
       <form class="panel form" id="login">
-        <input type="email" id="email" placeholder="อีเมลแอดมิน" required>
-        <input type="password" id="pw" placeholder="รหัสผ่าน" required>
-        <button class="cta" style="margin:0" type="submit">เข้าสู่ระบบ</button>
+        <input type="email" id="adm-email" placeholder="อีเมลแอดมิน" required>
+        <input type="password" id="pw" placeholder="รหัสผ่าน" autocomplete="current-password" required>
+        <button class="cta" style="margin-top:14px" type="submit">เข้าสู่ระบบ</button>
       </form></div>`;
     return;
   }
-  const rows = [...WORKS].map(w=>`
+  const rows = [...WORKS].sort((a,b)=>b.date.localeCompare(a.date)).map(w=>`
     <div class="adm-row">
       <div class="th">${art(w)}</div>
       <div class="info"><h4>${esc(w.title)}</h4><small>${esc(w.cat)} · ${thDate(w.date)}</small></div>
@@ -820,12 +851,13 @@ function renderAdmin(){
   box.innerHTML = `<div class="adm">
     <div class="page-head"><div><h1>จัดการผลงาน <i>♥</i></h1><p>ทั้งหมด ${WORKS.length} ผลงาน</p></div></div>
     <div class="adm-bar">
-      <button class="btn p sm" data-go="home">✏️ ไปแก้ไขหน้าเว็บ</button>
+      <button class="btn p sm" data-go="home">✏️ ไปจิ้มแก้ไขหน้าเว็บ</button>
       <button class="btn p sm" data-add>＋ เพิ่มผลงานใหม่</button>
       <button class="btn s sm" data-site>⚙️ ตั้งค่าเว็บไซต์</button>
+      <button class="btn d sm" data-resettexts>↺ คืนข้อความหน้าเว็บ</button>
       <button class="btn s sm" data-logout>ออกจากระบบ</button>
     </div>
-    <div class="note">💡 ข้อมูลจะถูกบันทึกลงในระบบ <b>Supabase</b> ทันที หากใช้โหมด "แก้ไข" โดยการแตะข้อความหน้าเว็บ อย่าลืมคลิกที่ว่างเพื่อบันทึกข้อมูลด้วยนะ</div>
+    <div class="note">💡 เมื่อกดบันทึก ข้อมูลจะถูกอัปเดตลงตาราง <b>Supabase</b> แบบเรียลไทม์ ผู้เข้าชมทั้งหมดจะเห็นการเปลี่ยนแปลงทันที</div>
     ${rows || '<div class="empty" style="display:block">ยังไม่มีผลงาน กด “เพิ่มผลงานใหม่” ได้เลย</div>'}
   </div>`;
 }
@@ -838,8 +870,8 @@ function slotHTML(i){
     <button type="button" class="rm" data-rmslot="${i}">ลบรูป</button></div>`;
 }
 function openForm(id){
-  const w = id ? WORKS.find(x=>x.id===id) : null;
-  draft = {files:[null,null,null], imgs:["","",""]};
+  const w = id ? WORKS.find(x=>String(x.id) === String(id)) : null;
+  draft = {imgs:["","",""], files:[null,null,null]};
   if(w){ draft.imgs = [w.img||"", (w.shots||[])[1]||"", (w.shots||[])[2]||""]; }
   const cats = [...new Set([...WORKS.map(x=>x.cat),"เว็บไซต์","แอปพลิเคชัน","ร้านค้าออนไลน์"])];
   modal.innerHTML = `<div class="box"><h3>${w?"แก้ไขผลงาน":"เพิ่มผลงานใหม่"}</h3>
@@ -850,7 +882,7 @@ function openForm(id){
       <div class="cat-pick">${cats.map(c=>`<button type="button" class="chip" data-pickcat="${esc(c)}">${esc(c)}</button>`).join("")}</div></div>
     <div class="fld"><label>วันที่ส่งงาน *</label><input type="date" name="date" required value="${w?.date||new Date().toISOString().slice(0,10)}"></div>
     <div class="fld"><label>คำอธิบายสั้นๆ</label><textarea name="desc">${esc(w?.desc)}</textarea></div>
-    <div class="fld"><label>ลิงก์ตัวอย่างงาน (กดปุ่ม "ดูตัวอย่างงาน" แล้วจะเด้งไปที่ลิงก์นี้)</label><input type="url" name="link" inputmode="url" autocapitalize="off" placeholder="https://ตัวอย่างงานของคุณ.com" value="${esc(w?.link)}"></div>
+    <div class="fld"><label>ลิงก์ตัวอย่างงาน</label><input type="url" name="link" inputmode="url" autocapitalize="off" placeholder="https://ตัวอย่างงานของคุณ.com" value="${esc(w?.link)}"></div>
     <div class="fld"><label>รายละเอียดงาน (1 บรรทัด = 1 ข้อ)</label><textarea name="details">${esc((w?.details||[]).join("\n"))}</textarea></div>
     <div class="fld"><label>เทคโนโลยีที่ใช้ (คั่นด้วยจุลภาค ,)</label><input name="tech" placeholder="Next.js, Tailwind CSS" value="${esc((w?.tech||[]).join(", "))}"></div>
     <div class="row2">
@@ -861,7 +893,7 @@ function openForm(id){
       <div class="fld"><label>สีหลัก</label><input type="color" name="color" value="${w?.theme?.a||"#ff7eb3"}"></div>
       <div class="fld"><label>อีโมจิประจำงาน</label><input name="emoji" maxlength="4" value="${esc(w?.emoji||"✨")}"></div>
     </div>
-    <div class="fld"><label>รูปภาพผลงาน (ปรับขนาดอัตโนมัติ)</label><div class="slots">${[0,1,2].map(slotHTML).join("")}</div></div>
+    <div class="fld"><label>รูปภาพผลงาน (รองรับการดึงรูปภาพผ่าน Base64)</label><div class="slots">${[0,1,2].map(slotHTML).join("")}</div></div>
     <div class="adm-bar" style="justify-content:flex-end;margin-bottom:0">
       <button type="button" class="btn s sm" data-close>ยกเลิก</button>
       <button type="submit" class="btn p sm">💾 บันทึก</button>
@@ -870,10 +902,11 @@ function openForm(id){
 }
 const closeForm = ()=>modal.classList.remove("show");
 
+/* จัดการหมวดหมู่ */
 function openCatMgr(){
   const cats = [...new Set(WORKS.map(w=>w.cat))];
   modal.innerHTML = `<div class="box"><h3>จัดการหมวดหมู่</h3>
-    <p style="font-size:13.5px;margin:4px 0 12px;opacity:.75">แก้ชื่อหมวดได้เลย ผลงานในหมวดนั้นจะเปลี่ยนตามทั้งหมด</p>
+    <p style="font-size:13.5px;margin:4px 0 12px;opacity:.75">แก้ชื่อหมวดได้เลย ผลงานที่ใช้หมวดนี้ใน Database จะเปลี่ยนชื่อตามทั้งหมด</p>
     <form id="cform">${cats.map((c,i)=>`<div class="fld"><label>${esc(c)} · ${WORKS.filter(w=>w.cat===c).length} ชิ้น</label><input name="c${i}" data-old="${esc(c)}" required value="${esc(c)}" autocomplete="off"></div>`).join("")}
     <div class="adm-bar" style="justify-content:flex-end;margin-bottom:0">
       <button type="button" class="btn s sm" data-close>ยกเลิก</button>
@@ -882,28 +915,30 @@ function openCatMgr(){
   modal.classList.add("show");
 }
 
-modal.addEventListener("click", async e=>{
+modal.addEventListener("click", e=>{
   if(e.target===modal || e.target.closest("[data-close]")){ closeForm(); return; }
   const pk = e.target.closest("[data-pickcat]");
   if(pk){ const inp = modal.querySelector('input[name="cat"]'); if(inp){ inp.value = pk.dataset.pickcat; } return; }
   const rm = e.target.closest("[data-rmslot]");
-  if(rm){ const i=+rm.dataset.rmslot; draft.files[i]=null; draft.imgs[i]=""; $("#pv"+i).innerHTML="＋"; }
+  if(rm){ const i=+rm.dataset.rmslot; draft.imgs[i]=""; draft.files[i]=null; $("#pv"+i).innerHTML="＋"; }
 });
 modal.addEventListener("change", async e=>{
   const inp = e.target.closest("[data-slot]"); if(!inp || !inp.files[0]) return;
-  try {
-    const file = inp.files[0];
-    const i = +inp.dataset.slot;
-    draft.files[i] = file;
-    draft.imgs[i] = URL.createObjectURL(file);
-    $("#pv"+i).innerHTML=`<img src="${draft.imgs[i]}">`;
+  const file = inp.files[0];
+  const i = +inp.dataset.slot;
+  draft.files[i] = file;
+  try { 
+    const url = await readImgBase64(file); 
+    draft.imgs[i]=url; 
+    $("#pv"+i).innerHTML=`<img src="${url}">`; 
   } catch(err){ toast("อ่านรูปไม่สำเร็จ"); }
 });
 
 modal.addEventListener("submit", async e=>{
   e.preventDefault();
   const btn = e.target.querySelector('button[type="submit"]');
-  if(btn) { btn.disabled = true; btn.dataset.ot = btn.textContent; btn.textContent = 'กำลังบันทึก...'; }
+  const ogText = btn.textContent;
+  btn.disabled = true; btn.textContent = "กำลังบันทึก...";
 
   try {
     if(e.target.id==="sform"){ 
@@ -913,7 +948,7 @@ modal.addEventListener("submit", async e=>{
     else if(e.target.id==="cform"){
       const map = {}; e.target.querySelectorAll("input[data-old]").forEach(i=>{ const n = i.value.trim(); if(n) map[i.dataset.old] = n; });
       for(let w of WORKS) {
-         if(map[w.cat] && map[w.cat] !== w.cat) {
+         if(map[w.cat] && map[w.cat] !== w.cat && String(w.id).includes('-')) {
             await sbClient.from('works').update({category: map[w.cat]}).eq('id', w.id);
          }
       }
@@ -926,101 +961,175 @@ modal.addEventListener("submit", async e=>{
       closeForm(); toast("บันทึกผลงานเรียบร้อย ♥");
     }
   } catch(err) {
-    toast("เกิดข้อผิดพลาด: " + err.message);
+    console.error(err);
+    toast("เกิดข้อผิดพลาดในการบันทึก");
   } finally {
-    if(btn) { btn.disabled = false; btn.textContent = btn.dataset.ot; }
+    btn.disabled = false; btn.textContent = ogText;
   }
 });
 
+/* ระบบล็อกอินผ่าน Supabase Auth */
 $("#v-admin").addEventListener("submit", async e=>{
   if(e.target.id==="login"){
     e.preventDefault();
     const btn = e.target.querySelector('button');
-    btn.disabled = true; btn.textContent = 'กำลังตรวจสอบ...';
+    const ogText = btn.textContent;
+    btn.disabled = true; btn.textContent = "กำลังตรวจสอบ...";
     
-    const { error } = await sbClient.auth.signInWithPassword({
-        email: $("#email").value,
-        password: $("#pw").value
-    });
+    const email = $("#adm-email").value;
+    const pw = $("#pw").value;
     
-    if (error) {
-        toast("เข้าสู่ระบบไม่สำเร็จ: " + error.message);
-    } else {
-        await checkAuth();
-        if(adminOK) {
-            toast("เข้าสู่ระบบแล้ว ♥");
-            refreshEdit();
-        } else {
-            toast("บัญชีนี้ไม่มีสิทธิ์แอดมิน");
-            await sbClient.auth.signOut();
-        }
+    const { data, error } = await sbClient.auth.signInWithPassword({ email, password: pw });
+    if(error) {
+        toast("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+        btn.disabled = false; btn.textContent = ogText;
+        return;
     }
-    btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+    
+    const { data: isAdmin } = await sbClient.rpc('is_admin');
+    if(!isAdmin) {
+        toast("บัญชีนี้ไม่มีสิทธิ์แอดมิน");
+        await sbClient.auth.signOut();
+        btn.disabled = false; btn.textContent = ogText;
+        return;
+    }
+    
+    adminOK = true; editMode = true;
+    refreshEdit(); renderAdmin(); toast("เข้าสู่ระบบสำเร็จ ♥");
   }
 });
+
 $("#v-admin").addEventListener("click", e=>{
   const t = e.target;
   if(t.closest("[data-add]")) return openForm();
   const ed = t.closest("[data-edit]"); if(ed) return openForm(ed.dataset.edit);
   const del = t.closest("[data-del]");
   if(del){
-    const w = WORKS.find(x=>x.id===del.dataset.del);
+    const w = WORKS.find(x=>String(x.id) === String(del.dataset.del));
     askConfirm(`ลบ “${w.title}” ใช่ไหม? การลบนี้ย้อนกลับไม่ได้`).then(async ok=>{
       if(!ok) return;
-      const {error} = await sbClient.from('works').delete().eq('id', w.id);
-      if(error) { toast("ลบไม่สำเร็จ"); return; }
+      if(String(w.id).includes('-')) {
+          const {error} = await sbClient.from('works').delete().eq('id', w.id);
+          if(error) { toast("ลบไม่สำเร็จ"); return; }
+      }
       WORKS = WORKS.filter(x=>x.id!==w.id); favs = favs.filter(x=>x!==w.id); saveFavs(); 
       toast("ลบแล้ว");
       if(location.hash.startsWith("#/work/")) go("works"); else { renderAdmin(); refreshViews(); }
     }); return;
   }
   if(t.closest("[data-site]")) return openSite();
+  if(t.closest("[data-resettexts]")){
+    askConfirm("คืนข้อความหัวข้อ/ปุ่มทั้งหมดในหน้าเว็บเป็นค่าเริ่มต้น?").then(ok=>{ if(!ok) return; TEXTS={}; saveTexts(); refreshViews(); toast("คืนข้อความแล้ว"); }); return;
+  }
   if(t.closest("[data-logout]")){ doLogout(); }
 });
 
-const isEditing = () => adminOK && editMode;
-const saveTexts = () => { try{ localStorage.setItem(TEXTS_KEY, JSON.stringify(TEXTS)); }catch(e){ toast("บันทึกไม่สำเร็จ"); } };
+/* ฟังก์ชันบันทึกข้อมูลตั้งค่า (Site Settings & Contacts) */
+async function saveSiteDB(f) {
+  const next = {
+    id: 1,
+    owner_name: f.get("owner").trim(),
+    intro_text: f.get("intro").trim(),
+    about_text: f.get("about").trim(),
+    contact_email: f.get("contactEmail").trim(),
+    logo_url: CONFIG.logo || "",
+    skills: f.get("skills").split(",").map(x=>x.trim()).filter(Boolean),
+    work_styles: f.get("styles").split("\n").map(x=>x.trim()).filter(Boolean)
+  };
+  
+  await sbClient.from('site_settings').upsert(next);
 
-async function saveSiteField(field, value) {
-  const mapping = { owner: 'owner_name', intro: 'intro_text', about: 'about_text', skills: 'skills', styles: 'work_styles', logo: 'logo_url', contactEmail: 'contact_email' };
-  if(mapping[field]) {
-     await sbClient.from('site_settings').update({[mapping[field]]: value}).eq('id', 1);
+  const contactsLines = f.get("contacts").split("\n").map(x=>x.trim()).filter(Boolean);
+  await sbClient.from('contacts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+  
+  const contactsData = contactsLines.map((l, i) => {
+     const p = l.split("|").map(x=>x.trim());
+     return { icon: p[0]||"✨", label: p[1]||p[2]||"", url: p[2]||"#", sort_order: i };
+  }).filter(c => c.label);
+  
+  if(contactsData.length > 0) {
+     await sbClient.from('contacts').insert(contactsData);
   }
+  
+  await fetchAllData();
+}
+
+/* ฟังก์ชันบันทึกผลงานเดี่ยว */
+async function saveWorkDB(f){
+  const fd = new FormData(f);
+  const idAttr = f.dataset.id;
+  const color = fd.get("color");
+
+  const payload = {
+    title: fd.get("title").trim(),
+    category: fd.get("cat").trim(),
+    publish_date: fd.get("date"),
+    status: fd.get("status"),
+    description: fd.get("desc").trim(),
+    theme_color: color,
+    emoji: fd.get("emoji") || "✨",
+    mockup_kind: fd.get("kind"),
+    details: fd.get("details").split("\n").map(s=>s.trim()).filter(Boolean),
+    tech_stack: fd.get("tech").split(",").map(s=>s.trim()).filter(Boolean),
+    demo_url: safeUrl(fd.get("link")),
+    cover_image_url: draft.imgs[0], // ใช้อันที่แปลง Base64 ไว้แล้วเพื่อความง่ายและปลอดภัย
+    shot_image_urls: [draft.imgs[1], draft.imgs[2]].filter(Boolean)
+  };
+  
+  if(idAttr && String(idAttr).includes('-')) {
+     await sbClient.from('works').update(payload).eq('id', idAttr);
+  } else {
+     await sbClient.from('works').insert(payload);
+  }
+  await fetchAllData();
+}
+
+$("#v-home").addEventListener("click", e=>{
+  if(e.target.closest("[data-logo-pick]")){ $("#logoPick").click(); return; }
+  if(e.target.closest("[data-logo-rm]")){ CONFIG.logo = ""; syncSiteSettings(); applySite(); toast("ลบรูปแล้ว"); }
+});
+$("#logoPick").addEventListener("change", async e=>{
+  const f = e.target.files[0]; if(!f) return;
+  try{ 
+    CONFIG.logo = await readImgBase64(f); 
+    await syncSiteSettings(); 
+    applySite(); 
+    toast("เปลี่ยนโลโก้สำเร็จ ♥"); 
+  }
+  catch(err){ toast("อ่านรูปไม่สำเร็จ"); }
+  e.target.value = "";
+});
+
+/* อัปเดตข้อมูลอัตโนมัติจากโหมดจิ้มแก้ไข */
+async function syncSiteSettings() {
+  if(!adminOK) return;
+  await sbClient.from('site_settings').upsert({
+      id: 1, owner_name: CONFIG.owner, intro_text: CONFIG.intro, about_text: CONFIG.about, contact_email: CONFIG.contactEmail, logo_url: CONFIG.logo, skills: CONFIG.skills, work_styles: CONFIG.styles
+  });
 }
 async function syncContacts() {
   await sbClient.from('contacts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
   if(CONFIG.contacts.length) {
-     const data = CONFIG.contacts.map((c,i)=>({icon: c.icon, label: c.label, url: c.href||c.url, sort_order: i}));
+     const data = CONFIG.contacts.map((c,i)=>({icon: c.icon, label: c.label, url: c.url||c.href, sort_order: i}));
      await sbClient.from('contacts').insert(data);
   }
 }
-
 async function updWorkDB(w) {
+    if (String(w.id).length < 10) return; // ไม่บันทึกอัตโนมัติหากเป็นข้อมูลจำลอง
     const payload = {
-        title: w.title,
-        description: w.desc,
-        category: w.cat,
-        publish_date: w.date,
-        status: w.status,
-        theme_color: w.theme.a,
-        emoji: w.emoji,
-        mockup_kind: w.kind,
-        details: w.details,
-        tech_stack: w.tech,
-        demo_url: w.link,
-        cover_image_url: w.img,
-        shot_image_urls: w.shots.slice(1).filter(Boolean)
+        title: w.title, description: w.desc, category: w.cat, publish_date: w.date, status: w.status, theme_color: w.theme.a, emoji: w.emoji, mockup_kind: w.kind, details: w.details, tech_stack: w.tech, demo_url: w.link, cover_image_url: w.img, shot_image_urls: w.shots.slice(1).filter(Boolean)
     };
     await sbClient.from('works').update(payload).eq('id', w.id);
 }
 
 function updWork(id, fn){ 
-  const w = WORKS.find(x=>x.id===id); 
-  if(w){ 
-    fn(w); 
-    updWorkDB(w).catch(e => toast('บันทึกไม่สำเร็จ: '+e.message)); 
-  } 
+  const w = WORKS.find(x=>String(x.id) === String(id)); 
+  if(w){ fn(w); updWorkDB(w); } 
 }
+
+/* ===================== โหมดแก้ไขในหน้าเว็บ ===================== */
+const isEditing = () => adminOK && editMode;
+const saveTexts = () => { try{ localStorage.setItem(TEXTS_KEY, JSON.stringify(TEXTS)); }catch(e){} };
 
 function focusLast(sel){
   setTimeout(()=>{ const els = document.querySelectorAll(sel), el = els[els.length-1]; if(!el) return;
@@ -1055,14 +1164,13 @@ function refreshEdit(){
   applySite(); refreshViews();
 }
 async function doLogout(){
-  adminOK = false;
+  adminOK = false; 
   await sbClient.auth.signOut();
-  refreshEdit(); renderAdmin();
-  go("home"); toast("ออกจากระบบแล้ว");
+  refreshEdit(); renderAdmin(); go("home"); toast("ออกจากระบบแล้ว");
 }
 
 $("#eb-toggle").addEventListener("click", ()=>{ editMode = !editMode; refreshEdit(); toast(editMode ? "เปิดโหมดแก้ไข ✏️" : "ปิดโหมดแก้ไข (ดูตัวอย่าง)"); });
-$("#eb-out").addEventListener("click", doLogout);
+$("#eb-out").addEventListener("click", ()=>{ doLogout(); });
 
 /* พิมพ์แก้ข้อความ: Enter = เสร็จ, วางเป็นข้อความธรรมดา, ออกจากช่อง = บันทึก */
 document.addEventListener("keydown", e=>{
@@ -1081,27 +1189,21 @@ document.addEventListener("focusout", async e=>{
   const el = e.target; if(!isEditing() || !el.matches || !el.matches("[contenteditable=true]")) return;
   const val = (el.dataset.multi!==undefined ? el.innerText : el.textContent).trim();
   if(el.matches("[data-t]")){ TEXTS[el.dataset.t] = val; saveTexts(); }
-  else if(el.matches("[data-s]")){ CONFIG[el.dataset.s] = val; await saveSiteField(el.dataset.s, val); }
-  else if(el.matches("[data-sl]")){ CONFIG[el.dataset.sl][+el.dataset.i] = val; await saveSiteField(el.dataset.sl, CONFIG[el.dataset.sl]); }
+  else if(el.matches("[data-s]")){ CONFIG[el.dataset.s] = val; await syncSiteSettings(); }
+  else if(el.matches("[data-sl]")){ CONFIG[el.dataset.sl][+el.dataset.i] = val; await syncSiteSettings(); }
   else if(el.matches("[data-wf]")){
-    if(el.dataset.wf==="title" && !val){ const w=WORKS.find(x=>x.id===el.dataset.wid); if(w) el.textContent = w.title; return; }
+    if(el.dataset.wf==="title" && !val){ const w=WORKS.find(x=>String(x.id)===String(el.dataset.wid)); if(w) el.textContent = w.title; return; }
     updWork(el.dataset.wid, w=>{ w[el.dataset.wf] = val; });
   }
   else if(el.matches("[data-wl]")){ updWork(el.dataset.wid, w=>{ w[el.dataset.wl][+el.dataset.i] = val; }); }
 });
-document.addEventListener("change", async e=>{
+document.addEventListener("change", e=>{
   const t = e.target; if(!adminOK || !t.matches) return;
-  if(t.matches("[data-ci]")){ 
-    CONFIG.contacts[+t.dataset.i][t.dataset.ci] = t.value.trim(); 
-    await syncContacts(); 
-  }
-  else if(t.matches("[data-cemail]")){ 
-    CONFIG.contactEmail = t.value.trim(); 
-    await saveSiteField('contactEmail', CONFIG.contactEmail);
-  }
+  if(t.matches("[data-ci]")){ CONFIG.contacts[+t.dataset.i][t.dataset.ci] = t.value.trim(); syncContacts(); }
+  else if(t.matches("[data-cemail]")){ CONFIG.contactEmail = t.value.trim(); syncSiteSettings(); }
 });
 
-/* กล่องยืนยัน (ใช้แทน confirm() ที่บางหน้าต่างพรีวิวบล็อกไว้) */
+/* กล่องยืนยัน */
 const dlg = document.createElement("div");
 dlg.className = "modal"; dlg.style.zIndex = 120; document.body.appendChild(dlg);
 function askConfirm(msg){
@@ -1115,7 +1217,6 @@ function askConfirm(msg){
   });
 }
 
-/* ตั้งค่าเว็บไซต์ (ชื่อ แนะนำตัว ทักษะ ช่องทางติดต่อ ฯลฯ) */
 const ICONS = {
   mail:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>',
   line:'<path d="M21 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.6A8 8 0 1 1 21 11.5z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/>',
@@ -1167,81 +1268,6 @@ function openSite(){
   modal.classList.add("show");
 }
 
-async function saveSiteDB(f){
-  const split = (s,sep)=>s.split(sep).map(x=>x.trim()).filter(Boolean);
-  const contacts = split(f.get("contacts"),"\n").map(l=>{ const p=l.split("|").map(x=>x.trim()); return {icon:p[0]||"✨", label:p[1]||p[2]||"", url:p[2]||"#"}; }).filter(c=>c.label);
-  
-  const payload = {
-    owner_name: f.get("owner").trim(),
-    intro_text: f.get("intro").trim(), 
-    about_text: f.get("about").trim(),
-    skills: split(f.get("skills"),","), 
-    work_styles: split(f.get("styles"),"\n"),
-    contact_email: f.get("contactEmail").trim()
-  };
-  
-  await sbClient.from('site_settings').upsert({ id: 1, ...payload });
-  
-  await sbClient.from('contacts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-  if(contacts.length){
-    await sbClient.from('contacts').insert(contacts.map((c,i)=>({...c, sort_order:i})));
-  }
-  await fetchAllData();
-}
-
-async function saveWorkDB(f){
-  const fd = new FormData(f);
-  const idAttr = f.dataset.id;
-  const color = fd.get("color");
-  
-  // อัปโหลดรูปภาพที่มีการเปลี่ยนแปลง
-  for(let i=0; i<3; i++) {
-     if(draft.files[i]) draft.imgs[i] = await uploadImage(draft.files[i]);
-  }
-
-  const payload = {
-    title: fd.get("title").trim(),
-    category: fd.get("cat").trim(),
-    publish_date: fd.get("date"),
-    status: fd.get("status"),
-    description: fd.get("desc").trim(),
-    theme_color: color,
-    emoji: fd.get("emoji") || "✨",
-    mockup_kind: fd.get("kind"),
-    details: fd.get("details").split("\n").map(s=>s.trim()).filter(Boolean),
-    tech_stack: fd.get("tech").split(",").map(s=>s.trim()).filter(Boolean),
-    demo_url: safeUrl(fd.get("link")),
-    cover_image_url: draft.imgs[0],
-    shot_image_urls: [draft.imgs[1], draft.imgs[2]].filter(Boolean)
-  };
-  
-  if(idAttr) {
-     await sbClient.from('works').update(payload).eq('id', idAttr);
-  } else {
-     await sbClient.from('works').insert(payload);
-  }
-  await fetchAllData();
-}
-
-$("#v-home").addEventListener("click", e=>{
-  if(e.target.closest("[data-logo-pick]")){ $("#logoPick").click(); return; }
-  if(e.target.closest("[data-logo-rm]")){ 
-    CONFIG.logo = ""; 
-    saveSiteField('logo', ""); 
-    applySite(); toast("ลบรูปแล้ว"); 
-  }
-});
-$("#logoPick").addEventListener("change", async e=>{
-  const f = e.target.files[0]; if(!f) return;
-  try{ 
-    const url = await uploadImage(f);
-    CONFIG.logo = url; 
-    await saveSiteField('logo', url); 
-    applySite(); toast("ใส่โลโก้แล้ว ♥"); 
-  } catch(err){ toast("อ่านรูปไม่สำเร็จ"); }
-  e.target.value = "";
-});
-
 /* ทางเข้าหลังบ้านแบบซ่อน: แตะชื่อร้านที่ท้ายเว็บ 5 ครั้งติดกัน */
 (function(){
   let n = 0, t;
@@ -1252,43 +1278,37 @@ $("#logoPick").addEventListener("change", async e=>{
   });
 })();
 
-
-async function checkAuth() {
-  const { data } = await sbClient.auth.getSession();
-  session = data.session;
-  if(session) {
-      const { data: isAdmin } = await sbClient.rpc('is_admin');
-      adminOK = (isAdmin === true);
-  } else {
-      adminOK = false;
-  }
-  editMode = adminOK;
-}
-
+/* ฟังก์ชันตรวจสอบ Auth & โหลดข้อมูลจาก Supabase */
 async function fetchAllData() {
   isFetching = true;
   try {
       const [setRes, contRes, workRes] = await Promise.all([
-          sbClient.from('site_settings').select('*').eq('id', 1).single(),
+          sbClient.from('site_settings').select('*').eq('id', 1).maybeSingle(),
           sbClient.from('contacts').select('*').order('sort_order'),
           sbClient.from('works').select('*').order('publish_date', {ascending: false})
       ]);
       
-      if(setRes.data) {
-          CONFIG.owner = setRes.data.owner_name || '';
-          CONFIG.intro = setRes.data.intro_text || '';
-          CONFIG.about = setRes.data.about_text || '';
-          CONFIG.logo = setRes.data.logo_url || '';
-          CONFIG.skills = setRes.data.skills || [];
-          CONFIG.styles = setRes.data.work_styles || [];
-          CONFIG.contactEmail = setRes.data.contact_email || '';
-      }
-      if(contRes.data) {
+      const sData = setRes.data || {};
+      // แมปข้อมูล Site Settings (ถ้าไม่มีใช้ค่าตัวอย่าง)
+      CONFIG.owner = sData.owner_name || DEFAULT_CONFIG.owner;
+      CONFIG.intro = sData.intro_text || DEFAULT_CONFIG.intro;
+      CONFIG.about = sData.about_text || DEFAULT_CONFIG.about;
+      CONFIG.logo = sData.logo_url || DEFAULT_CONFIG.logo;
+      CONFIG.skills = (sData.skills && sData.skills.length > 0) ? sData.skills : JSON.parse(JSON.stringify(DEFAULT_CONFIG.skills));
+      CONFIG.styles = (sData.work_styles && sData.work_styles.length > 0) ? sData.work_styles : JSON.parse(JSON.stringify(DEFAULT_CONFIG.styles));
+      CONFIG.contactEmail = sData.contact_email || DEFAULT_CONFIG.contactEmail;
+
+      // แมปข้อมูล Contacts (ถ้าไม่มีใช้ค่าตัวอย่าง)
+      if(contRes.data && contRes.data.length > 0) {
           CONFIG.contacts = contRes.data.map(c => ({
               icon: c.icon, label: c.label, href: c.url, url: c.url, id: c.id
           }));
+      } else {
+          CONFIG.contacts = JSON.parse(JSON.stringify(DEFAULT_CONFIG.contacts));
       }
-      if(workRes.data) {
+      
+      // แมปข้อมูล Works (ถ้าไม่มีใช้ค่าตัวอย่าง 2 อันให้เว็บไม่โล่ง)
+      if(workRes.data && workRes.data.length > 0) {
           WORKS = workRes.data.map(w => ({
               id: w.id, cat: w.category, title: w.title, date: w.publish_date,
               status: w.status, desc: w.description, 
@@ -1297,28 +1317,42 @@ async function fetchAllData() {
               tech: w.tech_stack || [], link: w.demo_url || '', img: w.cover_image_url || '',
               shots: [w.cover_image_url, ...(w.shot_image_urls || [])]
           }));
+      } else {
+          WORKS = JSON.parse(JSON.stringify(DEFAULT_WORKS));
       }
   } catch(err) {
       console.error(err);
-      toast("เกิดข้อผิดพลาดในการโหลดข้อมูล");
+      toast("เกิดข้อผิดพลาดในการโหลดข้อมูล แสดงข้อมูลจำลอง");
+      CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+      WORKS = JSON.parse(JSON.stringify(DEFAULT_WORKS));
   } finally {
       isFetching = false;
       const loader = $("#global-loader");
       if(loader) { loader.style.opacity="0"; setTimeout(()=>loader.style.display="none", 400); }
       applySite();
+      renderChips();
       refreshViews();
   }
 }
 
-/* เริ่มต้น */
+/* เริ่มต้นระบบเมื่อเปิดเว็บ */
 (async function init(){
-  await checkAuth();
-  await fetchAllData();
+  // ตรวจสอบว่าแอดมินเปิดค้างไว้หรือไม่
+  const { data: { session } } = await sbClient.auth.getSession();
+  if (session) {
+      const { data: isAdmin } = await sbClient.rpc('is_admin');
+      adminOK = !!isAdmin;
+      editMode = adminOK;
+  }
   
+  // ของตกแต่ง
   const d = $("#deco");
   ["top:-90px;left:-100px;background:#fadadf;width:320px;height:320px","top:38%;right:-170px;background:#e3e8f6;width:360px;height:360px;animation-delay:-6s","bottom:-120px;left:12%;background:#ffe9d2;width:300px;height:300px;animation-delay:-11s"].forEach(st=>{
     const b = document.createElement("span"); b.className = "blob"; b.style.cssText = st; d.appendChild(b);
   });
+  
+  // โหลดข้อมูลจริงจาก Database
+  await fetchAllData();
   route();
 })();
 </script>
