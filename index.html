@@ -223,18 +223,18 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0 10px}
 
 /* ===================== ปรับโทนให้ละมุน / ดูเป็นงานทำมือ ===================== */
 :root{
-  --pink:#e8a0b0; --pink-d:#c27487; --pink-l:#fbe6ea; --pink-xl:#fff7f5;
-  --blue:#a9b8d6; --blue-l:#eaeff8;
-  --navy:#5a4651; --text:#7a6670; --muted:#a8969f;
-  --line:#f0e1de; --rose:#f7cfd6; --rose-line:#efb7c2;
-  --shadow:0 4px 18px rgba(176,128,128,.13);
+  --pink:#f7a6bc; --pink-d:#c77d90; --pink-l:#fce6ec; --pink-xl:#fff7f9;
+  --blue:#b6ccdf; --blue-l:#edf3f7;
+  --navy:#5e4e51; --text:#7d6c70; --muted:#a6979a;
+  --line:#fae1e7; --rose:#fcdbe3; --rose-line:#f5bacc;
+  --shadow:0 8px 24px rgba(190,150,160,.08);
 }
 body{
   font-family:'Noto Sans Thai Looped','Prompt',system-ui,sans-serif;
   background:
-    radial-gradient(ellipse at 0% 0%,#ffeee9 0,transparent 55%),
-    radial-gradient(ellipse at 100% 12%,#f3eefb 0,transparent 50%),
-    #fffaf6;
+    radial-gradient(ellipse at 10% 0%,#fff2f5 0,transparent 55%),
+    radial-gradient(ellipse at 100% 15%,#f4f7fb 0,transparent 50%),
+    #fffcfd;
 }
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .6 0 0 0 0 .45 0 0 0 0 .45 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -247,9 +247,9 @@ h1,h2,h3,.sec-title,.stat b,.card h3{font-family:'Mali','Noto Sans Thai Looped',
 /* หัวข้อ: แทนหัวใจทุกที่ด้วยไฮไลต์ปากกาเน้นข้อความ */
 .page-head h1 i,.topbar h2 i,.sec-title i,.d-info h2.title i{display:none}
 .page-head h1{font-size:25px}
-.page-head h1>span,.topbar h2>span,.sec-title>span>span{background:linear-gradient(transparent 62%,#f9d9df 62%);padding:0 4px;margin:0 -4px}
+.page-head h1>span,.topbar h2>span,.sec-title>span>span{background:linear-gradient(transparent 62%,var(--pink-l) 62%);padding:0 4px;margin:0 -4px}
 .hero-home h1{font-size:clamp(28px,6vw,42px);font-weight:700}
-.hero-home h1 .grad{background:linear-gradient(transparent 62%,#f9d3db 62%);-webkit-background-clip:border-box;background-clip:border-box;color:var(--navy);padding:0 6px;margin:0 -2px}
+.hero-home h1 .grad{background:linear-gradient(transparent 62%,var(--rose) 62%);-webkit-background-clip:border-box;background-clip:border-box;color:var(--navy);padding:0 6px;margin:0 -2px}
 .sec-title{font-size:16px}
 
 /* ปุ่ม / ชิป */
@@ -346,7 +346,7 @@ h1,h2,h3,.sec-title,.stat b,.card h3{font-family:'Mali','Noto Sans Thai Looped',
 }
 @media(min-width:1000px){.rail{grid-template-columns:repeat(4,1fr)}}
 .hero-home{padding-top:34px}
-.shop-name{background:linear-gradient(transparent 62%,#f9d3db 62%);padding:0 6px;margin:0 -6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.shop-name{background:linear-gradient(transparent 62%,var(--rose) 62%);padding:0 6px;margin:0 -6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .contact-list .ic svg{width:21px;height:21px;fill:none;stroke:var(--pink-d);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .contact-list .ic{background:#fbe6ea}
 #owner{-webkit-user-select:none;user-select:none;touch-action:manipulation;-webkit-touch-callout:none}
@@ -683,8 +683,8 @@ function renderDetail(id, variant=0){
           <button class="btn s sm addbtn" data-wladd="tech" ${wid}>＋ เพิ่ม</button></div>
         ${(()=>{ const u = safeUrl(w.link);
           const ico = `<svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-          if(u) return `<a class="cta" data-ext href="${esc(u)}" target="_blank" rel="noopener noreferrer">${ico}<span data-t="detail.cta3">View Demo</span></a>`;
-          return E ? `<div class="cta off" role="button" tabindex="0" data-wedit="${w.id}">${ico}<span>ยังไม่มีลิงก์ — กดเพื่อวางลิงก์ตัวอย่างงาน</span></div>` : `<div class="cta soon" role="button" tabindex="0" data-soon>${ico}<span data-t="detail.cta3">View Demo</span></div>`; })()}
+          if(u) return `<a class="cta" data-ext href="${esc(u)}" target="_blank" rel="noopener noreferrer">${ico}<span data-t="detail.cta3">Example</span></a>`;
+          return E ? `<div class="cta off" role="button" tabindex="0" data-wedit="${w.id}">${ico}<span>ยังไม่มีลิงก์ — กดเพื่อวางลิงก์ตัวอย่างงาน</span></div>` : `<div class="cta soon" role="button" tabindex="0" data-soon>${ico}<span data-t="detail.cta3">Example</span></div>`; })()}
       </div>
     </div>`;
   decorate($("#v-detail"));
@@ -1380,7 +1380,7 @@ async function fetchAllData() {
   }
   
   const d = $("#deco");
-  ["top:-90px;left:-100px;background:#fadadf;width:320px;height:320px","top:38%;right:-170px;background:#e3e8f6;width:360px;height:360px;animation-delay:-6s","bottom:-120px;left:12%;background:#ffe9d2;width:300px;height:300px;animation-delay:-11s"].forEach(st=>{
+  ["top:-90px;left:-100px;background:#fce6ec;width:320px;height:320px","top:38%;right:-170px;background:#edf3f7;width:360px;height:360px;animation-delay:-6s","bottom:-120px;left:12%;background:#fff2eb;width:300px;height:300px;animation-delay:-11s"].forEach(st=>{
     const b = document.createElement("span"); b.className = "blob"; b.style.cssText = st; d.appendChild(b);
   });
   
