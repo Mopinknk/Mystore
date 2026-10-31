@@ -1445,7 +1445,7 @@ async function fetchAllData() {
   if (session) {
       const { data: isAdmin } = await sbClient.rpc('is_admin');
       adminOK = !!isAdmin;
-      editMode = adminOK;
+      editMode = false; // บังคับให้เป็นโหมดลูกค้า (ซ่อนแถบแก้ไข) เสมอเมื่อเริ่มเปิดเว็บ
   }
   refreshEdit();
   
