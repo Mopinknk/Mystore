@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Mali:wght@400;500;600;700&family=Noto+Sans+Thai+Looped:wght@300;400;500;600&display=swap" rel="stylesheet">
-<!-- โหลด Supabase SDK -->
+<!-- เรียกใช้ Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -29,7 +29,6 @@ body{
   min-height:100vh;padding-bottom:110px;
 }
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-button:disabled { opacity: 0.6; cursor: not-allowed; }
 input,textarea{font-family:inherit}
 .wrap{max-width:1080px;margin:0 auto;padding:0 18px}
 
@@ -221,7 +220,7 @@ body.admin .toast.show{transform:translate(-50%,0)}
 .view{display:none}.view.show{display:block;animation:pop .35s both}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0 10px}
 
-/* ===================== ปรับโทนให้ละมุน / ดูเป็นงานทำมือ ===================== */
+/* ปรับโทนให้ละมุน */
 :root{
   --pink:#e8a0b0; --pink-d:#c27487; --pink-l:#fbe6ea; --pink-xl:#fff7f5;
   --blue:#a9b8d6; --blue-l:#eaeff8;
@@ -231,10 +230,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0 10px}
 }
 body{
   font-family:'Noto Sans Thai Looped','Prompt',system-ui,sans-serif;
-  background:
-    radial-gradient(ellipse at 0% 0%,#ffeee9 0,transparent 55%),
-    radial-gradient(ellipse at 100% 12%,#f3eefb 0,transparent 50%),
-    #fffaf6;
+  background: radial-gradient(ellipse at 0% 0%,#ffeee9 0,transparent 55%), radial-gradient(ellipse at 100% 12%,#f3eefb 0,transparent 50%), #fffaf6;
 }
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .6 0 0 0 0 .45 0 0 0 0 .45 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -243,16 +239,12 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .card{animation:pop .5s ease both}
 h1,h2,h3,.sec-title,.stat b,.card h3{font-family:'Mali','Noto Sans Thai Looped',sans-serif}
-
-/* หัวข้อ: แทนหัวใจทุกที่ด้วยไฮไลต์ปากกาเน้นข้อความ */
 .page-head h1 i,.topbar h2 i,.sec-title i,.d-info h2.title i{display:none}
 .page-head h1{font-size:25px}
 .page-head h1>span,.topbar h2>span,.sec-title>span>span{background:linear-gradient(transparent 62%,#f9d9df 62%);padding:0 4px;margin:0 -4px}
 .hero-home h1{font-size:clamp(28px,6vw,42px);font-weight:700}
 .hero-home h1 .grad{background:linear-gradient(transparent 62%,#f9d3db 62%);-webkit-background-clip:border-box;background-clip:border-box;color:var(--navy);padding:0 6px;margin:0 -2px}
 .sec-title{font-size:16px}
-
-/* ปุ่ม / ชิป */
 .btn{font-weight:500}
 .btn.p{background:var(--rose);color:#6b3f4b;box-shadow:none;border:1.5px solid var(--rose-line)}
 .btn.s{background:#fff;border:1.5px solid var(--line);color:var(--text)}
@@ -265,8 +257,6 @@ h1,h2,h3,.sec-title,.stat b,.card h3{font-family:'Mali','Noto Sans Thai Looped',
 .search svg{stroke:var(--pink-d)}
 .sort-btn svg{stroke:var(--text)}
 .sort-btn.on{background:var(--pink-l);border-color:var(--rose-line)}
-
-/* การ์ดผลงาน: เหมือนโพลารอยด์ติดเทปวาชิ */
 .card{border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow);padding:8px 8px 0;overflow:visible}
 .card .art{border-radius:12px}
 .card .body{padding:10px 8px 14px}
@@ -286,8 +276,6 @@ h1,h2,h3,.sec-title,.stat b,.card h3{font-family:'Mali','Noto Sans Thai Looped',
 .tag.blue{background:#e6ecf7;color:#6b80a8}
 .tag.green{background:#e3f0e4;color:#6a9a70}
 .date svg,.meta svg{stroke:var(--blue)}
-
-/* หน้ารายละเอียด */
 .hero{border:6px solid #fff;border-radius:20px;box-shadow:var(--shadow)}
 .d-info,.panel{background:#fff;backdrop-filter:none;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:22px}
 .shot{border:3px solid #fff;box-shadow:0 3px 10px rgba(176,128,128,.15)}
@@ -298,16 +286,12 @@ h1,h2,h3,.sec-title,.stat b,.card h3{font-family:'Mali','Noto Sans Thai Looped',
 .checks li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--rose-line);margin-top:.62em}
 .tech{background:#f0f3fa;color:var(--text);font-weight:400}
 .skills .sk{background:#fbe6ea;color:#b06a7c;font-weight:400}
-
-/* หน้าหลัก / ติดต่อ */
 .stat{border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px}
 .stat b{color:var(--pink-d);font-weight:600}
 .contact-list a{box-shadow:none;border:1px solid var(--line)}
 .contact-list .ic{background:#fbe6ea}
 .form input,.form textarea{border:1.5px solid var(--line)}
 .form input:focus,.form textarea:focus{border-color:var(--rose-line)}
-
-/* เมนูล่าง */
 .nav{background:rgba(255,251,248,.97);backdrop-filter:none;border:1.5px solid var(--line);box-shadow:0 6px 20px rgba(176,128,128,.2);border-radius:26px}
 .nav .nb{margin:0 3px;padding:7px 0;border-radius:18px;font-weight:400}
 .nav .nb.on{background:#fbe6ea;color:var(--pink-d)}
@@ -315,8 +299,6 @@ h1,h2,h3,.sec-title,.stat b,.card h3{font-family:'Mali','Noto Sans Thai Looped',
 .toast{background:#6b5560}
 #editbar{border:1.5px solid var(--rose-line)}
 #editbar button.on{background:var(--rose);color:#6b3f4b}
-
-/* ===================== หน้าหลักแบบใหม่ ===================== */
 .hero-home{display:block;padding:30px 0 6px;max-width:680px}
 .hero-home .tag{margin:0 0 14px}
 .hero-home h1{font-size:clamp(32px,9vw,50px);line-height:1.25;letter-spacing:-.01em}
@@ -324,14 +306,10 @@ h1,h2,h3,.sec-title,.stat b,.card h3{font-family:'Mali','Noto Sans Thai Looped',
 .hero-home .btn-row{flex-wrap:nowrap}
 .hero-home .btn{flex:1 1 0;padding:14px 10px;white-space:nowrap}
 @media(min-width:600px){.hero-home .btn{flex:0 0 auto;padding:14px 28px}}
-
-/* สถิติ: การ์ดใบเดียว แบ่ง 3 ช่อง */
 .stats{gap:0;margin:26px 0 8px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:14px 0;max-width:680px}
 .stat{background:none;border:none;box-shadow:none;border-radius:0;padding:4px 6px}
 .stat+.stat{border-left:1px dashed var(--rose-line)}
 .stat b{font-size:28px;line-height:1.2}
-
-/* ผลงานล่าสุด: เลื่อนซ้าย-ขวาบนมือถือ / เรียงตารางบนจอใหญ่ */
 .home-sec{font-size:20px;margin:26px 0 4px}
 .see-all{font-size:13.5px;font-weight:500;color:var(--pink-d);padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:#fff}
 .rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:14px 18px 20px;margin:0 -18px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -366,26 +344,13 @@ a.cta{text-decoration:none}
 .hero-home{padding-top:26px}
 .cat-pick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .cat-pick .chip{padding:7px 14px;font-size:13.5px}
-
-/* หน้าต่างโหลด / Loading */
-#global-loader {
-  position: fixed; inset: 0; background: var(--bg); z-index: 9999;
-  display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px;
-  transition: opacity 0.4s;
-}
-.spinner {
-  width: 44px; height: 44px; border: 4px solid var(--pink-l); border-top-color: var(--pink); 
-  border-radius: 50%; animation: spin 1s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
-<!-- หน้าต่าง Loading แบบบังทั้งจอจนกว่าข้อมูลจะโหลดเสร็จ -->
-<div id="global-loader">
-  <div class="spinner"></div>
-  <div style="color:var(--navy);font-weight:500;">กำลังโหลดข้อมูล...</div>
+<div id="app-loader" style="position:fixed;inset:0;background:#fffaf6;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease;">
+   <div style="font-size:40px;animation:floaty 1.5s infinite">✨</div>
+   <div id="app-loader-text" style="margin-top:16px;font-weight:500;color:var(--navy);">กำลังดึงข้อมูล...</div>
 </div>
 
 <div class="float-deco" id="deco"></div>
@@ -400,7 +365,7 @@ a.cta{text-decoration:none}
       <h1><span id="home-owner" class="shop-name" data-s="owner"></span></h1></div>
       <div class="brand-edit editonly"><button class="btn s sm" data-logo-pick>📷 ใส่โลโก้ / รูปร้าน</button><button class="btn d sm" data-logo-rm id="logo-rm">ลบรูป</button>
         <input type="file" id="logoPick" accept="image/*" hidden></div>
-      <p id="intro" data-s="intro" data-multi>กำลังโหลดข้อมูลคำแนะนำตัว...</p>
+      <p id="intro" data-s="intro" data-multi>รวบรวมผลงานเว็บไซต์ แอปพลิเคชัน และร้านค้าออนไลน์ที่เคยทำมา ออกแบบให้น่ารัก ใช้งานง่าย และรองรับทุกอุปกรณ์</p>
       <div class="btn-row">
         <div class="btn p" role="button" tabindex="0" data-go="works"><span data-t="home.btn1">ดูผลงานทั้งหมด</span></div>
         <div class="btn s" role="button" tabindex="0" data-go="contact"><span data-t="home.btn2">ติดต่อสอบถามงาน</span></div>
@@ -493,53 +458,43 @@ a.cta{text-decoration:none}
 
 <script>
 /* =====================================================
-   เชื่อมต่อ Supabase Database แบบปลอดภัย
+   เชื่อมต่อ Supabase
    ===================================================== */
-const SUPABASE_URL = "https://ldzjzomkhemvvxyxovbs.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxkemp6b21raGVtdnZ4eXhvdmJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0MDcwNTUsImV4cCI6MjEwODk4MzA1NX0.ImEgpSaC3X6Ker7rcvID_dTiRuWk9QAElbi4CIN6hsM";
-const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseUrl = 'https://ldzjzomkhemvvxyxovbs.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxkemp6b21raGVtdnZ4eXhvdmJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0MDcwNTUsImV4cCI6MjEwODk4MzA1NX0.ImEgpSaC3X6Ker7rcvID_dTiRuWk9QAElbi4CIN6hsM';
+const sbClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 /* =====================================================
-   ตัวแปรระบบและข้อมูลตัวอย่าง (Fallback ข้อมูลจำลอง)
+   การตั้งค่าและข้อมูลพื้นฐาน (Fallback)
    ===================================================== */
-const DEFAULT_CONFIG = {
+const CONFIG = {
   owner: "MOPINK",
-  about: "สวัสดีค่ะ เราชอบทำเว็บและแอปที่ดูอบอุ่น ใช้งานง่าย เริ่มจากการฟังก่อนว่าคนที่จ้างอยากได้อะไร แล้วค่อยๆ ปั้นให้ออกมาเป็นรูปเป็นร่าง ทั้งเว็บบริษัท ร้านค้าออนไลน์ และแอปมือถือ",
+  about: "สวัสดีค่ะ เราชอบทำเว็บและแอปที่ดูอบอุ่น ใช้งานง่าย...",
   skills: ["UI/UX Design","Next.js","React","Tailwind CSS","Supabase","Responsive Web","Figma"],
   contacts: [
-    {icon:"mail", label:"your@email.com",      href:"mailto:your@email.com", url:"mailto:your@email.com"},
-    {icon:"line", label:"LINE: @yourline",     href:"https://line.me/ti/p/~yourline", url:"https://line.me/ti/p/~yourline"},
-    {icon:"facebook", label:"Facebook: yourname", href:"https://facebook.com/yourname", url:"https://facebook.com/yourname"},
-    {icon:"phone", label:"08x-xxx-xxxx",       href:"tel:0800000000", url:"tel:0800000000"}
+    {icon:"mail", label:"your@email.com", href:"mailto:your@email.com"},
+    {icon:"line", label:"LINE: @yourline", href:"https://line.me/ti/p/~yourline"},
+    {icon:"facebook", label:"Facebook: yourname", href:"https://facebook.com/yourname"},
+    {icon:"phone", label:"08x-xxx-xxxx", href:"tel:0800000000"}
   ],
   contactEmail: "your@email.com",
-  intro: "รวมงานเว็บไซต์ แอป และร้านค้าออนไลน์ที่เคยได้ทำ ค่อยๆ เลื่อนดูเล่นๆ ได้เลยนะ ถ้าถูกใจชิ้นไหนก็ทักมาคุยกันได้",
-  styles: ["ออกแบบให้น่ารัก สะอาดตา ตรงกับคอนเซ็ปต์ของลูกค้า","รองรับ Responsive ทั้งคอมพิวเตอร์ แท็บเล็ต และมือถือ","ส่งงานตรงเวลา พร้อมดูแลหลังส่งมอบ"],
+  intro: "รวบรวมผลงานเว็บไซต์ แอปพลิเคชัน และร้านค้าออนไลน์ที่เคยทำมา...",
+  styles: ["ออกแบบให้น่ารัก สะอาดตา ตรงกับคอนเซ็ปต์ของลูกค้า","รองรับ Responsive","ส่งงานตรงเวลา"],
   logo: ""
 };
 
 const DEFAULT_WORKS = [
-  {id:1, cat:"เว็บไซต์", title:"เว็บไซต์ร้านขนมหวาน (ข้อมูลตัวอย่าง)", date:"2025-06-12", status:"เสร็จสมบูรณ์",
-   desc:"เว็บไซต์สำหรับร้านขนมหวาน สไตล์น่ารัก อบอุ่น ใช้งานง่าย รองรับทุกอุปกรณ์ (กดบันทึกในหลังบ้านเพื่อสร้างงานจริง)",
-   theme:{a:"#ff7eb3",b:"#ffd6e7",c:"#fff0f6"}, emoji:"🧁", kind:"laptop",
-   details:["ออกแบบเว็บไซต์ตามคอนเซ็ปต์ของร้าน “ความหวานละมุน น่ารัก อบอุ่น”","รองรับการแสดงผลแบบ Responsive ทั้งคอมพิวเตอร์ แท็บเล็ต และมือถือ","ใช้งานง่าย มีระบบสั่งซื้อสินค้า และจัดการออเดอร์"],
-   tech:["Next.js","Tailwind CSS","Supabase"], img:"", shots:[]},
-  {id:2, cat:"แอปพลิเคชัน", title:"แอปจองที่พักและตั๋วเครื่องบิน (ข้อมูลตัวอย่าง)", date:"2025-06-05", status:"เสร็จสมบูรณ์",
-   desc:"แอปจองที่พักและตั๋วเครื่องบินในที่เดียว ค้นหาง่าย เปรียบเทียบราคาได้ทันที",
-   theme:{a:"#5b7bff",b:"#b9c8ff",c:"#e8edff"}, emoji:"✈️", kind:"phone",
-   details:["ค้นหาและเปรียบเทียบราคาที่พัก/ตั๋วเครื่องบินแบบเรียลไทม์","ระบบชำระเงินปลอดภัย รองรับหลายช่องทาง","แจ้งเตือนสถานะการจองผ่านแอป"],
-   tech:["React Native","Firebase","Stripe"], img:"", shots:[]}
+  {id:"11111111-1111-4111-8111-111111111111", cat:"เว็บไซต์", title:"เว็บไซต์ร้านขนมหวาน", date:"2025-06-12", status:"เสร็จสมบูรณ์", desc:"เว็บไซต์สำหรับร้านขนมหวาน สไตล์น่ารัก", theme:{a:"#ff7eb3",b:"#ffd6e7",c:"#fff0f6"}, emoji:"🧁", kind:"laptop", details:["รองรับมือถือ"], tech:["Next.js"], img:"", shots:[]},
+  {id:"22222222-2222-4222-8222-222222222222", cat:"แอปพลิเคชัน", title:"แอปจองที่พักและตั๋วเครื่องบิน", date:"2025-06-05", status:"เสร็จสมบูรณ์", desc:"แอปจองที่พัก ค้นหาง่าย", theme:{a:"#5b7bff",b:"#b9c8ff",c:"#e8edff"}, emoji:"✈️", kind:"phone", details:["จ่ายเงินปลอดภัย"], tech:["React Native"], img:"", shots:[]}
 ];
 
-let CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
-let WORKS = [];
+const clone = o => JSON.parse(JSON.stringify(o));
 const TEXTS_KEY = "texts_v1";
+const SITE_KEY = "site_v1";
 let TEXTS = {}; 
 try { TEXTS = JSON.parse(localStorage.getItem(TEXTS_KEY)||"{}") || {}; } catch(e){}
-
-let editMode = false, curVar = 0, adminOK = false;
-let isFetching = true; // ล็อกสถานะไว้ระหว่างโหลด
-let draft = {imgs:["","",""], files:[null,null,null]}; // เก็บรูปเพื่อรออัปโหลด
+let editMode = false, adminOK = false, curVar = 0;
+let WORKS = [];
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -553,9 +508,9 @@ const saveFavs = () => { try{ localStorage.setItem("favs", JSON.stringify(favs))
 
 const state = {cat:"ทั้งหมด", q:"", favOnly:false};
 
-/* ภาพวาดอุปกรณ์จำลอง (laptop / phone) — ใช้เมื่อไม่มีรูปจริง */
+/* ภาพวาดอุปกรณ์จำลอง */
 function deviceSVG(w, variant=0){
-  const {b,c} = w.theme, a = mix(w.theme.a,.2), id = "g"+w.id+"_"+variant;
+  const {b,c} = w.theme, a = mix(w.theme.a,.2), id = "g"+w.id.slice(0,6)+"_"+variant;
   const blocks = (x,y,wd,n,gap=3)=>{
     let s=""; const bw=(wd-gap*(n-1))/n;
     for(let i=0;i<n;i++) s+=`<rect x="${x+i*(bw+gap)}" y="${y}" width="${bw}" height="16" rx="3" fill="${b}"/><circle cx="${x+i*(bw+gap)+bw/2}" cy="${y+8}" r="4" fill="${a}" opacity=".85"/>`;
@@ -624,7 +579,7 @@ function renderGrid(){
   const list = WORKS.filter(w =>
     (state.cat==="ทั้งหมด" || w.cat===state.cat) &&
     (!state.favOnly || favs.includes(w.id)) &&
-    (!q || (w.title+w.desc+w.cat+w.tech.join(" ")).toLowerCase().includes(q))
+    (!q || (w.title+w.desc+w.cat+(w.tech||[]).join(" ")).toLowerCase().includes(q))
   );
   const addCard = isEditing() ? `<div class="card add-card" data-wadd><div><div style="font-size:34px">＋</div>เพิ่มผลงานใหม่</div></div>` : "";
   $("#grid").innerHTML = addCard + list.map(card).join("");
@@ -646,7 +601,7 @@ function safeUrl(u){
 
 /* หน้ารายละเอียด */
 function renderDetail(id, variant=0){
-  const w = WORKS.find(x=>String(x.id) === String(id));
+  const w = WORKS.find(x=>x.id==id);
   if(!w){ go("works"); return; }
   curVar = variant;
   const on = favs.includes(w.id), E = isEditing(), ce = E ? 'contenteditable="true"' : '', wid = `data-wid="${w.id}"`;
@@ -698,19 +653,7 @@ function show(name){
   $$(".nav .nb").forEach(b=>b.classList.toggle("on", b.dataset.go===navKey));
   window.scrollTo({top:0});
 }
-async function go(page){ 
-  // หากจะเข้าหน้า admin ต้องตรวจสอบเซสชั่นจริงอีกครั้ง
-  if (page === "admin") {
-      const { data: { session } } = await sbClient.auth.getSession();
-      if(session) {
-          const { data: isAdmin } = await sbClient.rpc('is_admin');
-          adminOK = !!isAdmin;
-      }
-      if(!adminOK) editMode = false;
-  }
-  location.hash = "#/"+page; 
-}
-
+function go(page){ location.hash = "#/"+page; }
 function route(){
   const parts = location.hash.replace(/^#\/?/,"").split("/");
   const page = parts[0] || "home";
@@ -749,7 +692,7 @@ document.addEventListener("click", e=>{
   if(e.target.closest && e.target.closest("[data-soon]")){ toast("Demo coming soon ♥"); return; }
   const ext = e.target.closest && e.target.closest("a[data-ext]");
   if(ext){ e.preventDefault(); openExt(ext.href); return; }
-  if(isEditing() && e.target.closest("[contenteditable=true]")) return;
+  if(isEditing() && e.target.closest("[contenteditable=true]")) return; 
   const fav = e.target.closest("[data-fav]");
   if(fav){
     e.stopPropagation();
@@ -769,10 +712,10 @@ document.addEventListener("click", e=>{
     if(e.target.closest("[data-wadd]")){ openForm(); return; }
     if((b=e.target.closest("[data-wlrm]"))){ const f=b.dataset.wlrm; updWork(b.dataset.wid,w=>w[f].splice(+b.dataset.i,1)); renderDetail(b.dataset.wid,curVar); return; }
     if((b=e.target.closest("[data-wladd]"))){ const f=b.dataset.wladd; updWork(b.dataset.wid,w=>{ (w[f]=w[f]||[]).push("ข้อความใหม่"); }); renderDetail(b.dataset.wid,curVar); focusLast(`#v-detail [data-wl="${f}"]`); return; }
-    if((b=e.target.closest("[data-slrm]"))){ const k=b.dataset.slrm; CONFIG[k].splice(+b.dataset.i,1); syncSiteSettings(); applySite(); return; }
-    if((b=e.target.closest("[data-sladd]"))){ const k=b.dataset.sladd; CONFIG[k].push("ข้อความใหม่"); syncSiteSettings(); applySite(); focusLast(`[data-sl="${k}"]`); return; }
-    if((b=e.target.closest("[data-crm]"))){ CONFIG.contacts.splice(+b.dataset.crm,1); syncContacts(); applySite(); return; }
-    if(e.target.closest("[data-cadd]")){ CONFIG.contacts.push({icon:"✨",label:"ช่องทางใหม่",href:"#",url:"#"}); syncContacts(); applySite(); return; }
+    if((b=e.target.closest("[data-slrm]"))){ const k=b.dataset.slrm; CONFIG[k].splice(+b.dataset.i,1); saveSiteCfg(); applySite(); return; }
+    if((b=e.target.closest("[data-sladd]"))){ const k=b.dataset.sladd; CONFIG[k].push("ข้อความใหม่"); saveSiteCfg(); applySite(); focusLast(`[data-sl="${k}"]`); return; }
+    if((b=e.target.closest("[data-crm]"))){ CONFIG.contacts.splice(+b.dataset.crm,1); saveSiteCfg(); applySite(); return; }
+    if(e.target.closest("[data-cadd]")){ CONFIG.contacts.push({icon:"✨",label:"ช่องทางใหม่",href:"#"}); saveSiteCfg(); applySite(); return; }
   }
   const goBtn = e.target.closest("[data-go]");
   if(goBtn){
@@ -805,9 +748,10 @@ $("#form").addEventListener("submit", e=>{
 });
 
 let tT;
-function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(tT); tT=setTimeout(()=>t.classList.remove("show"),2500); }
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(tT); tT=setTimeout(()=>t.classList.remove("show"),1800); }
 
-/* ===================== หลังบ้าน และ Supabase ===================== */
+/* =====================  หลังบ้าน (Admin)  ===================== */
+let draft = {imgs:["","",""]};
 const modal = document.createElement("div");
 modal.className = "modal"; document.body.appendChild(modal);
 
@@ -817,9 +761,7 @@ function mix(hex,t){
   const m = v => Math.round(v+(255-v)*t).toString(16).padStart(2,"0");
   return "#"+m(r)+m(g)+m(b);
 }
-
-// โหลดรูปเป็น Base64 (ใช้ชั่วคราวขณะพรีวิว หรือถ้าเซิร์ฟเวอร์อัปโหลดไม่ได้)
-function readImgBase64(file){
+function readImg(file){
   return new Promise((res,rej)=>{
     const fr = new FileReader();
     fr.onload = ()=>{ const im = new Image();
@@ -834,11 +776,11 @@ function readImgBase64(file){
 function renderAdmin(){
   const box = $("#v-admin");
   if(!adminOK){
-    box.innerHTML = `<div class="adm"><div class="page-head"><div><h1>หลังบ้าน <i>🔒</i></h1><p>เข้าสู่ระบบเพื่อแก้ไขเนื้อหาเว็บไซต์</p></div></div>
+    box.innerHTML = `<div class="adm"><div class="page-head"><div><h1>หลังบ้าน <i>🔒</i></h1><p>กรอกข้อมูลเข้าสู่ระบบเพื่อจัดการผลงาน</p></div></div>
       <form class="panel form" id="login">
-        <input type="email" id="adm-email" placeholder="อีเมลแอดมิน" required>
-        <input type="password" id="pw" placeholder="รหัสผ่าน" autocomplete="current-password" required>
-        <button class="cta" style="margin-top:14px" type="submit">เข้าสู่ระบบ</button>
+         <input type="email" id="login-email" placeholder="อีเมล (Email)" required>
+         <input type="password" id="login-pw" placeholder="รหัสผ่าน (Password)" required>
+         <button class="cta" style="margin:0" type="submit" id="login-btn">เข้าสู่ระบบ</button>
       </form></div>`;
     return;
   }
@@ -846,18 +788,17 @@ function renderAdmin(){
     <div class="adm-row">
       <div class="th">${art(w)}</div>
       <div class="info"><h4>${esc(w.title)}</h4><small>${esc(w.cat)} · ${thDate(w.date)}</small></div>
-      <div class="acts"><button class="btn s sm" data-edit="${w.id}">✏️ แก้ไข</button><button class="btn d sm" data-del="${w.id}">🗑 ลบ</button></div>
+      <div class="acts"><button class="btn s sm" data-edit="${w.id}">✏️ แก้ไข</button><button class="btn d sm" data-wdel="${w.id}">🗑 ลบ</button></div>
     </div>`).join("");
   box.innerHTML = `<div class="adm">
     <div class="page-head"><div><h1>จัดการผลงาน <i>♥</i></h1><p>ทั้งหมด ${WORKS.length} ผลงาน</p></div></div>
     <div class="adm-bar">
-      <button class="btn p sm" data-go="home">✏️ ไปจิ้มแก้ไขหน้าเว็บ</button>
+      <button class="btn p sm" data-go="home">✏️ ไปแก้ไขหน้าเว็บ</button>
       <button class="btn p sm" data-add>＋ เพิ่มผลงานใหม่</button>
       <button class="btn s sm" data-site>⚙️ ตั้งค่าเว็บไซต์</button>
-      <button class="btn d sm" data-resettexts>↺ คืนข้อความหน้าเว็บ</button>
       <button class="btn s sm" data-logout>ออกจากระบบ</button>
     </div>
-    <div class="note">💡 เมื่อกดบันทึก ข้อมูลจะถูกอัปเดตลงตาราง <b>Supabase</b> แบบเรียลไทม์ ผู้เข้าชมทั้งหมดจะเห็นการเปลี่ยนแปลงทันที</div>
+    <div class="note">💡 ข้อมูลที่แก้ไขจะถูกบันทึกลง <b>Supabase</b> โดยตรง และอัปเดตให้ผู้เข้าชมทุกคนเห็นทันที ♥</div>
     ${rows || '<div class="empty" style="display:block">ยังไม่มีผลงาน กด “เพิ่มผลงานใหม่” ได้เลย</div>'}
   </div>`;
 }
@@ -870,8 +811,8 @@ function slotHTML(i){
     <button type="button" class="rm" data-rmslot="${i}">ลบรูป</button></div>`;
 }
 function openForm(id){
-  const w = id ? WORKS.find(x=>String(x.id) === String(id)) : null;
-  draft = {imgs:["","",""], files:[null,null,null]};
+  const w = id ? WORKS.find(x=>x.id==id) : null;
+  draft = {imgs:["","",""]};
   if(w){ draft.imgs = [w.img||"", (w.shots||[])[1]||"", (w.shots||[])[2]||""]; }
   const cats = [...new Set([...WORKS.map(x=>x.cat),"เว็บไซต์","แอปพลิเคชัน","ร้านค้าออนไลน์"])];
   modal.innerHTML = `<div class="box"><h3>${w?"แก้ไขผลงาน":"เพิ่มผลงานใหม่"}</h3>
@@ -882,7 +823,7 @@ function openForm(id){
       <div class="cat-pick">${cats.map(c=>`<button type="button" class="chip" data-pickcat="${esc(c)}">${esc(c)}</button>`).join("")}</div></div>
     <div class="fld"><label>วันที่ส่งงาน *</label><input type="date" name="date" required value="${w?.date||new Date().toISOString().slice(0,10)}"></div>
     <div class="fld"><label>คำอธิบายสั้นๆ</label><textarea name="desc">${esc(w?.desc)}</textarea></div>
-    <div class="fld"><label>ลิงก์ตัวอย่างงาน</label><input type="url" name="link" inputmode="url" autocapitalize="off" placeholder="https://ตัวอย่างงานของคุณ.com" value="${esc(w?.link)}"></div>
+    <div class="fld"><label>ลิงก์ตัวอย่างงาน (กดปุ่ม "ดูตัวอย่างงาน" แล้วจะเด้งไปที่ลิงก์นี้)</label><input type="url" name="link" inputmode="url" autocapitalize="off" placeholder="https://ตัวอย่างงานของคุณ.com" value="${esc(w?.link)}"></div>
     <div class="fld"><label>รายละเอียดงาน (1 บรรทัด = 1 ข้อ)</label><textarea name="details">${esc((w?.details||[]).join("\n"))}</textarea></div>
     <div class="fld"><label>เทคโนโลยีที่ใช้ (คั่นด้วยจุลภาค ,)</label><input name="tech" placeholder="Next.js, Tailwind CSS" value="${esc((w?.tech||[]).join(", "))}"></div>
     <div class="row2">
@@ -893,7 +834,7 @@ function openForm(id){
       <div class="fld"><label>สีหลัก</label><input type="color" name="color" value="${w?.theme?.a||"#ff7eb3"}"></div>
       <div class="fld"><label>อีโมจิประจำงาน</label><input name="emoji" maxlength="4" value="${esc(w?.emoji||"✨")}"></div>
     </div>
-    <div class="fld"><label>รูปภาพผลงาน (รองรับการดึงรูปภาพผ่าน Base64)</label><div class="slots">${[0,1,2].map(slotHTML).join("")}</div></div>
+    <div class="fld"><label>รูปภาพผลงาน (ปรับขนาดอัตโนมัติ)</label><div class="slots">${[0,1,2].map(slotHTML).join("")}</div></div>
     <div class="adm-bar" style="justify-content:flex-end;margin-bottom:0">
       <button type="button" class="btn s sm" data-close>ยกเลิก</button>
       <button type="submit" class="btn p sm">💾 บันทึก</button>
@@ -902,11 +843,11 @@ function openForm(id){
 }
 const closeForm = ()=>modal.classList.remove("show");
 
-/* จัดการหมวดหมู่ */
+/* จัดการหมวดหมู่: เปลี่ยนชื่อหมวดทีเดียวทุกผลงาน */
 function openCatMgr(){
   const cats = [...new Set(WORKS.map(w=>w.cat))];
   modal.innerHTML = `<div class="box"><h3>จัดการหมวดหมู่</h3>
-    <p style="font-size:13.5px;margin:4px 0 12px;opacity:.75">แก้ชื่อหมวดได้เลย ผลงานที่ใช้หมวดนี้ใน Database จะเปลี่ยนชื่อตามทั้งหมด</p>
+    <p style="font-size:13.5px;margin:4px 0 12px;opacity:.75">แก้ชื่อหมวดได้เลย ผลงานในหมวดนั้นจะเปลี่ยนตามทั้งหมด ถ้าตั้งชื่อซ้ำกับหมวดอื่นจะรวมเป็นหมวดเดียวกัน</p>
     <form id="cform">${cats.map((c,i)=>`<div class="fld"><label>${esc(c)} · ${WORKS.filter(w=>w.cat===c).length} ชิ้น</label><input name="c${i}" data-old="${esc(c)}" required value="${esc(c)}" autocomplete="off"></div>`).join("")}
     <div class="adm-bar" style="justify-content:flex-end;margin-bottom:0">
       <button type="button" class="btn s sm" data-close>ยกเลิก</button>
@@ -915,87 +856,99 @@ function openCatMgr(){
   modal.classList.add("show");
 }
 
-modal.addEventListener("click", e=>{
+modal.addEventListener("click", async e=>{
   if(e.target===modal || e.target.closest("[data-close]")){ closeForm(); return; }
   const pk = e.target.closest("[data-pickcat]");
   if(pk){ const inp = modal.querySelector('input[name="cat"]'); if(inp){ inp.value = pk.dataset.pickcat; } return; }
   const rm = e.target.closest("[data-rmslot]");
-  if(rm){ const i=+rm.dataset.rmslot; draft.imgs[i]=""; draft.files[i]=null; $("#pv"+i).innerHTML="＋"; }
+  if(rm){ const i=+rm.dataset.rmslot; draft.imgs[i]=""; $("#pv"+i).innerHTML="＋"; }
 });
 modal.addEventListener("change", async e=>{
   const inp = e.target.closest("[data-slot]"); if(!inp || !inp.files[0]) return;
-  const file = inp.files[0];
-  const i = +inp.dataset.slot;
-  draft.files[i] = file;
-  try { 
-    const url = await readImgBase64(file); 
-    draft.imgs[i]=url; 
-    $("#pv"+i).innerHTML=`<img src="${url}">`; 
-  } catch(err){ toast("อ่านรูปไม่สำเร็จ"); }
+  try { const url = await readImg(inp.files[0]); const i=+inp.dataset.slot;
+    draft.imgs[i]=url; $("#pv"+i).innerHTML=`<img src="${url}">`; } catch(err){ toast("อ่านรูปไม่สำเร็จ"); }
 });
 
 modal.addEventListener("submit", async e=>{
   e.preventDefault();
   const btn = e.target.querySelector('button[type="submit"]');
-  const ogText = btn.textContent;
+  if(btn.disabled) return;
   btn.disabled = true; btn.textContent = "กำลังบันทึก...";
-
+  
   try {
-    if(e.target.id==="sform"){ 
-      await saveSiteDB(new FormData(e.target));
-      closeForm(); toast("บันทึกการตั้งค่าแล้ว ♥");
-    }
-    else if(e.target.id==="cform"){
+    if(e.target.id==="sform"){ await saveSite(new FormData(e.target)); return; }
+    if(e.target.id==="cform"){
       const map = {}; e.target.querySelectorAll("input[data-old]").forEach(i=>{ const n = i.value.trim(); if(n) map[i.dataset.old] = n; });
-      for(let w of WORKS) {
-         if(map[w.cat] && map[w.cat] !== w.cat && String(w.id).includes('-')) {
-            await sbClient.from('works').update({category: map[w.cat]}).eq('id', w.id);
+      WORKS = WORKS.map(w=> map[w.cat] ? {...w, cat: map[w.cat]} : w);
+      if(map[state.cat]) state.cat = map[state.cat];
+      
+      if(adminOK) {
+         for (const oldCat in map) {
+            await sbClient.from('works').update({ category: map[oldCat] }).eq('category', oldCat);
          }
       }
-      if(map[state.cat]) state.cat = map[state.cat];
-      await fetchAllData();
-      closeForm(); toast("แก้หมวดหมู่แล้ว ♥");
+      closeForm(); renderChips(); refreshViews(); renderAdmin(); toast("แก้หมวดหมู่แล้ว ♥");
+      return;
     }
-    else if(e.target.id==="wform") {
-      await saveWorkDB(e.target);
-      closeForm(); toast("บันทึกผลงานเรียบร้อย ♥");
-    }
+    
+    // บันทึกผลงาน
+    const f = new FormData(e.target), idAttr = e.target.dataset.id;
+    const color = f.get("color");
+    const wid = idAttr || crypto.randomUUID();
+    const w = {
+      id: wid,
+      cat: f.get("cat").trim(), title: f.get("title").trim(), date: f.get("date"),
+      status: f.get("status"), desc: f.get("desc").trim(),
+      theme: {a:color, b:mix(color,.6), c:mix(color,.88)},
+      emoji: f.get("emoji")||"✨", kind: f.get("kind"),
+      details: f.get("details").split("\n").map(s=>s.trim()).filter(Boolean),
+      link: safeUrl(f.get("link")),
+      tech: f.get("tech").split(",").map(s=>s.trim()).filter(Boolean),
+      img: draft.imgs[0], shots: [draft.imgs[0]||"", draft.imgs[1]||"", draft.imgs[2]||""]
+    };
+    
+    // บันทึกลง Supabase
+    const dbWork = {
+       id: wid, category: w.cat, title: w.title, publish_date: w.date, status: w.status,
+       description: w.desc, theme_color: w.theme.a, emoji: w.emoji, mockup_kind: w.kind,
+       details: w.details, tech_stack: w.tech, demo_url: w.link,
+       cover_image_url: w.img, shot_image_urls: w.shots
+    };
+    const { error } = await sbClient.from('works').upsert(dbWork);
+    if(error) throw error;
+    
+    const i = WORKS.findIndex(x=>x.id==w.id);
+    WORKS = WORKS.slice(); if(i>-1) WORKS[i]=w; else WORKS.push(w);
+    closeForm(); renderAdmin(); refreshViews(); toast("บันทึกเรียบร้อย ♥");
   } catch(err) {
-    console.error(err);
-    toast("เกิดข้อผิดพลาดในการบันทึก");
+    toast("เกิดข้อผิดพลาด: " + err.message);
   } finally {
-    btn.disabled = false; btn.textContent = ogText;
+    if(btn) { btn.disabled = false; btn.textContent = "💾 บันทึก"; }
   }
 });
 
-/* ระบบล็อกอินผ่าน Supabase Auth */
 $("#v-admin").addEventListener("submit", async e=>{
   if(e.target.id==="login"){
     e.preventDefault();
-    const btn = e.target.querySelector('button');
-    const ogText = btn.textContent;
+    const btn = $("#login-btn");
     btn.disabled = true; btn.textContent = "กำลังตรวจสอบ...";
-    
-    const email = $("#adm-email").value;
-    const pw = $("#pw").value;
-    
-    const { data, error } = await sbClient.auth.signInWithPassword({ email, password: pw });
-    if(error) {
-        toast("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
-        btn.disabled = false; btn.textContent = ogText;
-        return;
+    try {
+        const { data, error } = await sbClient.auth.signInWithPassword({
+            email: $("#login-email").value, password: $("#login-pw").value
+        });
+        if(error) throw error;
+        const { data: isAdmin } = await sbClient.rpc('is_admin');
+        if (isAdmin) {
+           adminOK = true; editMode = true; refreshEdit(); renderAdmin(); toast("เข้าสู่ระบบแล้ว ♥");
+        } else {
+           await sbClient.auth.signOut();
+           throw new Error("บัญชีนี้ไม่มีสิทธิ์แอดมิน");
+        }
+    } catch(err) {
+        toast("ล็อกอินล้มเหลว: " + err.message);
+    } finally {
+        if(btn){ btn.disabled = false; btn.textContent = "เข้าสู่ระบบ"; }
     }
-    
-    const { data: isAdmin } = await sbClient.rpc('is_admin');
-    if(!isAdmin) {
-        toast("บัญชีนี้ไม่มีสิทธิ์แอดมิน");
-        await sbClient.auth.signOut();
-        btn.disabled = false; btn.textContent = ogText;
-        return;
-    }
-    
-    adminOK = true; editMode = true;
-    refreshEdit(); renderAdmin(); toast("เข้าสู่ระบบสำเร็จ ♥");
   }
 });
 
@@ -1003,133 +956,63 @@ $("#v-admin").addEventListener("click", e=>{
   const t = e.target;
   if(t.closest("[data-add]")) return openForm();
   const ed = t.closest("[data-edit]"); if(ed) return openForm(ed.dataset.edit);
-  const del = t.closest("[data-del]");
-  if(del){
-    const w = WORKS.find(x=>String(x.id) === String(del.dataset.del));
-    askConfirm(`ลบ “${w.title}” ใช่ไหม? การลบนี้ย้อนกลับไม่ได้`).then(async ok=>{
-      if(!ok) return;
-      if(String(w.id).includes('-')) {
-          const {error} = await sbClient.from('works').delete().eq('id', w.id);
-          if(error) { toast("ลบไม่สำเร็จ"); return; }
-      }
-      WORKS = WORKS.filter(x=>x.id!==w.id); favs = favs.filter(x=>x!==w.id); saveFavs(); 
-      toast("ลบแล้ว");
-      if(location.hash.startsWith("#/work/")) go("works"); else { renderAdmin(); refreshViews(); }
-    }); return;
-  }
   if(t.closest("[data-site]")) return openSite();
-  if(t.closest("[data-resettexts]")){
-    askConfirm("คืนข้อความหัวข้อ/ปุ่มทั้งหมดในหน้าเว็บเป็นค่าเริ่มต้น?").then(ok=>{ if(!ok) return; TEXTS={}; saveTexts(); refreshViews(); toast("คืนข้อความแล้ว"); }); return;
-  }
   if(t.closest("[data-logout]")){ doLogout(); }
 });
 
-/* ฟังก์ชันบันทึกข้อมูลตั้งค่า (Site Settings & Contacts) */
-async function saveSiteDB(f) {
-  const next = {
-    id: 1,
-    owner_name: f.get("owner").trim(),
-    intro_text: f.get("intro").trim(),
-    about_text: f.get("about").trim(),
-    contact_email: f.get("contactEmail").trim(),
-    logo_url: CONFIG.logo || "",
-    skills: f.get("skills").split(",").map(x=>x.trim()).filter(Boolean),
-    work_styles: f.get("styles").split("\n").map(x=>x.trim()).filter(Boolean)
-  };
-  
-  await sbClient.from('site_settings').upsert(next);
-
-  const contactsLines = f.get("contacts").split("\n").map(x=>x.trim()).filter(Boolean);
-  await sbClient.from('contacts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-  
-  const contactsData = contactsLines.map((l, i) => {
-     const p = l.split("|").map(x=>x.trim());
-     return { icon: p[0]||"✨", label: p[1]||p[2]||"", url: p[2]||"#", sort_order: i };
-  }).filter(c => c.label);
-  
-  if(contactsData.length > 0) {
-     await sbClient.from('contacts').insert(contactsData);
-  }
-  
-  await fetchAllData();
-}
-
-/* ฟังก์ชันบันทึกผลงานเดี่ยว */
-async function saveWorkDB(f){
-  const fd = new FormData(f);
-  const idAttr = f.dataset.id;
-  const color = fd.get("color");
-
-  const payload = {
-    title: fd.get("title").trim(),
-    category: fd.get("cat").trim(),
-    publish_date: fd.get("date"),
-    status: fd.get("status"),
-    description: fd.get("desc").trim(),
-    theme_color: color,
-    emoji: fd.get("emoji") || "✨",
-    mockup_kind: fd.get("kind"),
-    details: fd.get("details").split("\n").map(s=>s.trim()).filter(Boolean),
-    tech_stack: fd.get("tech").split(",").map(s=>s.trim()).filter(Boolean),
-    demo_url: safeUrl(fd.get("link")),
-    cover_image_url: draft.imgs[0], // ใช้อันที่แปลง Base64 ไว้แล้วเพื่อความง่ายและปลอดภัย
-    shot_image_urls: [draft.imgs[1], draft.imgs[2]].filter(Boolean)
-  };
-  
-  if(idAttr && String(idAttr).includes('-')) {
-     await sbClient.from('works').update(payload).eq('id', idAttr);
-  } else {
-     await sbClient.from('works').insert(payload);
-  }
-  await fetchAllData();
-}
-
-$("#v-home").addEventListener("click", e=>{
-  if(e.target.closest("[data-logo-pick]")){ $("#logoPick").click(); return; }
-  if(e.target.closest("[data-logo-rm]")){ CONFIG.logo = ""; syncSiteSettings(); applySite(); toast("ลบรูปแล้ว"); }
-});
-$("#logoPick").addEventListener("change", async e=>{
-  const f = e.target.files[0]; if(!f) return;
-  try{ 
-    CONFIG.logo = await readImgBase64(f); 
-    await syncSiteSettings(); 
-    applySite(); 
-    toast("เปลี่ยนโลโก้สำเร็จ ♥"); 
-  }
-  catch(err){ toast("อ่านรูปไม่สำเร็จ"); }
-  e.target.value = "";
-});
-
-/* อัปเดตข้อมูลอัตโนมัติจากโหมดจิ้มแก้ไข */
-async function syncSiteSettings() {
-  if(!adminOK) return;
-  await sbClient.from('site_settings').upsert({
-      id: 1, owner_name: CONFIG.owner, intro_text: CONFIG.intro, about_text: CONFIG.about, contact_email: CONFIG.contactEmail, logo_url: CONFIG.logo, skills: CONFIG.skills, work_styles: CONFIG.styles
-  });
-}
-async function syncContacts() {
-  await sbClient.from('contacts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-  if(CONFIG.contacts.length) {
-     const data = CONFIG.contacts.map((c,i)=>({icon: c.icon, label: c.label, url: c.url||c.href, sort_order: i}));
-     await sbClient.from('contacts').insert(data);
-  }
-}
-async function updWorkDB(w) {
-    if (String(w.id).length < 10) return; // ไม่บันทึกอัตโนมัติหากเป็นข้อมูลจำลอง
-    const payload = {
-        title: w.title, description: w.desc, category: w.cat, publish_date: w.date, status: w.status, theme_color: w.theme.a, emoji: w.emoji, mockup_kind: w.kind, details: w.details, tech_stack: w.tech, demo_url: w.link, cover_image_url: w.img, shot_image_urls: w.shots.slice(1).filter(Boolean)
-    };
-    await sbClient.from('works').update(payload).eq('id', w.id);
-}
-
-function updWork(id, fn){ 
-  const w = WORKS.find(x=>String(x.id) === String(id)); 
-  if(w){ fn(w); updWorkDB(w); } 
-}
-
-/* ===================== โหมดแก้ไขในหน้าเว็บ ===================== */
+/* =====================  โหมดแก้ไขในหน้าเว็บ  ===================== */
 const isEditing = () => adminOK && editMode;
-const saveTexts = () => { try{ localStorage.setItem(TEXTS_KEY, JSON.stringify(TEXTS)); }catch(e){} };
+
+/* ฟังก์ชันบันทึกข้อความหน้าเว็บแบบส่งเข้า Supabase ด้วย */
+const saveTexts = async () => { 
+  try {
+    localStorage.setItem(TEXTS_KEY, JSON.stringify(TEXTS)); 
+    if(adminOK && typeof sbClient !== 'undefined') {
+        const { error } = await sbClient.from('site_settings').update({ ui_texts: TEXTS }).eq('id', 1);
+        if(error) console.error("Text save error");
+    }
+  } catch(e){ toast("บันทึกข้อความไม่สำเร็จ"); } 
+};
+
+function siteObj(withPw=true){
+  return {owner:CONFIG.owner, about:CONFIG.about, intro:CONFIG.intro, skills:CONFIG.skills, styles:CONFIG.styles, contacts:CONFIG.contacts, contactEmail:CONFIG.contactEmail, logo:CONFIG.logo||""};
+}
+
+/* ฟังก์ชันบันทึกตั้งค่าเว็บแบบส่งเข้า Supabase ด้วย */
+const saveSiteCfg = async () => { 
+  try{ 
+      localStorage.setItem(SITE_KEY, JSON.stringify(siteObj(false))); 
+      if(adminOK && typeof sbClient !== 'undefined') {
+          await sbClient.from('site_settings').upsert({
+              id: 1, owner_name: CONFIG.owner, intro_text: CONFIG.intro, about_text: CONFIG.about, 
+              contact_email: CONFIG.contactEmail, logo_url: CONFIG.logo, skills: CONFIG.skills, 
+              work_styles: CONFIG.styles, ui_texts: TEXTS
+          });
+          
+          await sbClient.from('contacts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+          if(CONFIG.contacts.length > 0) {
+             const cToInsert = CONFIG.contacts.map((c, i) => ({ icon: c.icon, label: c.label, url: c.href, sort_order: i }));
+             await sbClient.from('contacts').insert(cToInsert);
+          }
+      }
+  } catch(e){ toast("บันทึกตั้งค่าไม่สำเร็จ"); } 
+}
+
+/* ฟังก์ชันอัปเดตผลงานใน Supabase เมื่อมีการแก้ไขตรงหน้าเว็บ (contenteditable) */
+async function updWork(id, fn){ 
+  const w = WORKS.find(x=>x.id==id); 
+  if(w){ 
+      fn(w); 
+      if(adminOK) {
+         const dbWork = {
+             id: w.id, category: w.cat, title: w.title, publish_date: w.date, status: w.status, description: w.desc, 
+             theme_color: w.theme.a, emoji: w.emoji, mockup_kind: w.kind, details: w.details, tech_stack: w.tech, 
+             demo_url: w.link, cover_image_url: w.img, shot_image_urls: w.shots
+         };
+         sbClient.from('works').upsert(dbWork).then(({error})=>{ if(error) toast("อัปเดตข้อมูลบนฐานข้อมูลล้มเหลว"); });
+      }
+  } 
+}
 
 function focusLast(sel){
   setTimeout(()=>{ const els = document.querySelectorAll(sel), el = els[els.length-1]; if(!el) return;
@@ -1164,11 +1047,27 @@ function refreshEdit(){
   applySite(); refreshViews();
 }
 async function doLogout(){
-  adminOK = false; 
   await sbClient.auth.signOut();
+  adminOK = false; editMode = false;
   refreshEdit(); renderAdmin(); go("home"); toast("ออกจากระบบแล้ว");
 }
-
+function deleteWork(id){
+  const w = WORKS.find(x=>x.id==id); if(!w) return;
+  askConfirm(`ลบ “${w.title}” ใช่ไหม? การลบนี้ย้อนกลับไม่ได้`).then(async ok=>{
+    if(!ok) return;
+    const btn = document.querySelector(`[data-wdel="${id}"]`);
+    if(btn){ btn.disabled = true; btn.textContent = "กำลังลบ..."; }
+    try {
+        const { error } = await sbClient.from('works').delete().eq('id', id);
+        if(error) throw error;
+        WORKS = WORKS.filter(x=>x.id!=w.id); favs = favs.filter(x=>x!=w.id); saveFavs();
+        toast("ลบแล้ว");
+        if(location.hash.startsWith("#/work/")) go("works"); else { renderAdmin(); refreshViews(); }
+    } catch(err) {
+        toast("ลบไม่สำเร็จ: " + err.message);
+    }
+  });
+}
 $("#eb-toggle").addEventListener("click", ()=>{ editMode = !editMode; refreshEdit(); toast(editMode ? "เปิดโหมดแก้ไข ✏️" : "ปิดโหมดแก้ไข (ดูตัวอย่าง)"); });
 $("#eb-out").addEventListener("click", ()=>{ doLogout(); });
 
@@ -1188,19 +1087,20 @@ document.addEventListener("paste", e=>{
 document.addEventListener("focusout", async e=>{
   const el = e.target; if(!isEditing() || !el.matches || !el.matches("[contenteditable=true]")) return;
   const val = (el.dataset.multi!==undefined ? el.innerText : el.textContent).trim();
-  if(el.matches("[data-t]")){ TEXTS[el.dataset.t] = val; saveTexts(); }
-  else if(el.matches("[data-s]")){ CONFIG[el.dataset.s] = val; await syncSiteSettings(); }
-  else if(el.matches("[data-sl]")){ CONFIG[el.dataset.sl][+el.dataset.i] = val; await syncSiteSettings(); }
+  
+  if(el.matches("[data-t]")){ TEXTS[el.dataset.t] = val; await saveTexts(); }
+  else if(el.matches("[data-s]")){ CONFIG[el.dataset.s] = val; await saveSiteCfg(); }
+  else if(el.matches("[data-sl]")){ CONFIG[el.dataset.sl][+el.dataset.i] = val; await saveSiteCfg(); }
   else if(el.matches("[data-wf]")){
-    if(el.dataset.wf==="title" && !val){ const w=WORKS.find(x=>String(x.id)===String(el.dataset.wid)); if(w) el.textContent = w.title; return; }
+    if(el.dataset.wf==="title" && !val){ const w=WORKS.find(x=>x.id==el.dataset.wid); if(w) el.textContent = w.title; return; }
     updWork(el.dataset.wid, w=>{ w[el.dataset.wf] = val; });
   }
   else if(el.matches("[data-wl]")){ updWork(el.dataset.wid, w=>{ w[el.dataset.wl][+el.dataset.i] = val; }); }
 });
-document.addEventListener("change", e=>{
+document.addEventListener("change", async e=>{
   const t = e.target; if(!adminOK || !t.matches) return;
-  if(t.matches("[data-ci]")){ CONFIG.contacts[+t.dataset.i][t.dataset.ci] = t.value.trim(); syncContacts(); }
-  else if(t.matches("[data-cemail]")){ CONFIG.contactEmail = t.value.trim(); syncSiteSettings(); }
+  if(t.matches("[data-ci]")){ CONFIG.contacts[+t.dataset.i][t.dataset.ci] = t.value.trim(); await saveSiteCfg(); }
+  else if(t.matches("[data-cemail]")){ CONFIG.contactEmail = t.value.trim(); await saveSiteCfg(); }
 });
 
 /* กล่องยืนยัน */
@@ -1245,13 +1145,13 @@ function applySite(){
   $("#skills").innerHTML = CONFIG.skills.map((x,i)=>`<span class="sk"><span data-sl="skills" data-i="${i}"${ce}>${esc(x)}</span><button class="x" data-slrm="skills" data-i="${i}">×</button></span>`).join("")
     + `<button class="btn s sm addbtn" data-sladd="skills">＋ เพิ่ม</button>`;
   $("#contacts").innerHTML = E
-    ? CONFIG.contacts.map((c,i)=>`<div class="crow-edit"><input data-ci="icon" data-i="${i}" value="${esc(c.icon)}" aria-label="ไอคอน"><input data-ci="label" data-i="${i}" value="${esc(c.label)}" placeholder="ข้อความที่แสดง"><input data-ci="url" data-i="${i}" value="${esc(c.url||c.href)}" placeholder="ลิงก์ เช่น mailto:..."><button class="x" data-crm="${i}">×</button></div>`).join("")
+    ? CONFIG.contacts.map((c,i)=>`<div class="crow-edit"><input data-ci="icon" data-i="${i}" value="${esc(c.icon)}" aria-label="ไอคอน"><input data-ci="label" data-i="${i}" value="${esc(c.label)}" placeholder="ข้อความที่แสดง"><input data-ci="href" data-i="${i}" value="${esc(c.href)}" placeholder="ลิงก์ เช่น mailto:..."><button class="x" data-crm="${i}">×</button></div>`).join("")
       + `<button class="btn s sm addbtn" data-cadd>＋ เพิ่มช่องทางติดต่อ</button>`
       + `<div class="fld" style="margin-top:10px"><label>อีเมลที่รับข้อความจากฟอร์ม</label><input data-cemail type="email" value="${esc(CONFIG.contactEmail)}" style="padding:11px 14px;border-radius:14px;border:2px solid #e6e3fb;outline:none"></div>`
-    : CONFIG.contacts.map(c=>`<a href="${esc(c.url||c.href)}" target="_blank" rel="noopener">${iconHTML(c.icon)}${esc(c.label)}</a>`).join("");
+    : CONFIG.contacts.map(c=>`<a href="${esc(c.href)}" target="_blank" rel="noopener">${iconHTML(c.icon)}${esc(c.label)}</a>`).join("");
 }
 function openSite(){
-  const lines = CONFIG.contacts.map(c=>`${c.icon} | ${c.label} | ${c.url||c.href}`).join("\n");
+  const lines = CONFIG.contacts.map(c=>`${c.icon} | ${c.label} | ${c.href}`).join("\n");
   modal.innerHTML = `<div class="box"><h3>⚙️ ตั้งค่าเว็บไซต์</h3>
   <form id="sform">
     <div class="fld"><label>ชื่อของคุณ / ชื่อแบรนด์ (ท้ายเว็บ)</label><input name="owner" value="${esc(CONFIG.owner)}"></div>
@@ -1267,8 +1167,29 @@ function openSite(){
     </div></form></div>`;
   modal.classList.add("show");
 }
+async function saveSite(f){
+  const split = (s,sep)=>s.split(sep).map(x=>x.trim()).filter(Boolean);
+  const contacts = split(f.get("contacts"),"\n").map(l=>{ const p=l.split("|").map(x=>x.trim()); return {icon:p[0]||"✨", label:p[1]||p[2]||"", href:p[2]||"#"}; }).filter(c=>c.label);
+  
+  CONFIG.owner = f.get("owner").trim(); CONFIG.intro = f.get("intro").trim(); CONFIG.about = f.get("about").trim();
+  CONFIG.skills = split(f.get("skills"),","); CONFIG.styles = split(f.get("styles"),"\n");
+  CONFIG.contacts = contacts; CONFIG.contactEmail = f.get("contactEmail").trim();
+  
+  await saveSiteCfg();
+  applySite(); closeForm(); toast("บันทึกการตั้งค่าแล้ว ♥");
+}
 
-/* ทางเข้าหลังบ้านแบบซ่อน: แตะชื่อร้านที่ท้ายเว็บ 5 ครั้งติดกัน */
+$("#v-home").addEventListener("click", e=>{
+  if(e.target.closest("[data-logo-pick]")){ $("#logoPick").click(); return; }
+  if(e.target.closest("[data-logo-rm]")){ CONFIG.logo = ""; saveSiteCfg(); applySite(); toast("ลบรูปแล้ว"); }
+});
+$("#logoPick").addEventListener("change", async e=>{
+  const f = e.target.files[0]; if(!f) return;
+  try{ CONFIG.logo = await readLogo(f); await saveSiteCfg(); applySite(); toast("ใส่โลโก้แล้ว ♥"); }
+  catch(err){ toast("อ่านรูปไม่สำเร็จ"); }
+  e.target.value = "";
+});
+
 (function(){
   let n = 0, t;
   $("#owner").addEventListener("click", ()=>{
@@ -1278,81 +1199,71 @@ function openSite(){
   });
 })();
 
-/* ฟังก์ชันตรวจสอบ Auth & โหลดข้อมูลจาก Supabase */
-async function fetchAllData() {
-  isFetching = true;
-  try {
-      const [setRes, contRes, workRes] = await Promise.all([
-          sbClient.from('site_settings').select('*').eq('id', 1).maybeSingle(),
-          sbClient.from('contacts').select('*').order('sort_order'),
-          sbClient.from('works').select('*').order('publish_date', {ascending: false})
-      ]);
-      
-      const sData = setRes.data || {};
-      // แมปข้อมูล Site Settings (ถ้าไม่มีใช้ค่าตัวอย่าง)
-      CONFIG.owner = sData.owner_name || DEFAULT_CONFIG.owner;
-      CONFIG.intro = sData.intro_text || DEFAULT_CONFIG.intro;
-      CONFIG.about = sData.about_text || DEFAULT_CONFIG.about;
-      CONFIG.logo = sData.logo_url || DEFAULT_CONFIG.logo;
-      CONFIG.skills = (sData.skills && sData.skills.length > 0) ? sData.skills : JSON.parse(JSON.stringify(DEFAULT_CONFIG.skills));
-      CONFIG.styles = (sData.work_styles && sData.work_styles.length > 0) ? sData.work_styles : JSON.parse(JSON.stringify(DEFAULT_CONFIG.styles));
-      CONFIG.contactEmail = sData.contact_email || DEFAULT_CONFIG.contactEmail;
-
-      // แมปข้อมูล Contacts (ถ้าไม่มีใช้ค่าตัวอย่าง)
-      if(contRes.data && contRes.data.length > 0) {
-          CONFIG.contacts = contRes.data.map(c => ({
-              icon: c.icon, label: c.label, href: c.url, url: c.url, id: c.id
-          }));
-      } else {
-          CONFIG.contacts = JSON.parse(JSON.stringify(DEFAULT_CONFIG.contacts));
-      }
-      
-      // แมปข้อมูล Works (ถ้าไม่มีใช้ค่าตัวอย่าง 2 อันให้เว็บไม่โล่ง)
-      if(workRes.data && workRes.data.length > 0) {
-          WORKS = workRes.data.map(w => ({
-              id: w.id, cat: w.category, title: w.title, date: w.publish_date,
-              status: w.status, desc: w.description, 
-              theme: {a: w.theme_color, b: mix(w.theme_color, .6), c: mix(w.theme_color, .88)},
-              emoji: w.emoji, kind: w.mockup_kind, details: w.details || [],
-              tech: w.tech_stack || [], link: w.demo_url || '', img: w.cover_image_url || '',
-              shots: [w.cover_image_url, ...(w.shot_image_urls || [])]
-          }));
-      } else {
-          WORKS = JSON.parse(JSON.stringify(DEFAULT_WORKS));
-      }
-  } catch(err) {
-      console.error(err);
-      toast("เกิดข้อผิดพลาดในการโหลดข้อมูล แสดงข้อมูลจำลอง");
-      CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
-      WORKS = JSON.parse(JSON.stringify(DEFAULT_WORKS));
-  } finally {
-      isFetching = false;
-      const loader = $("#global-loader");
-      if(loader) { loader.style.opacity="0"; setTimeout(()=>loader.style.display="none", 400); }
-      applySite();
-      renderChips();
-      refreshViews();
+/* ตรวจสอบ Session เมื่อเปิดเว็บ */
+async function checkSession() {
+  const { data: { session } } = await sbClient.auth.getSession();
+  if (session) {
+     const { data: isAdmin } = await sbClient.rpc('is_admin');
+     if(isAdmin) { adminOK = true; editMode = true; }
   }
 }
 
-/* เริ่มต้นระบบเมื่อเปิดเว็บ */
+/* ดึงข้อมูลจาก Database */
+async function loadData() {
+  try {
+     const { data: settings } = await sbClient.from('site_settings').select('*').eq('id', 1).single();
+     if (settings) {
+         CONFIG.owner = settings.owner_name || CONFIG.owner;
+         CONFIG.intro = settings.intro_text || CONFIG.intro;
+         CONFIG.about = settings.about_text || CONFIG.about;
+         CONFIG.contactEmail = settings.contact_email || CONFIG.contactEmail;
+         CONFIG.logo = settings.logo_url || "";
+         CONFIG.skills = settings.skills || CONFIG.skills;
+         CONFIG.styles = settings.work_styles || CONFIG.styles;
+         if (settings.ui_texts) {
+             TEXTS = settings.ui_texts;
+             localStorage.setItem(TEXTS_KEY, JSON.stringify(TEXTS));
+         }
+     }
+     const { data: contacts } = await sbClient.from('contacts').select('*').order('sort_order');
+     if (contacts && contacts.length > 0) {
+         CONFIG.contacts = contacts.map(c => ({ icon: c.icon, label: c.label, href: c.url, id: c.id }));
+     }
+     const { data: works } = await sbClient.from('works').select('*').order('created_at', {ascending: false});
+     if (works && works.length > 0) {
+         WORKS = works.map(w => ({
+             id: w.id, cat: w.category, title: w.title, date: w.publish_date,
+             status: w.status, desc: w.description, 
+             theme: {a: w.theme_color, b: mix(w.theme_color, .6), c: mix(w.theme_color, .88)},
+             emoji: w.emoji, kind: w.mockup_kind, details: w.details, tech: w.tech_stack, link: w.demo_url,
+             img: w.cover_image_url, shots: w.shot_image_urls || ["","",""]
+         }));
+     } else {
+         WORKS = clone(DEFAULT_WORKS); 
+     }
+  } catch(e) {
+     console.error("Load error:", e);
+     WORKS = clone(DEFAULT_WORKS);
+     toast("ไม่สามารถดึงข้อมูลจริงได้ โชว์ข้อมูลตัวอย่างแทน");
+  }
+}
+
+/* เริ่มต้น */
 (async function init(){
-  // ตรวจสอบว่าแอดมินเปิดค้างไว้หรือไม่
-  const { data: { session } } = await sbClient.auth.getSession();
-  if (session) {
-      const { data: isAdmin } = await sbClient.rpc('is_admin');
-      adminOK = !!isAdmin;
-      editMode = adminOK;
+  try {
+    await checkSession();
+    await loadData();
+    $("#app-loader").style.opacity = "0";
+    setTimeout(()=> $("#app-loader").style.display = "none", 400);
+  } catch(err) {
+    $("#app-loader-text").textContent = "เกิดข้อผิดพลาดในการโหลด";
   }
   
-  // ของตกแต่ง
+  refreshEdit();
   const d = $("#deco");
   ["top:-90px;left:-100px;background:#fadadf;width:320px;height:320px","top:38%;right:-170px;background:#e3e8f6;width:360px;height:360px;animation-delay:-6s","bottom:-120px;left:12%;background:#ffe9d2;width:300px;height:300px;animation-delay:-11s"].forEach(st=>{
     const b = document.createElement("span"); b.className = "blob"; b.style.cssText = st; d.appendChild(b);
   });
-  
-  // โหลดข้อมูลจริงจาก Database
-  await fetchAllData();
   route();
 })();
 </script>
